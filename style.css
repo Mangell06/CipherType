@@ -97,7 +97,7 @@ div.machine .textos {
 
 .datacontainer {
     background-color: rgba(255, 255, 255, 0.15);
-    padding: 3%;
+    padding: 2% 6%;
     border-radius: 10px;
     text-align: center;
 }
@@ -125,7 +125,7 @@ div.machine .textos {
 .incontainer input,
 .incontainer select,
 .incontainer button {
-    width: 50%;
+    width: 110%;
     padding: 3%;
     border-radius: 4% 8%;
     text-align: center;
@@ -139,12 +139,19 @@ div.machine .textos {
 }
 
 .incontainer button:hover {
-    width: 48%;
+    width: 98%;
 }
 
 .incontainer  > select > option:hover{
     cursor: pointer;
 }
+
+.error {
+  color: red;
+}
+
+.js-required { display: none; }
+noscript .no-js { display: none; }
 
 #timer {
   font-family: 'Oswald', sans-serif;
