@@ -183,7 +183,9 @@ body.gameover{
     align-items: center;
     min-height: 100vh;
     margin: 0;
+    font-family: "Oswald", sans-serif;
 }
+
 
 .gameoverDiv th {
     color: #44240D;
