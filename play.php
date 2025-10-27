@@ -51,7 +51,7 @@
 
         const frase = "<?php
         $randomPhrase = "";
-        $difficulty = $_POST['indifficulty'];
+        $difficulty = $_POST["indifficulty"];
         $sentencesFile = fopen("sentences.txt", "r");
         $sentencesLines = [];
         while (!feof($sentencesFile)) {
