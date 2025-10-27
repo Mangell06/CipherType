@@ -1,12 +1,13 @@
-#CipherType
-🔎 Description
+<h1>CipherType</h1>
+
+<h2>🔎 Description</h2>
 My dear Watson, this game is a battle between your mind and the passage of time;
 the words are the clues, and your accuracy in typing are the key of winning.
 
-🔎 How to play?
+<h2>🔎 How to play?</h2>
 You can play directly in your browser by visiting: https://ciphertype.ieti.site/.
 
-🔎 How to install?
+<h2>🔎 How to install?</h2>
 Or, if you prefer to play locally, you can run it on your computer:
 -First click on the "<>Code" button and a small window will open, where a link will appear, click on the icon on the right of this:
 
