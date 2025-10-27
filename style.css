@@ -1,0 +1,147 @@
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-family: "Oswald", sans-serif;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+body{
+    background-image: url('media/fondo.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.hidden{
+   display: none;
+}
+
+img.mesa {
+    object-fit: fill;
+    transform: perspective(600px) rotateX(50deg);
+    transform-origin: bottom center;
+    position: absolute;
+    height: 30%;
+    width: 100%;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    margin: 0;
+}
+
+div.machine {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+div.machine img {
+    position: relative;
+    z-index: 7;
+    bottom: -650px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 1024px;
+    min-width: 1024px;
+    height: 1536px;
+}
+
+div.machine .textos {
+    position: absolute;
+    bottom: 435px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 10;
+}
+
+.maincontainer {
+    position: relative;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 64px 0 0 0;
+}
+
+
+.datacontainer, .incontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    box-sizing: border-box;
+}
+
+.datacontainer {
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 3%;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.datacontainer > h1 {
+    padding: 0 0 2% 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #FCD858;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, 
+    -1px  1px 0 #000, 1px  1px 0 #000;
+}
+
+.incontainer {
+    gap: 10px;
+    width: 100%;
+}
+
+.datacontainer > p {
+    background-color: rgb(255, 255, 255);
+    padding: 3%;
+    border-radius: 15px;
+}
+
+.incontainer input,
+.incontainer select,
+.incontainer button {
+    width: 50%;
+    padding: 3%;
+    border-radius: 4% 8%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.incontainer input:hover,
+.incontainer select:hover,
+.incontainer button:hover {
+    cursor: pointer;
+}
+
+.incontainer button:hover {
+    width: 48%;
+}
+
+.incontainer  > select > option:hover{
+    cursor: pointer;
+}
