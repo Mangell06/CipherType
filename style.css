@@ -212,6 +212,7 @@ body.gameover{
 .gameoverDiv h1 {
     color: #FFD287;
     text-align: center;
+    font-size: 30px;
 }
 
 .gameoverDiv input[type="button"]{
