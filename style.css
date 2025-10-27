@@ -90,3 +90,87 @@ div.machine .textos {
     border-color: transparent;
   }
 }
+
+/*----------------------------------- css error----------------------------------- */
+div.postit p, div.smallPostits input[type="button"] {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-family: "Oswald", sans-serif;
+  font-size: 20px;
+}
+
+body.error {
+  background-image: url('/media/corcho.jpg');
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+div.postit {
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+div.postit img.topPin{
+    position: absolute;
+    width: 105px;
+    top: 30px;
+    left: 100px;
+}
+
+div.postit img {
+  width: 330px;
+}
+
+
+div.postit p {
+  position: absolute;
+  width: 190px;
+  padding: 10px;
+  
+}
+
+div.smallPostits {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 1000px;
+  margin-top: 40px;
+}
+
+div.smallPostits input[type="button"],
+div.smallPostits button {
+  background-image: url('/media/smallpostit.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  width: 300px;
+  height: 100px;
+  cursor: pointer;
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+div.smallPostits div {
+    position: relative;
+}
+.pins {
+    position: absolute;
+    top: 14px;
+    left: -15px;
+    width: 100px;
+}
