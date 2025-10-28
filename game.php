@@ -11,6 +11,6 @@
     <link rel="icon" href="/media/lupa.ico">
 </head>
 <body>
-    
+    <h1 class="js-required">Tienes js activado</h1>
 </body>
 </html>
