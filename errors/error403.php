@@ -10,13 +10,13 @@
 </head>
 <body class="error">
     <div class="postit">
-        <img class="topPin" src="/media/pin.png" alt="Imagen de una chincheta">
-        <img src="/media/postit.png" alt="Imagen de una post-it">
+        <img class="topPin" src="media/pin.png" alt="Imagen de una chincheta">
+        <img src="media/postit.png" alt="Imagen de una post-it">
         <p>Watson, ¿cómo esperas descubrir al culpable si ni siquiera has revisado las pistas? Acceso denegado.</p>
     </div>
     <div class="smallPostits">
         <div>
-            <img class="pins" src="/media/pin.png" alt="Imagen de una chincheta">
+            <img class="pins" src="media/pin.png" alt="Imagen de una chincheta">
             <input type="button" value="Página inicial" onclick="changePage()">
         </div>
      </div>

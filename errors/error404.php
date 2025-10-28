@@ -10,17 +10,17 @@
 </head>
 <body class="error">
     <div class="postit">
-        <img class="topPin" src="/media/pin.png" alt="Imagen de una chincheta">
-        <img src="/media/postit.png" alt="Imagen de un post-it">
+        <img class="topPin" src="media/pin.png" alt="Imagen de una chincheta">
+        <img src="media/postit.png" alt="Imagen de un post-it">
         <p>Watson parece que hemos perdido la pista... La página que buscas no existe.</p>
     </div>
     <div class="smallPostits">
         <div>
-            <img class="pins" src="/media/pin.png" alt="Imagen de una chincheta">
+            <img class="pins" src="media/pin.png" alt="Imagen de una chincheta">
             <input type="button" value="Página inicial" onclick="changePageInitialPage()">
         </div>
         <div>
-            <img class="pins" src="/media/pin.png" alt="Imagen de una chincheta">
+            <img class="pins" src="media/pin.png" alt="Imagen de una chincheta">
             <input type="button" value="Estadísticas" onclick="changePageStatsPage()">
         </div>
      </div>
