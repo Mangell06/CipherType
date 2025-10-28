@@ -3,7 +3,7 @@ session_start();
 $_SESSION['allow_gameover'] = true;
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
