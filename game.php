@@ -1,7 +1,3 @@
-<?php
-session_start();
-$_SESSION['allow_gameover'] = false;
-?>
 <noscript>
             <button type="submit" disabled>Inicializar</button>
             <p class="error">Querido Watson, debes activar el javascript para seguirle la pista</p>

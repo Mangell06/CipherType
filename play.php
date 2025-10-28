@@ -1,7 +1,3 @@
-<?php
-session_start();
-$_SESSION['allow_gameover'] = true;
-?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -63,7 +59,7 @@ $_SESSION['allow_gameover'] = true;
         <p>Sombrero</p>
 
     </div>
-    <form id="endForm" action="gameover.php" method="POST" style="display:none;">
+    <form id="endForm" action="./gameover.php" method="POST" style="display:none;">
         <input type="hidden" name="points" id="pointsField">
     </form>
     <script>
