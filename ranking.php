@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gameover</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+</head>
+<body class="gameover">
+    <div class="gameoverDiv">
+        <h1>Ranking</h1>
+    <?php
+    $contenido = file_get_contents('ranking.txt'); // leer el fichero
+    if ($contenido !== false && !empty($contenido)) {
+        $usuarios = explode('#', $contenido); // separar usuarios
+        $ranking = [];
+
+        foreach ($usuarios as $usuario) {
+            if (!empty($usuario) && strpos($usuario, ':') !== false) {
+                list($name, $points) = explode(':', $usuario);
+                $ranking[$name] = (int)$points;
+            }
+        }
+
+        arsort($ranking); // ordenar de mayor a menor
+
+        echo "<table>";
+        echo "<tr><th>Nombre</th><th>Puntos</th></tr>";
+        foreach ($ranking as $name => $points) {
+            echo "<tr><td>".$name."</td><td>".$points."</td></tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "El fichero está vacío o no se pudo leer.";
+    }
+    ?>
+</body>
+</html>
