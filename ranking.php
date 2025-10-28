@@ -1,5 +1,6 @@
 <?php
     session_start();
+    $_SESSION['allow_gameover'] = false;
     if (isset($_SESSION['name']) && isset($_SESSION['points'])) {
         $file = fopen('ranking.txt','a');
         $line = "#{$_SESSION['name']}:{$_SESSION['points']}\n";
