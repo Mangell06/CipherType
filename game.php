@@ -1,6 +1,8 @@
 <?php
 session_start();
 $_SESSION['allow_gameover'] = false;
+header('Location: gameover.php');
+exit;
 ?>
 <noscript>
             <button type="submit" disabled>Inicializar</button>

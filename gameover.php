@@ -1,10 +1,14 @@
 <?php
-    if (!defined('ACCESS_ALLOWED')) {
+    session_start();
+    if($_SESSION['allow_gameover'] === false){
+        if (!defined('ACCESS_ALLOWED')) {
         // header('HTTP/1.0 403 Forbidden');
         // exit('Acceso directo no permitido.');
     }
+    }
+    
 
-    session_start();
+   
     $name = $_SESSION['name'];
     $points = $_POST['points'];
     if ( isset($_POST['points'])) {
