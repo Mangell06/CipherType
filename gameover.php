@@ -38,7 +38,10 @@
          ?>
 
         <div class="buttons">
-            <input type="button" value="Sí, lo quiero registrar">
+            
+            <form method="post" class="buttons" style="display:inline;">
+                <input type="submit" value="Sí, lo quiero registrar">
+            </form>
             <input type="button" value="No lo quiero registrar" onclick="window.location='index.php'">
         </div>
     </div>

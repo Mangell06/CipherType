@@ -389,7 +389,7 @@ body.gameover{
     font-size: 30px;
 }
 
-.gameoverDiv input[type="button"]{
+.gameoverDiv input[type="button"], input[type="submit"]{
   background: white;
   border: 1px solid black;
   padding: 10px;
@@ -398,7 +398,7 @@ body.gameover{
   margin-right: 20px;
 }
 
-.gameoverDiv input[type="button"]:hover{
+.gameoverDiv input[type="button"]:hover, input[type="submit"]:hover{
   background: #FFD287;
   color: #44240D;
   font-weight: bold;
