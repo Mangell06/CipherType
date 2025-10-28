@@ -1,5 +1,11 @@
 <?php
     session_start();
+    if (isset($_SESSION['name']) && isset($_SESSION['points'])) {
+        $file = fopen('ranking.txt','a');
+        $line = "#{$_SESSION['name']}:{$_SESSION['points']}\n";
+        fwrite($file, $line);
+        fclose($file);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -6,14 +6,8 @@
 
     session_start();
     $name = $_SESSION['name'];
-    $points = $_POST['points'];
-    $_SESSION["points"] = $points;
-
-    if (isset($_POST['save_record'])) {
-        $file = 'ranking.txt';
-        $line = "#{$name}:{$points}\n";
-        fwrite($file, $line);
-        exit;
+    if ( isset($_POST['points'])) {
+        $_SESSION["points"] = $points;
     }
 ?>
 <!DOCTYPE html>
@@ -38,19 +32,19 @@
 
         <div class="buttons">
             
-            <form method="post" class="buttons" style="display:inline;">
-                <input type="submit" value="Sí, lo quiero registrar" onclick="changePageRanking">
+            <form action="./ranking.php" method="post" class="buttons" style="display:inline;">
+                <input type="submit" value="Sí, lo quiero registrar">
             </form>
-            <input type="button" value="No lo quiero registrar" onclick="changePageIndex">
+            <input type="button" id="returnIndex" value="No lo quiero registrar">
         </div>
     </div>
     <script>
-        function changePageIndex(){
+        const button = document.getElementById("returnIndex");
+
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
             window.location = "/index.php";
-        }
-        function changePageRanking(){
-            window.location = "/ranking.php";
-        }
+        })
     </script>
 </body>
 </html>
