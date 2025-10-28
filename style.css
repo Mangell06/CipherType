@@ -258,7 +258,7 @@ div.postit p, div.smallPostits input[type="button"] {
 }
 
 body.error {
-  background-image: url('/media/corcho.jpg');
+  background-image: url('media/corcho.jpg');
   display: flex;
   justify-content: center;
   align-items: center;
@@ -306,7 +306,7 @@ div.smallPostits {
 
 div.smallPostits input[type="button"],
 div.smallPostits button {
-  background-image: url('/media/smallpostit.png');
+  background-image: url('media/smallpostit.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -333,8 +333,9 @@ div.smallPostits div {
 }
 
 /*----------------------------------- css gameover ----------------------------------- */
+
 body.gameover{
-    background-image: url('./media/fondo.png');
+    background-image: url('media/fondo.png');
     display: flex;
     justify-content: center;
     align-items: center;
