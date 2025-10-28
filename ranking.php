@@ -1,25 +1,30 @@
 <?php
     session_start();
+    if (isset($_SESSION['name']) && isset($_SESSION['points'])) {
+        $file = fopen('ranking.txt','a');
+        $line = "#{$_SESSION['name']}:{$_SESSION['points']}\n";
+        fwrite($file, $line);
+        fclose($file);
+    }
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ranking</title>
-    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
-    <link rel="icon" href="media/lupa.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/media/lupa.ico">
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 </head>
 <body class="gameover">
     <div class="gameoverDiv">
         <h1>Ranking</h1>
     <script>
-        const rankingBGX = new Audio("/media/ranking.mp3");
-    
-        rankingBGX.loop = true;
-        rankingBGX.load();
-        rankingBGX.play();
+        const gameoverBGX = new Audio("./media/ranking.mp3");
+        gameoverBGX.loop = true;
+        gameoverBGX.load();
+        gameoverBGX.play();
     </script>
     <?php
     $contenido = file_get_contents('ranking.txt'); // leer el fichero
@@ -52,6 +57,8 @@
     } else {
         echo "El fichero está vacío o no se pudo leer.";
     }
+    unset($_SESSION['name']);
+    unset($_SESSION['points']);
     ?>
 </body>
 </html>
