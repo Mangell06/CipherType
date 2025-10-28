@@ -206,8 +206,10 @@ $_SESSION['allow_gameover'] = true;
                 if (letter.textContent != " ") {
                     letter.className = "error";
                     points -= 100
+                    wrongSound.play();
                 } else {
-                    points += 100;   
+                    points += 100; 
+                    correctSound.play();   
                 }
             }
 
