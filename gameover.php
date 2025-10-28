@@ -17,7 +17,7 @@ if (!defined('ACCESS_ALLOWED')) {
     <div class="gameoverDiv">
         <h1>¿Quieres registrar tu récord?</h1>
          <?php
-            startsesion();
+            session_start();
             $name = $_SESSION['name'];
             $points = $_GET['points'];
             echo "<table>";

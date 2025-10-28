@@ -162,7 +162,12 @@ session_start();
                 letter.className = iscorrect ? "correct" : "error";
                 points += iscorrect ? 100 : -100;
             } else {
-                points += 100;
+                if (letter.textContent != " ") {
+                    letter.className = "error";
+                    points -= 100
+                } else {
+                    points += 100;   
+                }
             }
         }
 
