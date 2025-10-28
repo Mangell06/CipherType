@@ -19,11 +19,11 @@
                     <option value="experto">experto</option>
                 </select>
                 <noscript>
-                <p class="error">Querido Watson, debes activar el javascript para seguirle la pista</p>
                 <button type="submit" disabled>Inicializar</button>
+                <p class="error">Querido Watson, debes activar el javascript para seguirle la pista</p>
                 </noscript>
-                <p id="messageerror" class="error"></p>
                 <button type="submit" id="buttonInitialitze" class="js-required">Inicializar</button>
+                <p id="messageerror" class="error"></p>
             </div>
         </form>
         <div class="datacontainer">

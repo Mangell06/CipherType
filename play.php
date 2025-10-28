@@ -172,8 +172,20 @@ session_start();
         }
 
         function endGame() {
-            window.location.href = "gameover.php?points=" + points;
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = "gameover.php";
+
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "points";
+            input.value = points;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
         }
+
 
         document.addEventListener('keyup',(e) => {
             if (/^[A-Za-z ,]$/.test(e.key)) {

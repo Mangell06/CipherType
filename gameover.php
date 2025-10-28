@@ -19,7 +19,7 @@ if (!defined('ACCESS_ALLOWED')) {
          <?php
             session_start();
             $name = $_SESSION['name'];
-            $points = $_GET['points'];
+            $points = $_POST['points'];
             echo "<table>";
             echo "<tr><th>Nombre</th><th>Puntos</th></tr>";
             echo "<tr><td>".$name."</td><td>".$points."</td></tr>";
@@ -37,16 +37,6 @@ if (!defined('ACCESS_ALLOWED')) {
         }
         function changePageRanking(){
             window.location = "/ranking.php";
-            <?php
-                session_start();
-                $name = $_SESSION['name'] ?? 'Desconocido';
-                $points = $_GET['points'] ?? 0;
-                $file = 'ranking.txt';
-                $line = "#{$name}:{$points}\n";
-                file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
-                header("Location: ranking.php");
-                exit;
-                ?>
         }
         
         
