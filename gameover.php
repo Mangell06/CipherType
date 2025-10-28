@@ -11,8 +11,9 @@
     <div class="gameoverDiv">
         <h1>¿Quieres registrar tu récord?</h1>
          <?php
+            startsesion();
             $name = $_SESSION['name'];
-            $points = $_SESSION['points'];
+            $points = $_GET['points'];
             echo "<table>";
             echo "<tr><th>Nombre</th><th>Puntos</th></tr>";
             echo "<tr><td>".$name."</td><td>".$points."</td></tr>";
@@ -31,6 +32,7 @@
         function changePageRanking(){
             window.location = "/ranking.php";
         }
+        
     </script>
          
 </body>
