@@ -190,13 +190,14 @@ body.play img#libro{
 body.play img#sombrero{
   width: 300px;
   position: absolute;
-  top: 700px;
-  left: -40px;
+  bottom: -1%;
+  left: -1%;
   z-index: -99;
   pointer-events: auto;
   z-index: 5;
   cursor: pointer;
 }
+
 body.play img#sherlock{
   position: absolute;
   z-index: -99;
