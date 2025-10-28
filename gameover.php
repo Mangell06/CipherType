@@ -1,11 +1,11 @@
 <?php
     session_start();
-    if(!isset($_SESSION['name']) && !isset($_SESSION['points'])){
-        if (!defined('ACCESS_ALLOWED')) {
-        header('HTTP/1.0 403 Forbidden');
-        // exit('Acceso directo no permitido.');
+    if (!isset($_POST['score']) || !isset($_POST['name'])) {
+        header("HTTP/1.1 403 Forbidden");
+        include(DIR . "/errors/error403.php");
+        exit;
     }
-    }
+
     
     $name = $_SESSION['name'];
     $points = $_POST['points'];
@@ -36,7 +36,7 @@
 
         <div class="buttons">
             
-            <form action="./ranking.php" method="post" class="buttons" style="display:inline;">
+            <form action="ranking.php" method="post" class="buttons" style="display:inline;">
                 <input type="submit" value="Sí, lo quiero registrar">
             </form>
             <input type="button" id="returnIndex" value="No lo quiero registrar">
