@@ -22,7 +22,7 @@
      </div>
      <script>
         function changePage(){
-            window.location = "/play.php";
+            window.location = "CipherType/play.php";
         }
      </script>
 </body>

@@ -26,11 +26,11 @@
      </div>
      <script>
         function changePageInitialPage(){
-            window.location = "/index.php";
+            window.location = "CipherType/index.php";
         }
 
         function changePageStatsPage(){
-            window.location = "/ranking.php";
+            window.location = "CipherType/ranking.php";
         }
      </script>
 </body>
