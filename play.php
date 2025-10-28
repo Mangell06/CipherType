@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,6 +53,8 @@
         const pInformation = document.getElementById("textStartInformation");
         const div = document.querySelector("div.text");
         let cont = 4;
+        
+        let points = 0;
         const interval = setInterval(() => {
             if (cont <= 0) {
                 clearInterval(interval);
@@ -62,7 +67,7 @@
                 return;
             }
             p.innerText = cont;
-        }, 2000)
+        }, 750)
 
         const afterInterval = () => {
             p.style.display = "none";
@@ -97,36 +102,56 @@
         } else if (isset($difficulty) && $difficulty === "experto") {
             echo getRandomPhrase(substr($sentencesLines[2], 8));
         }
+        if (isset($_POST['inname'])) {
+            $_SESSION['name'] = $_POST['inname'];
+        }
         ?>";
 
-        const render = () => {
+         const render = () => {
             div.innerText = "";
             for (let i = 0; i < frase.length; i++) {
                 const span = document.createElement("span");
+                span.id = "letter" + i;
                 span.textContent = frase[i];
                 div.appendChild(span);
             }
         }
 
-        let index = 0;
+        let indexLetter = 0;
 
-        const showPhrase = () => { const span = document.getElementById("letter"+indexLetter); span.className = "highlight"; };
-        
+        function checkInput(isMayus, inletter) {
+            const letter = document.getElementById("letter"+indexLetter);
+            return (isMayus && inletter.toUpperCase() === letter.textContent) || inletter.toLowerCase() === letter.textContent;
+        }
 
-        document.addEventListener("keydown", e => {
-            if (e.key === frase[index]) {
-                index++;
-                if (index >= frase.length) {
-                    index = 0;
+        function isCorrectLetter(iscorrect, isspace) {
+            const letter = document.getElementById("letter"+indexLetter);
+            if (!isspace) {
+                letter.className = iscorrect ? "correct" : "error";
+                points += iscorrect ? 100 : -100;
+            } else {
+                points += 100;
+            }
+        }
+
+        function endGame() {
+            window.location.href = "gameover.php?points=" + points;
+        }
+
+        document.addEventListener('keyup',(e) => {
+            if (/^[A-Za-z ,]$/.test(e.key)) {
+                let iscorrect = e.shiftKey;
+                iscorrect = checkInput(iscorrect, e.key);
+                isCorrectLetter(iscorrect, e.key === " " ? true : false);
+                indexLetter++;
+                if (indexLetter >= frase.length) {
+                    endGame();
                 }
-                showPhrase();
             }
         });
-        showPhrase();
+
         
     </script>
-    <?php
-    ?>
 </body>
 
 </html>

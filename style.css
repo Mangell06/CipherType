@@ -150,6 +150,10 @@ div.machine .textos {
   color: red;
 }
 
+.correct {
+  color: green;
+}
+
 .js-required { display: none; }
 noscript .no-js { display: none; }
 
@@ -249,4 +253,91 @@ div.smallPostits div {
     top: 14px;
     left: -15px;
     width: 100px;
+}
+
+/*----------------------------------- css gameover ----------------------------------- */
+body.gameover{
+    background-image: url('/media/fondo.png');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: "Oswald", sans-serif;
+}
+
+.gameoverDiv th {
+    color: #44240D;
+    background-color: #975A23;
+    padding: 20px;
+    width: 200px;
+    font-size: 25px;
+}
+
+.gameoverDiv table{
+    border-collapse: separate;
+    border-spacing: 2px;
+    background-color: wheat;
+    text-align: center;     
+}
+
+.gameoverDiv th, tr {
+    border-collapse: collapse;
+    border: 1px solid white;
+}
+.gameoverDiv td {
+    background-color: #FFD287;
+    color: #975A23;
+    font-size: 25px;
+}
+
+.gameoverDiv .winner {
+  background-color: goldenrod;
+}
+
+.gameoverDiv .second {
+    background-color: #a88d5f;
+
+}
+
+.gameoverDiv h1 {
+    color: #FFD287;
+    text-align: center;
+    font-size: 30px;
+}
+
+.gameoverDiv input[type="button"]{
+  background: white;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 20px;
+  margin-top: 25px;
+  margin-right: 20px;
+}
+
+.gameoverDiv input[type="button"]:hover{
+  background: #FFD287;
+  color: #44240D;
+  font-weight: bold;
+}
+
+.gameoverDiv{
+    background-color: #ffffff75;
+    width: 800px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.gameoverDiv div.buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.gameoverDiv th,
+.gameoverDiv td {
+    border: 1px solid #975A23;
+    padding: 20px;
 }
