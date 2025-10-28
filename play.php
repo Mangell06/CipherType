@@ -49,6 +49,12 @@ session_start();
     </div>
 
     <script>
+        const correctSound = new Audio('media/correctchoice.mp3')
+        const wrongSound = new Audio('media/wrongchoice1.mp3')
+
+        correctSound.load();
+        wrongSound.load();
+
         const p = document.getElementById("timer");
         const pInformation = document.getElementById("textStartInformation");
         const div = document.querySelector("div.text");
@@ -134,6 +140,11 @@ session_start();
             if (!isspace) {
                 letter.className = iscorrect ? "correct" : "error";
                 points += iscorrect ? 100 : -100;
+                if (iscorrect) {
+                    correctSound.play(); 
+                } else {
+                    wrongSound.play();
+                }
             } else {
                 points += 100;
             }
