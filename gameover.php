@@ -2,6 +2,11 @@
     session_start();
     $name = $_SESSION['name'];
     $points = $_POST['points'];
+    if (!isset($name) || !isset($points)) {
+        header("HTTP/1.1 403 Forbidden");
+        header('Location: /CipherType/errors/error403.php');
+        exit;
+    }
     if ( isset($_POST['points'])) {
         $_SESSION["points"] = $points;
     }
