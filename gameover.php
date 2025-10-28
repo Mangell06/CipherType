@@ -1,3 +1,9 @@
+<?php
+if (!defined('ACCESS_ALLOWED')) {
+    header('HTTP/1.0 403 Forbidden');
+    // exit('Acceso directo no permitido.');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,15 +37,21 @@
         }
         function changePageRanking(){
             window.location = "/ranking.php";
+            <?php
+                session_start();
+                $name = $_SESSION['name'] ?? 'Desconocido';
+                $points = $_SESSION['points'] ?? 0;
+                $file = 'ranking.txt';
+                $line = "#{$name}:{$points}\n";
+                file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
+                header("Location: ranking.php");
+                exit;
+                ?>
         }
+        
         
     </script>
          
 </body>
 </html>
-<?php
-if (!defined('ACCESS_ALLOWED')) {
-    header('HTTP/1.0 403 Forbidden');
-    // exit('Acceso directo no permitido.');
-}
-?>
+
