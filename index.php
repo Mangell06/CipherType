@@ -1,10 +1,3 @@
-<?php
-session_start();
-$_SESSION['allow_gameover'] = false;
-header('Location: gameover.php');
-exit;
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
