@@ -1,79 +1,4 @@
-html {
-  box-sizing: border-box;
-  font-size: 16px;
-}
-
-*, *:before, *:after {
-  box-sizing: inherit;
-}
-
-body, h1, h2, h3, h4, h5, h6, p, ol, ul {
-  margin: 0;
-  padding: 0;
-  font-weight: normal;
-  font-family: "Oswald", sans-serif;
-}
-
-ol, ul {
-  list-style: none;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-body.play{
-    background-image: url('media/fondo.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
-    overflow: hidden;
-}
-
-.hidden{
-   display: none;
-}
-
-img.mesa {
-    object-fit: fill;
-    transform: perspective(600px) rotateX(50deg);
-    transform-origin: bottom center;
-    position: absolute;
-    height: 30%;
-    width: 100%;
-    bottom: 0px;
-    left: 0;
-    right: 0;
-    margin: 0;
-}
-
-div.machine {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
-}
-
-div.machine img {
-    position: relative;
-    z-index: 7;
-    bottom: -650px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    width: 1024px;
-    min-width: 1024px;
-    height: 1536px;
-}
-
-div.machine .textos {
-    position: absolute;
-    bottom: 435px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    z-index: 10;
-}
-
+/*----------------------------------- index.php (base) ----------------------------------- */
 .maincontainer {
     position: relative;
     z-index: 20;
@@ -156,6 +81,155 @@ div.machine .textos {
 
 .js-required { display: none; }
 noscript .no-js { display: none; }
+
+/*----------------------------------- css play ----------------------------------- */
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-family: "Oswald", sans-serif;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+body.play{
+    background-image: url('media/fondo.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.hidden{
+   display: none;
+}
+
+img.mesa {
+    object-fit: fill;
+    transform: perspective(600px) rotateX(50deg);
+    transform-origin: bottom center;
+    position: absolute;
+    height: 30%;
+    width: 100%;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    margin: 0;
+    z-index: 10;
+}
+
+div.machine {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+div.machine img {
+    position: relative;
+    z-index: 7;
+    bottom: -650px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 1024px;
+    min-width: 1024px;
+    height: 1536px;
+}
+
+div.machine .textos {
+    position: absolute;
+    bottom: 435px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 10;
+}
+
+body.play img#lupa {
+  width: 232px;
+  position: absolute;
+  top: 803px;
+  left: 1461px;
+  z-index: 9999;
+  cursor: pointer;
+  transform: rotate(15deg);
+}
+
+body.play img#vela{
+  width: 25px;
+  position: relative;
+  top: 80px;
+  left: 1084px;
+  cursor: pointer;
+}
+
+body.play img#libro{
+  position: absolute;
+  top: 195px;
+  left: 284px;
+  cursor: pointer;
+}
+
+body.play img#sombrero{
+  width: 300px;
+  position: absolute;
+  top: 700px;
+  left: -40px;
+  z-index: -99;
+  pointer-events: auto;
+  z-index: 5;
+  cursor: pointer;
+}
+body.play img#sherlock{
+  position: absolute;
+  z-index: -99;
+  width: 800px;
+  top: 240px;
+  left: 1400px;
+}
+
+.found {
+      color: green;
+      text-decoration: line-through;       
+}
+
+.listaEntera {
+  background-image: url("media/cuaderno.png");
+  background-repeat: no-repeat;
+  width: 400px;
+  height: 300px;
+  position: absolute;
+  top: 300px; 
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.listaEntera p {
+  position: relative;
+  left: 247px;
+  top: 100px;
+}
+
+
+.invisible {
+  display: none !important;
+}
 
 #timer {
   font-family: 'Oswald', sans-serif;
@@ -284,6 +358,12 @@ body.gameover{
 .gameoverDiv th, tr {
     border-collapse: collapse;
     border: 1px solid white;
+    border-collapse: collapse;
+}
+.gameoverDiv th, tr {
+    border-collapse: collapse;
+    border: 1px solid white;
+    
 }
 .gameoverDiv td {
     background-color: #FFD287;
@@ -341,3 +421,4 @@ body.gameover{
     border: 1px solid #975A23;
     padding: 20px;
 }
+
