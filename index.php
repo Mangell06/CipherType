@@ -1,3 +1,12 @@
+<?php
+    session_start();
+    if (isset($_SESSION['name'])) {
+        unset($_SESSION['name']);
+    }
+    if (isset($_SESSION['points'])) {
+        unset($_SESSION['points']);
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

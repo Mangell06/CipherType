@@ -1,9 +1,4 @@
 <?php
-    if (!defined('ACCESS_ALLOWED')) {
-        // header('HTTP/1.0 403 Forbidden');
-        // exit('Acceso directo no permitido.');
-    }
-
     session_start();
     $name = $_SESSION['name'];
     $points = $_POST['points'];

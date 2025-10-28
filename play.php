@@ -45,6 +45,7 @@ session_start();
         <input type="hidden" name="points" id="pointsField">
     </form>
     <script>
+        let points = 0;
         const p = document.getElementById("timer");
         const pInformation = document.getElementById("textStartInformation");
         const div = document.querySelector("div.text");
@@ -80,16 +81,12 @@ session_start();
                     setTimeout(() => {
                         alert("Gracias Watson por encontrar todos mis objetos, te obsequio con 7000 puntos más.");
                     }, 1000);
-                    const puntos = "<?php
-                        session_start();
-                        $_SESSION['poinst'] += 7000;
-                    ?>";
+                    points += 7000;
                 }
             });
         });
 
         let cont = 4;
-        let points = 0;
         const interval = setInterval(() => {
             if (cont <= 0) {
                 clearInterval(interval);
@@ -138,7 +135,11 @@ session_start();
             echo getRandomPhrase(substr($sentencesLines[2], 8));
         }
         if (isset($_POST['inname'])) {
-            $_SESSION['name'] = $_POST['inname'];
+            if (isset($_SESSION['name'])) {
+                $_SESSION['name'] .= $_POST['inname'];  
+            } else {
+                $_SESSION['name'] = $_POST['inname'];
+            }
         }
         ?>";
 

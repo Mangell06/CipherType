@@ -51,6 +51,8 @@
     } else {
         echo "El fichero está vacío o no se pudo leer.";
     }
+    unset($_SESSION['name']);
+    unset($_SESSION['points']);
     ?>
 </body>
 </html>
