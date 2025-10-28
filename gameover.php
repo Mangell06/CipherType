@@ -9,11 +9,10 @@
     $points = $_POST['points'];
     $_SESSION["points"] = $points;
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_record'])) {
+    if (isset($_POST['save_record'])) {
         $file = 'ranking.txt';
-        $line = "{$name}:{$points}\n";
-        file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
-        header("Location: ranking.php");
+        $line = "#{$name}:{$points}\n";
+        fwrite($file, $line);
         exit;
     }
 ?>
@@ -40,9 +39,9 @@
         <div class="buttons">
             
             <form method="post" class="buttons" style="display:inline;">
-                <input type="submit" value="Sí, lo quiero registrar">
+                <input type="submit" value="Sí, lo quiero registrar" onclick="changePageRanking">
             </form>
-            <input type="button" value="No lo quiero registrar" onclick="window.location='index.php'">
+            <input type="button" value="No lo quiero registrar" onclick="changePageIndex">
         </div>
     </div>
     <script>
@@ -52,8 +51,6 @@
         function changePageRanking(){
             window.location = "/ranking.php";
         }
-        
-        
-    </script> refs/remotes/origin/pre
+    </script>
 </body>
 </html>

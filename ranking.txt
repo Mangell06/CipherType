@@ -1,1 +1,4 @@
-Miguel:1000#ruth:2000#hector:15000#Ruth:0
+#Miguel:1000
+#ruth:2000
+#hector:15000
+#Ruth:0
