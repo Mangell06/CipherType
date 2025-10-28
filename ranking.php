@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,11 +27,17 @@
         }
 
         arsort($ranking); // ordenar de mayor a menor
-
+        $count = 0;
         echo "<table>";
         echo "<tr><th>Nombre</th><th>Puntos</th></tr>";
         foreach ($ranking as $name => $points) {
-            echo "<tr><td>".$name."</td><td>".$points."</td></tr>";
+            if ($_SESSION['name'] === $name) {
+              echo "<tr><td class='winner'>".$name."</td><td class='winner'>".$points."</td></tr>";
+            } else if ($count % 2 === 0) {
+                echo "<tr><td>".$name."</td><td>".$points."</td></tr>";
+            } else {
+                echo "<tr><td>".$name."</td><td>".$points."</td></tr>";
+            }
         }
         echo "</table>";
     } else {

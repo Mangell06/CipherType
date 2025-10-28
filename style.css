@@ -291,6 +291,15 @@ body.gameover{
     font-size: 25px;
 }
 
+.gameoverDiv .winner {
+  background-color: goldenrod;
+}
+
+.gameoverDiv .second {
+    background-color: #a88d5f;
+
+}
+
 .gameoverDiv h1 {
     color: #FFD287;
     text-align: center;
