@@ -6,6 +6,7 @@
 
     session_start();
     $name = $_SESSION['name'];
+    $points = $_POST['points'];
     if ( isset($_POST['points'])) {
         $_SESSION["points"] = $points;
     }

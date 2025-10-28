@@ -42,6 +42,9 @@ $_SESSION['allow_gameover'] = true;
         <p>Sombrero</p>
 
     </div>
+    <form id="endForm" action="gameover.php" method="POST" style="display:none;">
+        <input type="hidden" name="points" id="pointsField">
+    </form>
     <script>
         const p = document.getElementById("timer");
         const pInformation = document.getElementById("textStartInformation");
@@ -173,20 +176,9 @@ $_SESSION['allow_gameover'] = true;
         }
 
         function endGame() {
-            const form = document.createElement("form");
-            form.method = "POST";
-            form.action = "gameover.php";
-
-            const input = document.createElement("input");
-            input.type = "hidden";
-            input.name = "points";
-            input.value = points;
-
-            form.appendChild(input);
-            document.body.appendChild(form);
-            form.submit();
+            document.getElementById("pointsField").value = points;
+            document.getElementById("endForm").submit();
         }
-
 
         document.addEventListener('keyup',(e) => {
             if (/^[A-Za-z ,]$/.test(e.key)) {
