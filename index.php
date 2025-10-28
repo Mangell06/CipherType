@@ -1,3 +1,8 @@
+<?php
+session_start();
+$_SESSION['allow_gameover'] = false;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +11,7 @@
     <title>CipherType</title>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/media/lupa.ico">
 </head>
 <body class="play">
     <div class="maincontainer">
@@ -19,11 +25,11 @@
                     <option value="experto">experto</option>
                 </select>
                 <noscript>
-                <p class="error">Querido Watson, debes activar el javascript para seguirle la pista</p>
                 <button type="submit" disabled>Inicializar</button>
+                <p class="error">Querido Watson, debes activar el javascript para seguirle la pista</p>
                 </noscript>
-                <p id="messageerror" class="error"></p>
                 <button type="submit" id="buttonInitialitze" class="js-required">Inicializar</button>
+                <p id="messageerror" class="error"></p>
             </div>
         </form>
         <div class="datacontainer">

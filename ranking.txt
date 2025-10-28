@@ -1,1 +1,6 @@
-Miguel:1000#ruth:2000#hector:15000
+#Miguel:1000
+#ruth:2000
+#hector:15000
+#Ruth:0
+#wepor09wejpto34jpyoerjo:-2300
+#XLRR:3200

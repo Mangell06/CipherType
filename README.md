@@ -26,12 +26,12 @@ super@super:~$ git clone https://github.com/Mangell06/CipherType.git
 -To start it we will have to enter the repository folder that we have created:
 ```console
 super@super:~$ cd CipherType
-``
+```
 
 -And to execute it (ubuntu):
 ```console
 super@super:~$ php -S 0:8080 
-```
+``` 
 
 -And to execute it (windows):
 ```console

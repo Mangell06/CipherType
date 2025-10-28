@@ -1,5 +1,6 @@
 <?php
 session_start();
+$_SESSION['allow_gameover'] = true;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +11,9 @@ session_start();
     <title>Play</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="/media/lupa.ico">
    
@@ -37,7 +40,7 @@ session_start();
 </head>
 
 <body class="play">
-    <img class="mesa" src="media/mesa.jpg" alt="Imagen de una mesa">
+    <img class="mesa" src="./media/mesa.jpg" alt="Imagen de una mesa">
     <div class="machine">
         <div class="textos">
             <p id="timer"></p>
@@ -46,8 +49,23 @@ session_start();
             </div>
         </div>
         <img src="media/typingmachine.png" alt="Imagen de máquina de escribir">
-    </div>
 
+    </div>
+    <img id="lupa" src="media/lupa_easteregg.png" alt="lupa easteregg">
+    <img id="vela" src="media/velaEasterEgg.png" alt="vela Easter Egg">
+    <img id="libro" src="media/libroEasterEgg.png" alt="libro Easter Egg">
+    <img id="sombrero" src="media/sombreroSherlock.png" alt="sombrero Easter Egg">
+    <img id="sherlock" class="invisible" src="media/sherlockHolmes.png" alt="sherlock">
+    <div class="invisible listaEntera">
+        <p>Lupa</p>
+        <p>Vela</p>
+        <p>Libro</p>
+        <p>Sombrero</p>
+
+    </div>
+    <form id="endForm" action="gameover.php" method="POST" style="display:none;">
+        <input type="hidden" name="points" id="pointsField">
+    </form>
     <script>
         const correctSound = new Audio('media/correctchoice.mp3')
         const wrongSound = new Audio('media/wrongchoice1.mp3')
@@ -58,8 +76,47 @@ session_start();
         const p = document.getElementById("timer");
         const pInformation = document.getElementById("textStartInformation");
         const div = document.querySelector("div.text");
+        const listaDiv = document.querySelector("div.invisible");
+        const listaP = listaDiv.querySelectorAll("p");
+        const imgSherlock = document.getElementById("sherlock");
+        const ids = ["lupa", "vela", "libro", "sombrero"];
+        const nombres = ["Lupa", "Vela", "Libro", "Sombrero"];
+        win = false;
+        let eventCont = 4;
+        ids.forEach((id, index) => {
+            const element = document.getElementById(id);
+            element.addEventListener("click", () => {
+                element.classList.add("invisible");
+                alert(`Has clicado el objeto ${nombres[index]}`);
+                eventCont--;
+                if (eventCont <= 3) {
+                    listaDiv.classList.remove("invisible");
+
+                }
+                if (eventCont <= 0) {
+                    imgSherlock.classList.remove("invisible");
+                    win = true;
+                }
+
+                listaP.forEach(pItem => {
+                    if (pItem.textContent.toLowerCase() === nombres[index].toLowerCase()) {
+                        pItem.classList.remove("invisible");
+                        pItem.classList.add("found");
+                    }
+                });
+                if (win) {
+                    setTimeout(() => {
+                        alert("Gracias Watson por encontrar todos mis objetos, te obsequio con 7000 puntos más.");
+                    }, 1000);
+                    const puntos = "<?php
+                        session_start();
+                        $_SESSION['poinst'] += 7000;
+                    ?>";
+                }
+            });
+        });
+
         let cont = 4;
-        
         let points = 0;
         const interval = setInterval(() => {
             if (cont <= 0) {
@@ -90,17 +147,17 @@ session_start();
             array_push($sentencesLines, fgets($sentencesFile));
         }
         fclose($sentencesFile);
-
+        
         $textoSencilloSubstringTrim = trim(substr($sentencesLines[0], 9));
         $separateSentences = explode("*", $textoSencilloSubstringTrim);
-
+        
         function getRandomPhrase($stringFrases){
             $textoSubstringTrim = trim($stringFrases);
             $array = explode("*", $textoSubstringTrim);
             $randomPhraseKey = array_rand($array, 1);
             return $array[$randomPhraseKey];
         }
-
+        
         if (isset($difficulty) && $difficulty === "sencillo") {
             echo getRandomPhrase(substr($sentencesLines[0], 9));
         } else if (isset($difficulty) && $difficulty === "normal") {
@@ -146,13 +203,19 @@ session_start();
                     wrongSound.play();
                 }
             } else {
-                points += 100;
+                if (letter.textContent != " ") {
+                    letter.className = "error";
+                    points -= 100
+                } else {
+                    points += 100;   
+                }
             }
 
         }
 
         function endGame() {
-            window.location.href = "gameover.php?points=" + points;
+            document.getElementById("pointsField").value = points;
+            document.getElementById("endForm").submit();
         }
 
         document.addEventListener('keyup',(e) => {
@@ -169,9 +232,6 @@ session_start();
                 }
             }
         });
-
-        
     </script>
 </body>
-
 </html>
