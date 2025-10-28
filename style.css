@@ -333,7 +333,7 @@ div.smallPostits div {
 }
 
 /*----------------------------------- css gameover ----------------------------------- */
-body.gameover{
+body .gameover{
     background-image: url('media/fondo.png');
     display: flex;
     justify-content: center;
