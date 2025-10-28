@@ -126,11 +126,13 @@ session_start();
         $textoSencilloSubstringTrim = trim(substr($sentencesLines[0], 9));
         $separateSentences = explode("*", $textoSencilloSubstringTrim);
         
-        function getRandomPhrase($stringFrases){
-            $textoSubstringTrim = trim($stringFrases);
-            $array = explode("*", $textoSubstringTrim);
-            $randomPhraseKey = array_rand($array, 1);
-            return $array[$randomPhraseKey];
+        if (!function_exists('getRandomPhrase')) {
+            function getRandomPhrase($stringFrases){
+                $textoSubstringTrim = trim($stringFrases);
+                $array = explode("*", $textoSubstringTrim);
+                $randomPhraseKey = array_rand($array, 1);
+                return $array[$randomPhraseKey];
+            }
         }
         
         if (isset($difficulty) && $difficulty === "sencillo") {
