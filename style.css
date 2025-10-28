@@ -48,6 +48,7 @@ img.mesa {
     left: 0;
     right: 0;
     margin: 0;
+    z-index: 10;
 }
 
 div.machine {
@@ -76,6 +77,84 @@ div.machine .textos {
     z-index: 10;
     padding: 10px;
 }
+
+body.play img#lupa {
+  width: 232px;
+  position: absolute;
+  top: 803px;
+  left: 1461px;
+  z-index: 9999;
+  cursor: pointer;
+  transform: rotate(15deg);
+}
+
+body.play img#vela{
+  width: 25px;
+  position: relative;
+  top: 80px;
+  left: 1084px;
+  cursor: pointer;
+}
+
+body.play img#libro{
+  position: absolute;
+  top: 195px;
+  left: 284px;
+  cursor: pointer;
+}
+
+body.play img#sombrero{
+  width: 300px;
+  position: absolute;
+  top: 700px;
+  left: -40px;
+  z-index: -99;
+  pointer-events: auto;
+  z-index: 5;
+  cursor: pointer;
+}
+body.play img#sherlock{
+  position: absolute;
+  z-index: -99;
+  width: 800px;
+  top: 240px;
+  left: 1400px;
+}
+
+
+
+.found {
+      color: green;
+      text-decoration: line-through;       
+}
+
+.listaEntera {
+  background-image: url("media/cuaderno.png");
+  background-repeat: no-repeat;
+  width: 400px;
+  height: 300px;
+  position: absolute;
+  top: 300px; 
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.listaEntera p {
+  position: relative;
+  left: 247px;
+  top: 100px;
+}
+
+
+.invisible {
+  display: none !important;
+}
+
+
+
+
+
 
 #timer {
   font-family: 'Oswald', sans-serif;
