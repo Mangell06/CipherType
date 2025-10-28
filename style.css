@@ -253,7 +253,6 @@ div.smallPostits div {
     left: -15px;
     width: 100px;
 }
-
 /*----------------------------------- css gameover ----------------------------------- */
 body.gameover{
     background-image: url('/media/fondo.png');
