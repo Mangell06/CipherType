@@ -1,1 +1,3 @@
-Miguel:1000#ruth:2000#hector:15000
+Miguel:1000#ruth:2000#hector:15000ruth:2600
+ruth:2600
+meri:4600

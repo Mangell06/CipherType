@@ -139,6 +139,7 @@ div.machine {
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 0);
+    z-index: 11;
 }
 
 div.machine img {
@@ -176,6 +177,7 @@ body.play img#vela{
   top: 80px;
   left: 1084px;
   cursor: pointer;
+  z-index: 9999;
 }
 
 body.play img#libro{
