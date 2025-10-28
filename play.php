@@ -151,6 +151,8 @@ session_start();
         }
         ?>";
 
+         const showPhrase = () => { const span = document.getElementById("letter"+indexLetter); span.className = "highlight"; };
+
          const render = () => {
             div.innerText = "";
             for (let i = 0; i < frase.length; i++) {
