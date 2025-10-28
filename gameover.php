@@ -30,10 +30,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_record'])) {
     <div class="gameoverDiv">
         <h1>¿Quieres registrar tu récord?</h1>
 
-        <table>
-            <tr><th>Nombre</th><th>Puntos</th></tr>
-            <tr><td><?php echo htmlspecialchars($name); ?></td><td><?php echo htmlspecialchars($points); ?></td></tr>
-        </table>
+         <?php
+            session_start();
+            $name = $_SESSION['name'];
+            $points = $_GET['points'];
+            echo "<table>";
+            echo "<tr><th>Nombre</th><th>Puntos</th></tr>";
+            echo "<tr><td>".$name."</td><td>".$points."</td></tr>";
+            echo "</table>";
+         ?>
 
         <div class="buttons">
             
