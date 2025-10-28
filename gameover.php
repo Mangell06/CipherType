@@ -1,10 +1,10 @@
 <?php
     session_start();
     if (!isset($_POST['points']) || !isset($_SESSION['name'])) {
-    header("HTTP/1.1 403 Forbidden");
-    include __DIR__ . "/errors/error403.php";
-    exit;
-}
+        header("HTTP/1.1 403 Forbidden");
+        include __DIR__ . "/errors/error403.php";
+        exit;
+    }
     $name = $_SESSION['name'];
     $points = $_POST['points'];
     $_SESSION['points'] = $points;

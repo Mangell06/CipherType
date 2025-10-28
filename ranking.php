@@ -1,14 +1,13 @@
 <?php
     session_start();
-    if (isset($_SESSION['name']) && isset($_SESSION['points'])) {
-        $file = fopen('ranking.txt','a');
-        $line = "#{$_SESSION['name']}:{$_SESSION['points']}\n";
-        fwrite($file, $line);
-        fclose($file);
+    if (!isset($_POST['points']) || !isset($_SESSION['name'])) {
+        header("HTTP/1.1 403 Forbidden");
+        include __DIR__ . "/errors/error403.php";
+        exit;
     }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
