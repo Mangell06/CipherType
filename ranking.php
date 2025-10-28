@@ -34,7 +34,7 @@
             if ($_SESSION['name'] === $name) {
               echo "<tr><td class='winner'>".$name."</td><td class='winner'>".$points."</td></tr>";
             } else if ($count % 2 === 0) {
-                echo "<tr><td>".$name."</td><td>".$points."</td></tr>";
+                echo "<tr><td class='second'>".$name."</td><td class='second'>".$points."</td></tr>";
             } else {
                 echo "<tr><td>".$name."</td><td>".$points."</td></tr>";
             }
