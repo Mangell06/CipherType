@@ -40,7 +40,7 @@ if (!defined('ACCESS_ALLOWED')) {
             <?php
                 session_start();
                 $name = $_SESSION['name'] ?? 'Desconocido';
-                $points = $_SESSION['points'] ?? 0;
+                $points = $_GET['points'] ?? 0;
                 $file = 'ranking.txt';
                 $line = "#{$name}:{$points}\n";
                 file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
