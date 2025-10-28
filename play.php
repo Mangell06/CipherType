@@ -161,6 +161,7 @@ session_start();
                 span.textContent = frase[i];
                 div.appendChild(span);
             }
+            showPhrase();
         }
 
         let indexLetter = 0;
@@ -203,6 +204,9 @@ session_start();
                 iscorrect = checkInput(iscorrect, e.key);
                 isCorrectLetter(iscorrect, e.key === " " ? true : false);
                 indexLetter++;
+                if (indexLetter < frase.length && frase[indexLetter] !== " ") {
+                    showPhrase();  
+                }
                 if (indexLetter >= frase.length) {
                     endGame();
                 }
