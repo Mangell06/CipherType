@@ -12,6 +12,27 @@
         rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
     <link rel="icon" href="media/lupa.ico">
+   
+    <style>
+        .highlight {
+            color: #ffeb3b;
+            text-decoration: underline;
+            font-weight: bold;
+            text-shadow: 0 0 10px #ffeb3b;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 5px #fff, 0 0 10px #ffeb3b;
+            }
+
+            50% {
+                text-shadow: 0 0 50px #ffeb3b, 0 0 35px #ffeb3b;
+            }
+        }
+    </style>
+
 </head>
 
 <body class="play">
@@ -43,6 +64,12 @@
     </form>
     <script>
         let points = 0;
+        const correctSound = new Audio('media/correctchoice.mp3')
+        const wrongSound = new Audio('media/wrongchoice1.mp3')
+
+        correctSound.load();
+        wrongSound.load();
+
         const p = document.getElementById("timer");
         const pInformation = document.getElementById("textStartInformation");
         const div = document.querySelector("div.text");
@@ -136,6 +163,8 @@
         }
         ?>";
 
+        const showPhrase = () => { const span = document.getElementById("letter"+indexLetter); span.className = "highlight"; };
+
          const render = () => {
             div.innerText = "";
             for (let i = 0; i < frase.length; i++) {
@@ -144,9 +173,12 @@
                 span.textContent = frase[i];
                 div.appendChild(span);
             }
+            showPhrase();
         }
 
         let indexLetter = 0;
+
+        
 
         function checkInput(isMayus, inletter) {
             const letter = document.getElementById("letter"+indexLetter);
@@ -158,14 +190,22 @@
             if (!isspace) {
                 letter.className = iscorrect ? "correct" : "error";
                 points += iscorrect ? 100 : -100;
+                if (iscorrect) {
+                    correctSound.play(); 
+                } else {
+                    wrongSound.play();
+                }
             } else {
                 if (letter.textContent != " ") {
                     letter.className = "error";
                     points -= 100
+                    wrongSound.play();
                 } else {
-                    points += 100;   
+                    points += 100; 
+                    correctSound.play();   
                 }
             }
+
         }
 
         function endGame() {
@@ -179,6 +219,9 @@
                 iscorrect = checkInput(iscorrect, e.key);
                 isCorrectLetter(iscorrect, e.key === " " ? true : false);
                 indexLetter++;
+                if (indexLetter < frase.length && frase[indexLetter] !== " ") {
+                    showPhrase();  
+                }
                 if (indexLetter >= frase.length) {
                     endGame();
                 }

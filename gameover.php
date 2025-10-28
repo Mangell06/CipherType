@@ -40,6 +40,11 @@
         </div>
     </div>
     <script>
+        const gameoverBGX = new Audio("./media/gameover.mp3");
+    
+        gameoverBGX.loop = true;
+        gameoverBGX.load();
+        gameoverBGX.play();
         const button = document.getElementById("returnIndex");
 
         button.addEventListener('click', (e) => {
