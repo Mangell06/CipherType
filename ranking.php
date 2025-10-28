@@ -20,6 +20,12 @@
 <body class="gameover">
     <div class="gameoverDiv">
         <h1>Ranking</h1>
+    <script>
+        const gameoverBGX = new Audio("./media/ranking.mp3");
+        gameoverBGX.loop = true;
+        gameoverBGX.load();
+        gameoverBGX.play();
+    </script>
     <?php
     $contenido = file_get_contents('ranking.txt'); // leer el fichero
     if ($contenido !== false && !empty($contenido)) {

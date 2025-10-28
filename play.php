@@ -45,6 +45,12 @@ session_start();
         <input type="hidden" name="points" id="pointsField">
     </form>
     <script>
+        const correctSound = new Audio('media/correctchoice.mp3');
+        const wrongSound = new Audio('media/wrongchoice1.mp3');
+
+        correctSound.load();
+        wrongSound.load();
+
         let points = 0;
         const p = document.getElementById("timer");
         const pInformation = document.getElementById("textStartInformation");
@@ -165,11 +171,18 @@ session_start();
             if (!isspace) {
                 letter.className = iscorrect ? "correct" : "error";
                 points += iscorrect ? 100 : -100;
+                if (iscorrect) {
+                    correctSound.play();
+                } else {
+                    wrongSound.play();
+                }
             } else {
                 if (letter.textContent != " ") {
                     letter.className = "error";
+                    wrongSound.play();
                     points -= 100
                 } else {
+                    correctSound.play();
                     points += 100;   
                 }
             }
