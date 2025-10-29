@@ -162,9 +162,12 @@ session_start();
                 div.appendChild(span);
             }
             showPhrase();
+            funcionar = true;
         }
 
+        let pendingAccent = "";
         let indexLetter = 0;
+        let funcionar = false;
 
         function checkInput(isMayus, inletter) {
             const letter = document.getElementById("letter"+indexLetter);
@@ -199,16 +202,30 @@ session_start();
         }
 
         document.addEventListener('keyup',(e) => {
-            if (/^[A-Za-z ,]$/.test(e.key)) {
-                let iscorrect = e.shiftKey;
-                iscorrect = checkInput(iscorrect, e.key);
-                isCorrectLetter(iscorrect, e.key === " " ? true : false);
-                indexLetter++;
-                if (indexLetter < frase.length && frase[indexLetter] !== " ") {
-                    showPhrase();  
+            if (funcionar) {
+                if (e.key === "Dead") {
+                    pendingAccent = e.code;
+                    return;
                 }
-                if (indexLetter >= frase.length) {
-                    endGame();
+
+                let inputChar = e.key;
+
+                if (pendingAccent) {
+                    inputChar = (inputChar + "\u0301").normalize("NFC");
+                    pendingAccent = "";
+                }
+
+                if (/^\p{L}$| |,$/u.test(e.key)) {
+                    let iscorrect = e.shiftKey;
+                    iscorrect = checkInput(iscorrect, inputChar);
+                    isCorrectLetter(iscorrect, e.key === " " ? true : false);
+                    indexLetter++;
+                    if (indexLetter < frase.length && frase[indexLetter] !== " ") {
+                        showPhrase();  
+                    }
+                    if (indexLetter >= frase.length) {
+                        endGame();
+                    }
                 }
             }
         });
