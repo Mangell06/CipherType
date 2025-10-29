@@ -393,6 +393,7 @@ body.gameover{
 
 .gameoverDiv .winner {
   background-color: goldenrod;
+  font-style: italic;
 }
 
 .gameoverDiv .second {
