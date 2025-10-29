@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ranking</title>
-    <link rel="stylesheet" href="styles.css?no-cache=<?php echo time(); ?>">
+     <link rel="stylesheet" href="styles.css?no-cache=<?php echo time(); ?>">
     <link rel="icon" href="media/lupa.ico">
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 </head>
@@ -31,27 +31,27 @@
     if ($contenido !== false && !empty($contenido)) {
         $usuarios = explode('#', $contenido); // separar usuarios
         $ranking = [];
-
+        $count = 0;
         foreach ($usuarios as $usuario) {
             if (!empty($usuario) && strpos($usuario, ':') !== false) {
                 list($name, $points) = explode(':', $usuario);
-                $ranking[$name] = (int)$points;
+                $ranking[$count] = [$name,(int)$points];
+                $count ++;
             }
         }
 
-        arsort($ranking); // ordenar de mayor a menor
-        $count = 0;
+        usort($ranking, fn($nombre, $puntos) => $puntos[1] <=> $nombre[1]); // ordenar array por puntos de mayor a menor
+
         echo "<table>";
         echo "<tr><th>Nombre</th><th>Puntos</th></tr>";
-        foreach ($ranking as $name => $points) {
-            if ($_SESSION['name'] === $name && $_SESSION['points'] == $points) {
-              echo "<tr><td class='winner'>".$name."</td><td class='winner'>".$points."</td></tr>";
+        foreach ($ranking as $count => [$name,$points]) {
+            if (isset($_SESSION['name']) && isset($_SESSION['points']) && $_SESSION['name'] === $name && $_SESSION['points'] == $points) {
+                echo "<tr><td class='winner'>".$name."</td><td class='winner'>".$points."</td></tr>";
             } else if ($count % 2 === 0 && $count !== 1) {
                 echo "<tr><td class='second'>".$name."</td><td class='second'>".$points."</td></tr>";
             } else {
                 echo "<tr><td>".$name."</td><td>".$points."</td></tr>";
             }
-            $count ++;
         }
         echo "</table>";
     } else {
