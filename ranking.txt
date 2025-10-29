@@ -39,3 +39,5 @@
 #alejandro:14100
 #alejandro:15600
 #alejandro:16000
+#hector:1300
+#hector:1100

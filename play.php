@@ -13,12 +13,12 @@ session_start();
     <link
         href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?no-cache=<?php echo time(); ?>">
+     <link rel="stylesheet" href="styles.css?no-cache=<?php echo time(); ?>">
     <link rel="icon" href="media/lupa.ico">
 </head>
 
 <body class="play">
-    <img class="mesa" src="./media/mesa.jpg" alt="Imagen de una mesa">
+    <img class="mesa" src="media/mesa.jpg" alt="Imagen de una mesa">
     <div class="machine">
         <div class="textos">
             <p id="timer"></p>
@@ -151,9 +151,9 @@ session_start();
         }
         ?>";
 
-        const showPhrase = () => { const span = document.getElementById("letter"+indexLetter); span.className = "highlight"; };
-        
-        const render = () => {
+         const showPhrase = () => { const span = document.getElementById("letter"+indexLetter); span.className = "highlight"; };
+
+         const render = () => {
             div.innerText = "";
             for (let i = 0; i < frase.length; i++) {
                 const span = document.createElement("span");
@@ -162,9 +162,12 @@ session_start();
                 div.appendChild(span);
             }
             showPhrase();
+            funcionar = true;
         }
 
+        let pendingAccent = "";
         let indexLetter = 0;
+        let funcionar = false;
 
         function checkInput(isMayus, inletter) {
             const letter = document.getElementById("letter"+indexLetter);
@@ -199,16 +202,30 @@ session_start();
         }
 
         document.addEventListener('keyup',(e) => {
-            if (/^[A-Za-z ,]$/.test(e.key)) {
-                let iscorrect = e.shiftKey;
-                iscorrect = checkInput(iscorrect, e.key);
-                isCorrectLetter(iscorrect, e.key === " " ? true : false);
-                indexLetter++;
-                 if (indexLetter < frase.length && frase[indexLetter] !== " ") {
-                    showPhrase();  
+            if (funcionar) {
+                if (e.key === "Dead") {
+                    pendingAccent = e.code;
+                    return;
                 }
-                if (indexLetter >= frase.length) {
-                    endGame();
+
+                let inputChar = e.key;
+
+                if (pendingAccent) {
+                    inputChar = (inputChar + "\u0301").normalize("NFC");
+                    pendingAccent = "";
+                }
+
+                if (/^\p{L}$| |,$/u.test(e.key)) {
+                    let iscorrect = e.shiftKey;
+                    iscorrect = checkInput(iscorrect, inputChar);
+                    isCorrectLetter(iscorrect, e.key === " " ? true : false);
+                    indexLetter++;
+                    if (indexLetter < frase.length && frase[indexLetter] !== " ") {
+                        showPhrase();  
+                    }
+                    if (indexLetter >= frase.length) {
+                        endGame();
+                    }
                 }
             }
         });
