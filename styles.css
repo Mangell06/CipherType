@@ -349,6 +349,10 @@ div.smallPostits div {
     width: 100px;
 }
 
+body.error p {
+  color: black;
+}
+
 /*----------------------------------- css gameover ----------------------------------- */
 body.gameover{
     background-image: url('media/fondo.png');
