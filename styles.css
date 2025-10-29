@@ -82,23 +82,6 @@
 .js-required { display: none; }
 noscript .no-js { display: none; }
 
-.highlight {
-    color: #ffeb3b;
-    text-decoration: underline;
-    font-weight: bold;
-    text-shadow: 0 0 10px #ffeb3b;
-    animation: glow 2s ease-in-out infinite;
-    }
-
-    @keyframes glow {
-    0%, 100% {
-        text-shadow: 0 0 5px #fff, 0 0 10px #ffeb3b;
-    }
-    50% {
-          text-shadow: 0 0 50px #ffeb3b, 0 0 35px #ffeb3b;
-      }
-    }
-
 /*----------------------------------- css play ----------------------------------- */
 html {
   box-sizing: border-box;
@@ -264,6 +247,23 @@ body.play img#sherlock{
     border-color: transparent;
   }
 }
+
+.highlight {
+    color: #ffeb3b;
+    text-decoration: underline;
+    font-weight: bold;
+    text-shadow: 0 0 10px #b67b22;
+    animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+    0%, 100% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #b67b22;
+    }
+    50% {
+          text-shadow: 0 0 50px #ffeb3b, 0 0 35px #b67b22;
+      }
+    }
 
 /*----------------------------------- css error----------------------------------- */
 div.postit p, div.smallPostits input[type="button"] {
