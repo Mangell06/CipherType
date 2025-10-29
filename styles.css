@@ -248,6 +248,23 @@ body.play img#sherlock{
   }
 }
 
+.highlight {
+    color: #b67b22;
+    text-decoration: underline;
+    font-weight: bold;
+    text-shadow: 0 0 10px #b67b22;
+    animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+    0%, 100% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #b67b22;
+    }
+    50% {
+          text-shadow: 0 0 50px #b67b22, 0 0 35px #b67b22;
+      }
+    }
+
 /*----------------------------------- css error----------------------------------- */
 div.postit p, div.smallPostits input[type="button"] {
   margin: 0;
@@ -424,4 +441,3 @@ body.gameover{
     border: 1px solid #975A23;
     padding: 20px;
 }
-
