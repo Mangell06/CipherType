@@ -249,7 +249,7 @@ body.play img#sherlock{
 }
 
 .highlight {
-    color: #ffeb3b;
+    color: #b67b22;
     text-decoration: underline;
     font-weight: bold;
     text-shadow: 0 0 10px #b67b22;
@@ -261,7 +261,7 @@ body.play img#sherlock{
         text-shadow: 0 0 5px #fff, 0 0 10px #b67b22;
     }
     50% {
-          text-shadow: 0 0 50px #ffeb3b, 0 0 35px #b67b22;
+          text-shadow: 0 0 50px #b67b22, 0 0 35px #b67b22;
       }
     }
 
