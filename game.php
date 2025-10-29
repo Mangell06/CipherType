@@ -16,6 +16,7 @@
     <h1 class="js-required hidden">Tienes js activado</h1>
     <script>
         const text =document.querySelector(".js-required.hidden");
+        text.classList.remove(".js-required");
         text.classList.remove(".hidden");
     </script>
 </body>
