@@ -29,7 +29,7 @@
                     <option value="normal">normal</option>
                     <option value="experto">experto</option>
                 </select>
-                <button disabled type="submit" id="buttonInitialitze" class="js-required">Inicializar</button>
+                <button disabled type="submit" id="buttonInitialitze">Inicializar</button>
                 <noscript>
                 <p class="error">Querido Watson, debes activar el javascript para seguirle la pista</p>
                 </noscript>
@@ -49,7 +49,6 @@
         <img src="media/typingmachine.png" alt="Imagen de máquina de escribir">
     </div>
     <script>
-    document.getElementById('buttonInitialitze').classList.remove('js-required');
     const buttonInitialitzeGame = document.getElementById('buttonInitialitze');
     document.querySelector("#indifficulty").disabled = false;
     document.querySelector("#buttonInitialitze").disabled = false;
