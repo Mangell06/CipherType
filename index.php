@@ -23,17 +23,17 @@
             <h1>CipherType</h1>
             <div class="incontainer">
                 <input type="text" id="inname" name="inname" placeholder="Introduzca su nombre">
+                <noscript>
+                <button type="submit" disabled>Inicializar</button>
+                <p class="error">Querido Watson, debes activar el javascript para seguirle la pista</p>
+                </noscript>
+                <p id="messageerror" class="error"></p>
                 <select name="indifficulty" id="indifficulty">
                     <option value="sencillo">sencillo</option>
                     <option value="normal">normal</option>
                     <option value="experto">experto</option>
                 </select>
-                <noscript>
-                <button type="submit" disabled>Inicializar</button>
-                <p class="error">Querido Watson, debes activar el javascript para seguirle la pista</p>
-                </noscript>
                 <button type="submit" id="buttonInitialitze" class="js-required">Inicializar</button>
-                <p id="messageerror" class="error"></p>
             </div>
         </form>
         <div class="datacontainer">
