@@ -248,6 +248,23 @@ body.play img#sherlock{
   }
 }
 
+.highlight {
+    color: #b67b22;
+    text-decoration: underline;
+    font-weight: bold;
+    text-shadow: 0 0 10px #b67b22;
+    animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+    0%, 100% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #b67b22;
+    }
+    50% {
+          text-shadow: 0 0 50px #b67b22, 0 0 35px #b67b22;
+      }
+    }
+
 /*----------------------------------- css error----------------------------------- */
 div.postit p, div.smallPostits input[type="button"] {
   margin: 0;
@@ -258,7 +275,7 @@ div.postit p, div.smallPostits input[type="button"] {
 }
 
 body.error {
-  background-image: url('/media/corcho.jpg');
+  background-image: url('media/corcho.jpg');
   display: flex;
   justify-content: center;
   align-items: center;
@@ -306,7 +323,7 @@ div.smallPostits {
 
 div.smallPostits input[type="button"],
 div.smallPostits button {
-  background-image: url('/media/smallpostit.png');
+  background-image: url('media/smallpostit.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -331,10 +348,13 @@ div.smallPostits div {
     left: -15px;
     width: 100px;
 }
+body.error p {
+  color: black;
+}
 
 /*----------------------------------- css gameover ----------------------------------- */
 body.gameover{
-    background-image: url('/media/fondo.png');
+    background-image: url('media/fondo.png');
     display: flex;
     justify-content: center;
     align-items: center;
@@ -376,6 +396,7 @@ body.gameover{
 
 .gameoverDiv .winner {
   background-color: goldenrod;
+  font-style: italic;
 }
 
 .gameoverDiv .second {
@@ -424,4 +445,3 @@ body.gameover{
     border: 1px solid #975A23;
     padding: 20px;
 }
-
