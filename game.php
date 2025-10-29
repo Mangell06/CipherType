@@ -11,6 +11,10 @@
     <link rel="icon" href="media/lupa.ico">
 </head>
 <body>
-    <h1 class="js-required">Tienes js activado</h1>
+    <h1 class="js-required hidden">Tienes js activado</h1>
+    <script>
+        const text =document.querySelector(".js-required.hidden");
+        text.classList.remove(".hidden");
+    </script>
 </body>
 </html>
