@@ -40,7 +40,7 @@
             }
         }
 
-        usort($ranking, fn($a, $b) => $b[1] <=> $a[1]); // ordenar array por puntos de mayor a menor
+        usort($ranking, fn($nombre, $puntos) => $puntos[1] <=> $nombre[1]); // ordenar array por puntos de mayor a menor
 
         echo "<table>";
         echo "<tr><th>Nombre</th><th>Puntos</th></tr>";
