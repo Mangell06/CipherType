@@ -352,6 +352,21 @@ div.smallPostits div {
 body.error p {
   color: black;
 }
+/*-----------------------------------css game.php-----------------------------------*/
+.gameErrorJS{
+  background-image: url('media/fondo.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameErrorJS h1 {
+  color: white;
+}
 
 /*----------------------------------- css gameover ----------------------------------- */
 body.gameover{
