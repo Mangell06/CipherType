@@ -1,5 +1,8 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -10,33 +13,12 @@
     <link
         href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="/media/lupa.ico">
-   
-    <style>
-        .highlight {
-            color: #ffeb3b;
-            text-decoration: underline;
-            font-weight: bold;
-            text-shadow: 0 0 10px #ffeb3b;
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% {
-                text-shadow: 0 0 5px #fff, 0 0 10px #ffeb3b;
-            }
-
-            50% {
-                text-shadow: 0 0 50px #ffeb3b, 0 0 35px #ffeb3b;
-            }
-        }
-    </style>
-
+     <link rel="stylesheet" href="styles.css?no-cache=<?php echo time(); ?>">
+    <link rel="icon" href="media/lupa.ico">
 </head>
 
 <body class="play">
-    <img class="mesa" src="./media/mesa.jpg" alt="Imagen de una mesa">
+    <img class="mesa" src="media/mesa.jpg" alt="Imagen de una mesa">
     <div class="machine">
         <div class="textos">
             <p id="timer"></p>
@@ -59,17 +41,17 @@
         <p>Sombrero</p>
 
     </div>
-    <form id="endForm" action="./gameover.php" method="POST" style="display:none;">
+    <form id="endForm" action="gameover.php" method="POST" style="display:none;">
         <input type="hidden" name="points" id="pointsField">
     </form>
     <script>
-        let points = 0;
-        const correctSound = new Audio('media/correctchoice.mp3')
-        const wrongSound = new Audio('media/wrongchoice1.mp3')
+        const correctSound = new Audio('media/correctchoice.mp3');
+        const wrongSound = new Audio('media/wrongchoice1.mp3');
 
         correctSound.load();
         wrongSound.load();
 
+        let points = 0;
         const p = document.getElementById("timer");
         const pInformation = document.getElementById("textStartInformation");
         const div = document.querySelector("div.text");
@@ -144,11 +126,13 @@
         $textoSencilloSubstringTrim = trim(substr($sentencesLines[0], 9));
         $separateSentences = explode("*", $textoSencilloSubstringTrim);
         
-        function getRandomPhrase($stringFrases){
-            $textoSubstringTrim = trim($stringFrases);
-            $array = explode("*", $textoSubstringTrim);
-            $randomPhraseKey = array_rand($array, 1);
-            return $array[$randomPhraseKey];
+        if (!function_exists('getRandomPhrase')) {
+            function getRandomPhrase($stringFrases){
+                $textoSubstringTrim = trim($stringFrases);
+                $array = explode("*", $textoSubstringTrim);
+                $randomPhraseKey = array_rand($array, 1);
+                return $array[$randomPhraseKey];
+            }
         }
         
         if (isset($difficulty) && $difficulty === "sencillo") {
@@ -159,11 +143,15 @@
             echo getRandomPhrase(substr($sentencesLines[2], 8));
         }
         if (isset($_POST['inname'])) {
-            $_SESSION['name'] = $_POST['inname'];
+            if (isset($_SESSION['name'])) {
+                $_SESSION['name'] .= $_POST['inname'];  
+            } else {
+                $_SESSION['name'] = $_POST['inname'];
+            }
         }
         ?>";
 
-        const showPhrase = () => { const span = document.getElementById("letter"+indexLetter); span.className = "highlight"; };
+         const showPhrase = () => { const span = document.getElementById("letter"+indexLetter); span.className = "highlight"; };
 
          const render = () => {
             div.innerText = "";
@@ -174,11 +162,12 @@
                 div.appendChild(span);
             }
             showPhrase();
+            funcionar = true;
         }
 
+        let pendingAccent = "";
         let indexLetter = 0;
-
-        
+        let funcionar = false;
 
         function checkInput(isMayus, inletter) {
             const letter = document.getElementById("letter"+indexLetter);
@@ -191,21 +180,20 @@
                 letter.className = iscorrect ? "correct" : "error";
                 points += iscorrect ? 100 : -100;
                 if (iscorrect) {
-                    correctSound.play(); 
+                    correctSound.play();
                 } else {
                     wrongSound.play();
                 }
             } else {
                 if (letter.textContent != " ") {
                     letter.className = "error";
-                    points -= 100
                     wrongSound.play();
+                    points -= 100
                 } else {
-                    points += 100; 
-                    correctSound.play();   
+                    correctSound.play();
+                    points += 100;   
                 }
             }
-
         }
 
         function endGame() {
@@ -214,16 +202,30 @@
         }
 
         document.addEventListener('keyup',(e) => {
-            if (/^[A-Za-z ,]$/.test(e.key)) {
-                let iscorrect = e.shiftKey;
-                iscorrect = checkInput(iscorrect, e.key);
-                isCorrectLetter(iscorrect, e.key === " " ? true : false);
-                indexLetter++;
-                if (indexLetter < frase.length && frase[indexLetter] !== " ") {
-                    showPhrase();  
+            if (funcionar) {
+                if (e.key === "Dead") {
+                    pendingAccent = e.code;
+                    return;
                 }
-                if (indexLetter >= frase.length) {
-                    endGame();
+
+                let inputChar = e.key;
+
+                if (pendingAccent) {
+                    inputChar = (inputChar + "\u0301").normalize("NFC");
+                    pendingAccent = "";
+                }
+
+                if (/^\p{L}$| |,$/u.test(e.key)) {
+                    let iscorrect = e.shiftKey;
+                    iscorrect = checkInput(iscorrect, inputChar);
+                    isCorrectLetter(iscorrect, e.key === " " ? true : false);
+                    indexLetter++;
+                    if (indexLetter < frase.length && frase[indexLetter] !== " ") {
+                        showPhrase();  
+                    }
+                    if (indexLetter >= frase.length) {
+                        endGame();
+                    }
                 }
             }
         });
