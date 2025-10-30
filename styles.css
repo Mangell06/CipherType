@@ -31,7 +31,7 @@
     padding: 0 0 2% 0;
     font-size: 2.5rem;
     font-weight: 700;
-    color: #FCD858;
+    color: #FFD287;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, 
     -1px  1px 0 #000, 1px  1px 0 #000;
 }
@@ -72,7 +72,7 @@
 }
 
 .error {
-  color: red;
+  color: #ff6363;
 }
 
 .correct {
@@ -351,6 +351,21 @@ div.smallPostits div {
 
 body.error p {
   color: black;
+}
+/*-----------------------------------css game.php-----------------------------------*/
+.gameErrorJS{
+  background-image: url('media/fondo.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameErrorJS h1 {
+  color: white;
 }
 
 /*----------------------------------- css gameover ----------------------------------- */
