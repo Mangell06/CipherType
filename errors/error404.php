@@ -21,7 +21,7 @@
         </div>
         <div>
             <img class="pins" src="/media/pin.png" alt="Imagen de una chincheta">
-            <input type="button" value="Estadísticas" onclick="changePageStatsPage()">
+            <input type="button" value="Ranking" onclick="changePageStatsPage()">
         </div>
      </div>
      <script>
