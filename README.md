@@ -1,49 +1,47 @@
 <h1>CipherType</h1>
 
-<h2>🔎 Description</h2>
-My dear Watson, this game is a battle between your mind and the passage of time;
-the words are the clues, and your accuracy in typing are the key of winning.
+<h2>🔎 Descripción </h2>
+Mi querido Watson, este juego es una batalla entre tu mente y el paso del tiempo; las palabras son las pistas, y tu precisión al escribir es la clave para ganar.
 
-<h2>🔎 How to play?</h2>
-You can play directly in your browser by visiting: https://ciphertype.ieti.site/.
+<h2>🔎 ¿Cómo jugar?</h2>
+Puedes jugar directamente en tu navegador visitando: https://ciphertype.ieti.site/.
 
 <h2>🔎 How to install?</h2>
-Or, if you prefer to play locally, you can run it on your computer:
--First click on the "<>Code" button and a small window will open, where a link will appear, click on the icon on the right of this:<br>
+Si prefieres jugar localmente, puedes ejecutarlo en tu ordenador:
+-Primero haz clic en el botón "<>Code" y se abrirá una pequeña ventana, donde aparecerá un enlace; haz clic en el icono de la derecha de este:<br>
 
 <img width="439" height="367" alt="Image" src="https://github.com/user-attachments/assets/6579b5c5-3b94-4b7a-af0b-76004c74083b"/>
 
--Once we have copied the link, we will access the terminal of our operating system and use the $cd command to move through the different folders to where we want the Project to be (in our case it will be on the desktop):
+-Una vez que tengamos el enlace copiado, accederemos a la terminal de nuestro sistema operativo y utilizaremos el comando cd para movernos entre carpetas hasta donde queramos clonar el proyecto (en este caso será en el escritorio):
 
 ```console
 super@super:~$ cd Desktop
 ```
 
--When we are inside where we want the repository we do:
+-Cuando estemos en la carpeta donde queremos el repositorio, hacemos:
 ```console
 super@super:~$ git clone https://github.com/Mangell06/CipherType.git
 ```
--To start it we will have to enter the repository folder that we have created:
+-Para iniciarlo tendremos que entrar en la carpeta del repositorio que hemos creado:
 ```console
 super@super:~$ cd CipherType
 ```
 
--And to execute it (ubuntu):
+-Para ejecutarlo en Ubuntu:
 ```console
 super@super:~$ php -S 0:8080 
 ``` 
 
--And to execute it (windows):
+-Para ejecutarlo en Windows:
 ```console
 super@super:~$ php -S 0.0.0.0:8080 
 ```
--Then we open the browser and the search engine we put:
-
+-Luego abrimos el navegador y en el buscador escribimos:
 ```console
 localhost:8080 
 ```
 
--We will see this and then we will be able to play:
+-Veremos la siguiente pantalla y podremos comenzar a jugar:
 <img width="1851" height="1002" alt="Image" src="https://github.com/user-attachments/assets/b7f3cf72-97b0-4a08-9c0c-cf45b634ecd3" />
 
 
