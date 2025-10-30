@@ -23,17 +23,16 @@
             <h1>CipherType</h1>
             <div class="incontainer">
                 <input type="text" id="inname" name="inname" placeholder="Introduzca su nombre">
-                <select name="indifficulty" id="indifficulty">
+                <p id="messageerror" class="error"></p>
+                <select disabled name="indifficulty" id="indifficulty">
                     <option value="sencillo">sencillo</option>
                     <option value="normal">normal</option>
                     <option value="experto">experto</option>
                 </select>
+                <button disabled type="submit" id="buttonInitialitze">Inicializar</button>
                 <noscript>
-                <button type="submit" disabled>Inicializar</button>
                 <p class="error">Querido Watson, debes activar el javascript para seguirle la pista</p>
                 </noscript>
-                <button type="submit" id="buttonInitialitze" class="js-required">Inicializar</button>
-                <p id="messageerror" class="error"></p>
             </div>
         </form>
         <div class="datacontainer">
@@ -50,8 +49,9 @@
         <img src="media/typingmachine.png" alt="Imagen de máquina de escribir">
     </div>
     <script>
-    document.getElementById('buttonInitialitze').classList.remove('js-required');
     const buttonInitialitzeGame = document.getElementById('buttonInitialitze');
+    document.querySelector("#indifficulty").disabled = false;
+    document.querySelector("#buttonInitialitze").disabled = false;
 
     buttonInitialitzeGame.addEventListener("click", (event) => {
         const input = document.getElementById('inname');
