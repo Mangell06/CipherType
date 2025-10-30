@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,12 +13,12 @@
     <link
         href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="/media/lupa.ico">
+     <link rel="stylesheet" href="styles.css?no-cache=<?php echo time(); ?>">
+    <link rel="icon" href="media/lupa.ico">
 </head>
 
 <body class="play">
-    <img class="mesa" src="./media/mesa.jpg" alt="Imagen de una mesa">
+    <img class="mesa" src="media/mesa.jpg" alt="Imagen de una mesa">
     <div class="machine">
         <div class="textos">
             <p id="timer"></p>
@@ -38,7 +41,17 @@
         <p>Sombrero</p>
 
     </div>
+    <form id="endForm" action="gameover.php" method="POST" style="display:none;">
+        <input type="hidden" name="points" id="pointsField">
+    </form>
     <script>
+        const correctSound = new Audio('media/correctchoice.mp3');
+        const wrongSound = new Audio('media/wrongchoice1.mp3');
+
+        correctSound.load();
+        wrongSound.load();
+
+        let points = 0;
         const p = document.getElementById("timer");
         const pInformation = document.getElementById("textStartInformation");
         const div = document.querySelector("div.text");
@@ -74,17 +87,10 @@
                     setTimeout(() => {
                         alert("Gracias Watson por encontrar todos mis objetos, te obsequio con 7000 puntos más.");
                     }, 1000);
-                    //hay que insertar que se sumen los puntos
-                    const puntos = "<?php
-                        session_start();
-                        $_SESSION['poinst'] += 7000;
-                    ?>";
+                    points += 7000;
                 }
             });
         });
-
-
-
 
         let cont = 4;
         const interval = setInterval(() => {
@@ -99,7 +105,7 @@
                 return;
             }
             p.innerText = cont;
-        }, 2000)
+        }, 750)
 
         const afterInterval = () => {
             p.style.display = "none";
@@ -109,7 +115,7 @@
 
         const frase = "<?php
         $randomPhrase = "";
-        $difficulty = $_POST['indifficulty'];
+        $difficulty = $_POST["indifficulty"];
         $sentencesFile = fopen("sentences.txt", "r");
         $sentencesLines = [];
         while (!feof($sentencesFile)) {
@@ -120,11 +126,13 @@
         $textoSencilloSubstringTrim = trim(substr($sentencesLines[0], 9));
         $separateSentences = explode("*", $textoSencilloSubstringTrim);
         
-        function getRandomPhrase($stringFrases){
-            $textoSubstringTrim = trim($stringFrases);
-            $array = explode("*", $textoSubstringTrim);
-            $randomPhraseKey = array_rand($array, 1);
-            return $array[$randomPhraseKey];
+        if (!function_exists('getRandomPhrase')) {
+            function getRandomPhrase($stringFrases){
+                $textoSubstringTrim = trim($stringFrases);
+                $array = explode("*", $textoSubstringTrim);
+                $randomPhraseKey = array_rand($array, 1);
+                return $array[$randomPhraseKey];
+            }
         }
         
         if (isset($difficulty) && $difficulty === "sencillo") {
@@ -134,20 +142,93 @@
         } else if (isset($difficulty) && $difficulty === "experto") {
             echo getRandomPhrase(substr($sentencesLines[2], 8));
         }
+        if (isset($_POST['inname'])) {
+            if (isset($_SESSION['name'])) {
+                $_SESSION['name'] .= $_POST['inname'];  
+            } else {
+                $_SESSION['name'] = $_POST['inname'];
+            }
+        }
         ?>";
 
-        const render = () => {
+         const showPhrase = () => { const span = document.getElementById("letter"+indexLetter); span.className = "highlight"; };
+
+         const render = () => {
             div.innerText = "";
             for (let i = 0; i < frase.length; i++) {
                 const span = document.createElement("span");
+                span.id = "letter" + i;
                 span.textContent = frase[i];
                 div.appendChild(span);
             }
+            showPhrase();
+            funcionar = true;
         }
 
-    
+        let pendingAccent = "";
+        let indexLetter = 0;
+        let funcionar = false;
+
+        function checkInput(isMayus, inletter) {
+            const letter = document.getElementById("letter"+indexLetter);
+            return (isMayus && inletter.toUpperCase() === letter.textContent) || inletter.toLowerCase() === letter.textContent;
+        }
+
+        function isCorrectLetter(iscorrect, isspace) {
+            const letter = document.getElementById("letter"+indexLetter);
+            if (!isspace) {
+                letter.className = iscorrect ? "correct" : "error";
+                points += iscorrect ? 100 : -100;
+                if (iscorrect) {
+                    correctSound.play();
+                } else {
+                    wrongSound.play();
+                }
+            } else {
+                if (letter.textContent != " ") {
+                    letter.className = "error";
+                    wrongSound.play();
+                    points -= 100
+                } else {
+                    correctSound.play();
+                    points += 100;   
+                }
+            }
+        }
+
+        function endGame() {
+            document.getElementById("pointsField").value = points;
+            document.getElementById("endForm").submit();
+        }
+
+        document.addEventListener('keyup',(e) => {
+            if (funcionar) {
+                if (e.key === "Dead") {
+                    pendingAccent = e.code;
+                    return;
+                }
+
+                let inputChar = e.key;
+
+                if (pendingAccent) {
+                    inputChar = (inputChar + "\u0301").normalize("NFC");
+                    pendingAccent = "";
+                }
+
+                if (/^\p{L}$| |,$/u.test(e.key)) {
+                    let iscorrect = e.shiftKey;
+                    iscorrect = checkInput(iscorrect, inputChar);
+                    isCorrectLetter(iscorrect, e.key === " " ? true : false);
+                    indexLetter++;
+                    if (indexLetter < frase.length && frase[indexLetter] !== " ") {
+                        showPhrase();  
+                    }
+                    if (indexLetter >= frase.length) {
+                        endGame();
+                    }
+                }
+            }
+        });
     </script>
-
 </body>
-
 </html>

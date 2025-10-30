@@ -1,0 +1,463 @@
+/*----------------------------------- index.php (base) ----------------------------------- */
+.maincontainer {
+    position: relative;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 64px 0 0 0;
+}
+
+
+.datacontainer, .incontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    box-sizing: border-box;
+}
+
+.datacontainer {
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 2% 6%;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.datacontainer > h1 {
+    padding: 0 0 2% 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #FFD287;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, 
+    -1px  1px 0 #000, 1px  1px 0 #000;
+}
+
+.incontainer {
+    gap: 10px;
+    width: 100%;
+}
+
+.datacontainer > p {
+    background-color: rgb(255, 255, 255);
+    padding: 3%;
+    border-radius: 15px;
+}
+
+.incontainer input,
+.incontainer select,
+.incontainer button {
+    width: 110%;
+    padding: 3%;
+    border-radius: 4% 8%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.incontainer input:hover,
+.incontainer select:hover,
+.incontainer button:hover {
+    cursor: pointer;
+}
+
+.incontainer button:hover {
+    width: 98%;
+}
+
+.incontainer  > select > option:hover{
+    cursor: pointer;
+}
+
+.error {
+  color: #ff6363;
+}
+
+.correct {
+  color: green;
+}
+
+.js-required { display: none; }
+noscript .no-js { display: none; }
+
+/*----------------------------------- css play ----------------------------------- */
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-family: "Oswald", sans-serif;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+body.play{
+    background-image: url('media/fondo.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.hidden{
+   display: none;
+}
+
+img.mesa {
+    object-fit: fill;
+    transform: perspective(600px) rotateX(50deg);
+    transform-origin: bottom center;
+    position: absolute;
+    height: 30%;
+    width: 100%;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    margin: 0;
+    z-index: 10;
+}
+
+div.machine {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 11;
+}
+
+div.machine img {
+    position: relative;
+    z-index: 7;
+    bottom: -650px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 1024px;
+    min-width: 1024px;
+    height: 1536px;
+}
+
+div.machine .textos {
+    position: absolute;
+    bottom: 435px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 10;
+}
+
+body.play img#lupa {
+  width: 232px;
+  position: absolute;
+  top: 803px;
+  left: 1461px;
+  z-index: 9999;
+  cursor: pointer;
+  transform: rotate(15deg);
+}
+
+body.play img#vela{
+  width: 25px;
+  position: relative;
+  top: 80px;
+  left: 1084px;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+body.play img#libro{
+  position: absolute;
+  top: 195px;
+  left: 284px;
+  cursor: pointer;
+}
+
+body.play img#sombrero{
+  width: 300px;
+  position: absolute;
+  bottom: -1%;
+  left: -1%;
+  z-index: -99;
+  pointer-events: auto;
+  z-index: 5;
+  cursor: pointer;
+}
+
+body.play img#sherlock{
+  position: absolute;
+  z-index: -99;
+  width: 800px;
+  top: 240px;
+  left: 1400px;
+}
+
+.found {
+      color: green;
+      text-decoration: line-through;       
+}
+
+.listaEntera {
+  background-image: url("media/cuaderno.png");
+  background-repeat: no-repeat;
+  width: 400px;
+  height: 300px;
+  position: absolute;
+  top: 300px; 
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.listaEntera p {
+  position: relative;
+  left: 247px;
+  top: 100px;
+}
+
+
+.invisible {
+  display: none !important;
+}
+
+#timer {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2rem;
+  border-right: 2px solid black;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: blink 0.7s infinite;
+}
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+.highlight {
+    color: #b67b22;
+    text-decoration: underline;
+    font-weight: bold;
+    text-shadow: 0 0 10px #b67b22;
+    animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+    0%, 100% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #b67b22;
+    }
+    50% {
+          text-shadow: 0 0 50px #b67b22, 0 0 35px #b67b22;
+      }
+    }
+
+/*----------------------------------- css error----------------------------------- */
+div.postit p, div.smallPostits input[type="button"] {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-family: "Oswald", sans-serif;
+  font-size: 20px;
+}
+
+body.error {
+  background-image: url('media/corcho.jpg');
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+div.postit {
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+div.postit img.topPin{
+    position: absolute;
+    width: 105px;
+    top: 30px;
+    left: 100px;
+}
+
+div.postit img {
+  width: 330px;
+}
+
+
+div.postit p {
+  position: absolute;
+  width: 190px;
+  padding: 10px;
+  
+}
+
+div.smallPostits {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 1000px;
+  margin-top: 40px;
+}
+
+div.smallPostits input[type="button"],
+div.smallPostits button {
+  background-image: url('media/smallpostit.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  width: 300px;
+  height: 100px;
+  cursor: pointer;
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+div.smallPostits div {
+    position: relative;
+}
+.pins {
+    position: absolute;
+    top: 14px;
+    left: -15px;
+    width: 100px;
+}
+
+body.error p {
+  color: black;
+}
+/*-----------------------------------css game.php-----------------------------------*/
+.gameErrorJS{
+  background-image: url('media/fondo.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameErrorJS h1 {
+  color: white;
+}
+
+/*----------------------------------- css gameover ----------------------------------- */
+body.gameover{
+    background-image: url('media/fondo.png');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: "Oswald", sans-serif;
+}
+
+.gameoverDiv th {
+    color: #44240D;
+    background-color: #975A23;
+    padding: 20px;
+    width: 200px;
+    font-size: 25px;
+}
+
+.gameoverDiv table{
+    border-collapse: separate;
+    border-spacing: 2px;
+    background-color: wheat;
+    text-align: center;     
+}
+
+.gameoverDiv th, tr {
+    border-collapse: collapse;
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+.gameoverDiv th, tr {
+    border-collapse: collapse;
+    border: 1px solid white;
+    
+}
+.gameoverDiv td {
+    background-color: #FFD287;
+    color: #975A23;
+    font-size: 25px;
+}
+
+.gameoverDiv .winner {
+  background-color: goldenrod;
+  font-style: italic;
+}
+
+.gameoverDiv .second {
+    background-color: #a88d5f;
+
+}
+
+.gameoverDiv h1 {
+    color: #FFD287;
+    text-align: center;
+    font-size: 30px;
+}
+
+.gameoverDiv input[type="button"], input[type="submit"]{
+  background: white;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 20px;
+  margin-top: 25px;
+  margin-right: 20px;
+}
+
+.gameoverDiv input[type="button"]:hover, input[type="submit"]:hover{
+  background: #FFD287;
+  color: #44240D;
+  font-weight: bold;
+}
+
+.gameoverDiv{
+    background-color: #ffffff75;
+    width: 800px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.gameoverDiv div.buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.gameoverDiv th,
+.gameoverDiv td {
+    border: 1px solid #975A23;
+    padding: 20px;
+}
