@@ -33,9 +33,9 @@
         <div class="buttons">
             
             <form action="./ranking.php" method="post" class="buttons" style="display:inline;">
-                <input type="submit" value="Sí, lo quiero registrar">
+                <button type="submit" id="returnRanking" value="Sí, lo quiero registrar">Sí, lo quiero registrar</button>
             </form>
-            <input type="button" id="returnIndex" value="No lo quiero registrar">
+            <button type="submit" id="returnIndex" value="No lo quiero registrar">No lo quiero registrar</button>
         </div>
     </div>
     <script>
@@ -43,12 +43,28 @@
         gameoverBGX.loop = true;
         gameoverBGX.load();
         gameoverBGX.play();
-        const button = document.getElementById("returnIndex");
+        const buttonIndex = document.getElementById("returnIndex");
+        const buttonRanking = document.getElementById("returnRanking");
 
-        button.addEventListener('click', (e) => {
+        buttonIndex.addEventListener('click', (e) => {
             e.preventDefault();
             window.location = "/index.php";
         })
+
+        document.addEventListener("keydown", (event)=>{
+        if ((event.key).toLocaleLowerCase() === "s"){
+            buttonRanking.classList.add("highlightButtonText");
+            setTimeout(() => {
+                buttonRanking.click();
+            }, "1000");
+        } else if ((event.key).toLocaleLowerCase() === "n"){
+            buttonIndex.classList.add("highlightButtonText");
+            setTimeout(() => {
+                buttonIndex.click();
+            }, "1000");
+        }
+    })
+
     </script>
 </body>
 </html>

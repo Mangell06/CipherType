@@ -1,0 +1,8 @@
+#s:3000
+#d:2600
+#asdasd:1800
+#a:2800
+#sdasasd:-3600
+#fsdfsdfsdf:-2800
+#hola:2400
+#a:1600
