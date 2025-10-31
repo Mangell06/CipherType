@@ -7,9 +7,7 @@
         header('Location: /errors/error403.php');
         exit;
     }
-    if ( isset($_POST['points'])) {
-        $_SESSION["points"] = $points;
-    }
+    $_SESSION["points"] = $points;
 ?>
 <!DOCTYPE html>
 <html lang="es">
