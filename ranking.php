@@ -60,5 +60,13 @@
     unset($_SESSION['name']);
     unset($_SESSION['points']);
     ?>
+    <input type="button" id="returnIndex" value="Volver al principio">
+    <script>
+        const button = document.getElementById("returnIndex");
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location = "/index.php";
+        })
+    </script>
 </body>
 </html>
