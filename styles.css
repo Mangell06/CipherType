@@ -82,6 +82,12 @@
 .js-required { display: none; }
 noscript .no-js { display: none; }
 
+.highlightButtonText::first-letter{
+  color: #b67b22 !important; 
+  text-decoration: underline !important;
+  font-weight: bold !important;
+}
+
 /*----------------------------------- css play ----------------------------------- */
 html {
   box-sizing: border-box;
@@ -426,7 +432,7 @@ body.gameover{
     font-size: 30px;
 }
 
-.gameoverDiv input[type="button"], input[type="submit"]{
+.gameoverDiv button[type="submit"]{
   background: white;
   border: 1px solid black;
   padding: 10px;

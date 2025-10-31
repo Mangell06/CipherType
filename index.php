@@ -62,6 +62,20 @@
             message.textContent = "Querido Watson, tu nombre no puede ser un espacio vacio";
         }
     });
+
+    document.addEventListener("keydown", (event)=>{
+        console.log(event.target);
+        if (event.target.nodeName === "INPUT"){
+            return;
+        }
+        if ((event.key).toLocaleLowerCase() === "i"){
+            buttonInitialitzeGame.classList.add("highlightButtonText");
+            setTimeout(() => {
+                buttonInitialitzeGame.click();
+            }, "1000");
+        }
+    })
+
 </script>
 </body>
 </html>

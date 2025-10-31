@@ -61,13 +61,22 @@
     unset($_SESSION['points']);
     ?>
     <div class="maincontainer">
-        <input type="button" id="returnIndex" value="Volver al principio">
+        <button type="submit" id="returnIndex" value="Volver al principio">Volver al principio</button>
     </div>
     <script>
         const button = document.getElementById("returnIndex");
         button.addEventListener('click', (e) => {
             e.preventDefault();
             window.location = "/index.php";
+        })
+            
+        document.addEventListener("keydown", (event)=>{
+            if ((event.key).toLocaleLowerCase() === "v"){
+                button.classList.add("highlightButtonText");
+                setTimeout(() => {
+                    button.click();
+                }, "1000");
+            }
         })
     </script>
 </body>
