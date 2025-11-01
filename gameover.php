@@ -5,7 +5,7 @@
     if (!isset($name) || !isset($points)) {
         header("HTTP/1.1 403 Forbidden");
         header('Location: /errors/error403.php');
-        exit;
+        exit();
     }
     $_SESSION["points"] = $points;
 ?>
@@ -20,6 +20,14 @@
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 </head>
 <body class="gameover">
+    <?php
+        if (isset($_SESSION['name'])) {
+            echo "<div class='gameoverDiv cancelSession'>";
+            echo "<p>Nombre: ".$_SESSION['name']."</p>";
+            echo "<button type='submit' id='closeSession' onclick='destroySession()'>Cerrar sesión</button>";
+            echo "</div>";
+        }
+    ?>
     <div class="gameoverDiv">
         <h1>¿Quieres registrar tu récord?</h1>
 
@@ -45,7 +53,10 @@
         gameoverBGX.play();
         const buttonIndex = document.getElementById("returnIndex");
         const buttonRanking = document.getElementById("returnRanking");
-
+        const closeSession = document.getElementById("closeSession");
+        const destroySession = () => {
+            window.location = "/destroy_session.php";
+        }
         buttonIndex.addEventListener('click', (e) => {
             e.preventDefault();
             window.location = "/index.php";
@@ -62,8 +73,12 @@
             setTimeout(() => {
                 buttonIndex.click();
             }, "1000");
-        }
-    })
+        } else if ((event.key).toLocaleLowerCase() === "c"){
+            closeSession.classList.add("highlightButtonText");
+            setTimeout(() => {
+                closeSession.click();
+            }, "1000");
+    }})
 
     </script>
 </body>
