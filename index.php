@@ -1,8 +1,5 @@
 <?php
     session_start();
-    if (isset($_SESSION['name'])) {
-        unset($_SESSION['name']);
-    }
     if (isset($_SESSION['points'])) {
         unset($_SESSION['points']);
     }
@@ -18,6 +15,14 @@
     <link rel="icon" href="media/lupa.ico">
 </head>
 <body class="play">
+    <?php
+        if (isset($_SESSION['name'])) {
+            echo "<div class='gameoverDiv cancelSession'>";
+            echo "<p>Nombre: ".$_SESSION['name']."</p>";
+            echo "<button type='submit' id='closeSession' onclick='destroySession()'>Cerrar sesión</button>";
+            echo "</div>";
+        }
+    ?>
     <div class="maincontainer">
         <form action="./play.php" method="post" class="datacontainer">
             <h1>CipherType</h1>
@@ -49,13 +54,16 @@
         <img src="media/typingmachine.png" alt="Imagen de máquina de escribir">
     </div>
     <script>
+    const closeSession = document.getElementById("closeSession");
+        const destroySession = () => {
+            window.location = "/destroy_session.php";
+        }
     const buttonInitialitzeGame = document.getElementById('buttonInitialitze');
     document.querySelector("#indifficulty").disabled = false;
     document.querySelector("#buttonInitialitze").disabled = false;
+    const input = document.getElementById('inname');
 
     buttonInitialitzeGame.addEventListener("click", (event) => {
-        const input = document.getElementById('inname');
-        
         if (input.value.trim() === "") {
             event.preventDefault();
             const message = document.getElementById('messageerror');
@@ -73,9 +81,23 @@
             setTimeout(() => {
                 buttonInitialitzeGame.click();
             }, "1000");
-        }
-    })
+        } else if ((event.key).toLocaleLowerCase() === "c"){
+            closeSession.classList.add("highlightButtonText");
+            setTimeout(() => {
+                closeSession.click();
+            }, "1000");
+    }})
 
+    const valueName = "<?php 
+    if (isset($_SESSION['name'])){
+        echo $_SESSION['name'];
+    } else{
+        echo '';
+    } ?>";
+    if (valueName !== ''){
+        input.value = valueName;
+    }
+    
 </script>
 </body>
 </html>

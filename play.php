@@ -1,5 +1,8 @@
 <?php
 session_start();
+if (isset($_POST['inname'])) {
+    $_SESSION['name'] = $_POST['inname'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +21,14 @@ session_start();
 </head>
 
 <body class="play">
+    <?php
+        if (isset($_SESSION['name'])) {
+            echo "<div class='gameoverDiv cancelSession'>";
+            echo "<p>Nombre: ".$_SESSION['name']."</p>";
+            echo "<button type='submit' id='closeSession' onclick='destroySession()'>Cerrar sesión</button>";
+            echo "</div>";
+        }
+    ?>
     <img class="mesa" src="media/mesa.jpg" alt="Imagen de una mesa">
     <div class="machine">
         <div class="textos">
@@ -45,6 +56,11 @@ session_start();
         <input type="hidden" name="points" id="pointsField">
     </form>
     <script>
+        const closeSession = document.getElementById("closeSession");
+        const destroySession = () => {
+            window.location = "/destroy_session.php";
+        }
+
         const correctSound = new Audio('media/correctchoice.mp3');
         const wrongSound = new Audio('media/wrongchoice1.mp3');
 
@@ -142,13 +158,6 @@ session_start();
         } else if (isset($difficulty) && $difficulty === "experto") {
             echo getRandomPhrase(substr($sentencesLines[2], 8));
         }
-        if (isset($_POST['inname'])) {
-            if (isset($_SESSION['name'])) {
-                $_SESSION['name'] .= $_POST['inname'];  
-            } else {
-                $_SESSION['name'] = $_POST['inname'];
-            }
-        }
         ?>";
 
          const showPhrase = () => { const span = document.getElementById("letter"+indexLetter); span.className = "highlight"; };
@@ -229,6 +238,15 @@ session_start();
                 }
             }
         });
+
+        document.addEventListener("keydown", (event)=>{
+         if ((event.key).toLocaleLowerCase() === "c" && event.ctrlKey){
+            closeSession.classList.add("highlightButtonText");
+            setTimeout(() => {
+                closeSession.click();
+            }, "1000");
+    }})
+
     </script>
 </body>
 </html>
