@@ -15,7 +15,9 @@
     <div class="admincontainermain">
         <?php
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
+                $username = $_SESSION['username'];
                 echo '<form action="logout.php" method="post" id="logoutcontainer">';
+                echo "<p>$username</p>";
                 echo '<button type="submit" id="buttonLogout">Log Out</button>';
                 echo '</form>';
                 echo '<div class="toolscontainer">';
