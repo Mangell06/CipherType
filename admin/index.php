@@ -67,7 +67,13 @@
                         }
             echo '</div>';
             } else {
-                echo '<form action="login.php" method="post" id="logincontainer">';
+                $uri = $_SERVER['REQUEST_URI'];
+                if (strpos($uri, '/admin') !== false) {
+                    $rutaBase = 'admin/login.php';
+                } else {
+                    $rutaBase = 'login.php';
+                }
+                echo "<form action='$rutaBase' method='post' id='logincontainer'>";
                 echo '<label for="username">Username</label>';
                 echo '<input type="text" id="username" name="username" placeholder="juan.perez" />';
                 echo '<label for="password">Password</label>';
