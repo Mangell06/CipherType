@@ -28,13 +28,13 @@
             <h1>CipherType</h1>
             <div class="incontainer">
                 <input type="text" id="inname" name="inname" placeholder="Introduzca su nombre">
-                <p id="messageerror" class="error"></p>
                 <select disabled name="indifficulty" id="indifficulty">
                     <option value="sencillo">sencillo</option>
                     <option value="normal">normal</option>
                     <option value="experto">experto</option>
                 </select>
                 <button disabled type="submit" id="buttonInitialitze">Inicializar</button>
+                <p id="messageerror" class="error"></p>
                 <noscript>
                 <p class="error">Querido Watson, debes activar el javascript para seguirle la pista</p>
                 </noscript>
