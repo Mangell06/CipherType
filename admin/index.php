@@ -52,14 +52,20 @@
                                 echo "<table>";
                                 echo "<tr><th>Frases</th></tr>";
                                 foreach ($selectedSentences as $count => $frase) {
-                                    echo '<form action="">';
+                                    if (trim($frase) == "") {
+                                        continue;
+                                    }
+
                                     if ($count % 2 !== 0) {
                                         echo "<tr><td class='second'>".$frase;
                                     } else {
                                         echo "<tr><td>".$frase;
                                     }
-                                    echo "<button class='deletebutton'>&#128465;</button></td></tr>";
-                                    echo '</form>';
+                                    echo '<form action="delete_sentences.php" method="post">';
+                                    echo "<input name='selectdifficulty' type='hidden' value='".$selectdifficulty."'>";
+                                    echo "<input name='fraseIndex' type='hidden' value='".$count."'>";
+                                    echo "<button type='submit' class='deletebutton'>&#128465;</button>";
+                                    echo '</form></td></tr>';
                                 }
                                 echo "</table>";
                                 fclose($sentences);
