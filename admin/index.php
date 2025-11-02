@@ -68,10 +68,10 @@
             echo '</div>';
             } else {
                 $uri = $_SERVER['REQUEST_URI'];
-                if (strpos($uri, '/admin') !== false) {
-                    $rutaBase = 'admin/login.php';
-                } else {
+                if (strpos($uri, '/admin/index.php') !== false) {
                     $rutaBase = 'login.php';
+                } else {
+                    $rutaBase = 'admin/login.php';
                 }
                 echo "<form action='$rutaBase' method='post' id='logincontainer'>";
                 echo '<label for="username">Username</label>';
