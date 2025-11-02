@@ -18,7 +18,7 @@
                 $username = $_SESSION['username'];
                 echo '<form action="logout.php" method="post" id="logoutcontainer">';
                 echo "<p>$username</p>";
-                echo '<button type="submit" id="buttonLogout">Log Out</button>';
+                echo '<button type="submit" id="buttonLogout">Cerrar sesión</button>';
                 echo '</form>';
                 echo '<div class="toolscontainer">';
                     echo '<form method="post">';
@@ -80,11 +80,11 @@
                     $rutaBase = 'admin/login.php';
                 }
                 echo "<form action='$rutaBase' method='post' id='logincontainer'>";
-                echo '<label for="username">Username</label>';
+                echo '<label for="username">Nombre de usuario</label>';
                 echo '<input type="text" id="username" name="username" placeholder="juan.perez" />';
-                echo '<label for="password">Password</label>';
+                echo '<label for="password">Contraseña</label>';
                 echo '<input type="password" id="password" name="password" placeholder="password" />';
-                echo '<button type="submit" id="buttonLogin">Login</button>';
+                echo '<button type="submit" id="buttonLogin">Iniciar sesión</button>';
                 if (isset($_SESSION['error']) && $_SESSION['error']) {
                     echo '<p class="error">El usuario no existe o la contraseña es incorrecta</p>';
                     unset($_SESSION['error']);
@@ -93,5 +93,23 @@
             }
         ?>
     </div>
+    <script>
+        const buttonLogin = document.getElementById("buttonLogin");
+        const buttonLogout = document.getElementById("buttonLogout");
+        document.addEventListener("keydown", (event)=>{
+            if ((event.key).toLocaleLowerCase() === "i"){
+                buttonLogin.classList.add("highlightButtonTextAdmin");
+                setTimeout(() => {
+                    buttonLogin.click();
+                }, "1000"); 
+            }
+            else if ((event.key).toLocaleLowerCase() === "c"){    
+                buttonLogout.classList.add("highlightButtonText");
+                setTimeout(() => {
+                    buttonLogout.click();
+                }, "1000");
+            }
+        })
+    </script>
 </body>
 </html>
