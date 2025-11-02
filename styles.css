@@ -88,6 +88,11 @@ noscript .no-js { display: none; }
   font-weight: bold !important;
 }
 
+.highlightButtonTextAdmin::first-letter{
+  color: #ffffff !important; 
+  text-decoration: underline !important;
+  font-weight: bold !important;
+}
 /*----------------------------------- css play ----------------------------------- */
 html {
   box-sizing: border-box;
