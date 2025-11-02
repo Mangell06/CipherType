@@ -1,0 +1,17 @@
+#s:3000
+#d:2600
+#asdasd:1800
+#a:2800
+#sdasasd:-3600
+#fsdfsdfsdf:-2800
+#hola:2400
+#a:1600
+#a:-1700
+#dsdf:-3000
+#a:3000
+#dssdf:3200
+#sda:-3200
+#hola:-2600
+#Mongondo:9800
+#Antonio:-3400
+#sdsddsd:-3800

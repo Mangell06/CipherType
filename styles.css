@@ -82,6 +82,12 @@
 .js-required { display: none; }
 noscript .no-js { display: none; }
 
+.highlightButtonText::first-letter{
+  color: #b67b22 !important; 
+  text-decoration: underline !important;
+  font-weight: bold !important;
+}
+
 /*----------------------------------- css play ----------------------------------- */
 html {
   box-sizing: border-box;
@@ -426,7 +432,7 @@ body.gameover{
     font-size: 30px;
 }
 
-.gameoverDiv input[type="button"], input[type="submit"]{
+.gameoverDiv button[type="submit"]{
   background: white;
   border: 1px solid black;
   padding: 10px;
@@ -435,7 +441,7 @@ body.gameover{
   margin-right: 20px;
 }
 
-.gameoverDiv input[type="button"]:hover, input[type="submit"]:hover{
+.gameoverDiv button[type="submit"]:hover{
   background: #FFD287;
   color: #44240D;
   font-weight: bold;
@@ -471,4 +477,26 @@ body.gameover{
 .gameoverDiv td {
     border: 1px solid #975A23;
     padding: 20px;
+}
+
+/* css cerrar sesión */
+.cancelSession{
+  z-index: 999999;
+  position: absolute;
+  background-color: #ffffff47;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+  height: 200px;
+  justify-content: center;
+  right: 20px;
+  top: 20px;
+}
+
+.cancelSession p {
+  font-size: 25px;
+  color: white;
 }

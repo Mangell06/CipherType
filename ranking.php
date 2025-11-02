@@ -18,6 +18,14 @@
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 </head>
 <body class="gameover">
+    <?php
+        if (isset($_SESSION['name'])) {
+            echo "<div class='gameoverDiv cancelSession'>";
+            echo "<p>Nombre: ".$_SESSION['name']."</p>";
+            echo "<button type='submit' id='closeSession' onclick='destroySession()'>Cerrar sesión</button>";
+            echo "</div>";
+        }
+    ?>
     <div class="gameoverDiv">
         <h1>Ranking</h1>
     <script>
@@ -57,17 +65,36 @@
     } else {
         echo "El fichero está vacío o no se pudo leer.";
     }
-    unset($_SESSION['name']);
+    
     unset($_SESSION['points']);
     ?>
     <div class="maincontainer">
-        <input type="button" id="returnIndex" value="Volver al principio">
+        <button type="submit" id="returnIndex" value="Volver al principio">Volver al principio</button>
     </div>
     <script>
+        const closeSession = document.getElementById("closeSession");
+        const destroySession = () => {
+            window.location = "/destroy_session.php";
+        }
         const button = document.getElementById("returnIndex");
         button.addEventListener('click', (e) => {
             e.preventDefault();
             window.location = "/index.php";
+        })
+            
+        document.addEventListener("keydown", (event)=>{
+            if ((event.key).toLocaleLowerCase() === "v"){
+                button.classList.add("highlightButtonText");
+                setTimeout(() => {
+                    button.click();
+                }, "1000");
+            } else if ((event.key).toLocaleLowerCase() === "c"){
+                closeSession.classList.add("highlightButtonText");
+                setTimeout(() => {
+                    closeSession.click();
+                }, "1000");
+            } 
+            
         })
     </script>
 </body>
