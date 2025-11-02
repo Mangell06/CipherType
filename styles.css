@@ -31,7 +31,7 @@
     padding: 0 0 2% 0;
     font-size: 2.5rem;
     font-weight: 700;
-    color: #FFD287;
+    color: #E6AC00;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, 
     -1px  1px 0 #000, 1px  1px 0 #000;
 }
@@ -411,7 +411,7 @@ body.gameover{
     
 }
 .gameoverDiv td {
-    background-color: #FFD287;
+    background-color: #E6AC00;
     color: #975A23;
     font-size: 25px;
 }
@@ -427,7 +427,7 @@ body.gameover{
 }
 
 .gameoverDiv h1 {
-    color: #FFD287;
+    color: #E6AC00;
     text-align: center;
     font-size: 30px;
 }
@@ -442,7 +442,7 @@ body.gameover{
 }
 
 .gameoverDiv button[type="submit"]:hover{
-  background: #FFD287;
+  background: #E6AC00;
   color: #44240D;
   font-weight: bold;
 }
@@ -499,4 +499,187 @@ body.gameover{
 .cancelSession p {
   font-size: 25px;
   color: white;
+}
+
+/*----------------------------------- admin.php -----------------------------------*/
+
+/* Contenedor principal */
+.admincontainermain {
+    width: 100%;
+    max-width: 900px;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    font-family: "Oswald", sans-serif;
+}
+
+/* Logout button */
+#logoutcontainer {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#logoutcontainer p {
+    margin: 0 0 5px 0;
+    font-weight: bold;
+}
+
+#buttonLogout {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #E6AC00;
+    font-weight: bold;
+    border: 2px solid #E6AC00;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#buttonLogout:hover {
+    background-color: #E6AC00;
+    color: black;
+}
+
+/* Tools container (select + add button) */
+.toolscontainer {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#selectdifficulty {
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 2px solid #E6AC00;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #E6AC00;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#selectdifficulty:hover {
+  background-color: #E6AC00;
+  color: black;
+}
+
+#selectdifficulty option {
+    color: black;
+    background-color: white;
+}
+
+#addbutton {
+    font-size: 24px;
+    padding: 8px 16px;
+    border: 2px solid #E6AC00;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #E6AC00;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+#addbutton:hover {
+    background-color: #E6AC00;
+    color: black;
+}
+
+/* Tabla de frases */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 18px;
+}
+
+table th {
+    background-color: #E6AC00;
+    color: #44240D;
+    padding: 15px;
+    border-radius: 8px 8px 0 0;
+}
+
+table td {
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid #E6AC00;
+    position: relative;
+}
+
+table td.second {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Botón eliminar */
+.deletebutton {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    font-size: 32px;
+    cursor: pointer;
+    color: #ff0000;
+}
+
+.deletebutton:hover {
+    color: black;
+    background-color: #ff0000;
+}
+
+/* Login form */
+#logincontainer {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid #E6AC00;
+    padding: 30px 40px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 300px;
+    text-align: left;
+}
+
+#logincontainer label {
+    font-weight: bold;
+    color: #E6AC00;
+}
+
+#logincontainer input {
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #E6AC00;
+    background-color: rgba(255, 255, 255, 0.1);
+    font-size: 16px;
+    outline: none;
+}
+
+#logincontainer input::placeholder {
+    color: #E6AC00;
+}
+
+#buttonLogin {
+    padding: 12px;
+    font-size: 16px;
+    background-color: #E6AC00;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#buttonLogin:hover {
+    background-color: #b67b22;
+    color: white;
 }
