@@ -15,3 +15,7 @@
 #Mongondo:9800
 #Antonio:-3400
 #sdsddsd:-3800
+#Miguel:3400
+#Miguel:3400
+#Miguel:4500
+#Maikol:2800

@@ -58,7 +58,7 @@
                                     }
 
                                     if ($count % 2 !== 0) {
-                                        echo "<tr><td class='second'>".$frase;
+                                        echo "<tr><td class='secondly'>".$frase;
                                     } else {
                                         echo "<tr><td>".$frase;
                                     }
@@ -102,7 +102,7 @@
         const buttonLogin = document.getElementById("buttonLogin");
         const buttonLogout = document.getElementById("buttonLogout");
         document.addEventListener("keydown", (event)=>{
-            if ((event.key).toLocaleLowerCase() === "i"){
+            if ((event.key).toLocaleLowerCase() === "i" && event.shiftKey){
                 buttonLogin.classList.add("highlightButtonTextAdmin");
                 setTimeout(() => {
                     buttonLogin.click();
