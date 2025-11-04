@@ -41,7 +41,59 @@
     width: 100%;
 }
 
-.datacontainer > p {
+.datacontainer > p {/* Crear frase admin */
+
+.createSentence {
+  margin: 64px;
+  background-color: #ffffff75;
+  width: 100%;
+  max-width: 600px; 
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 20px;
+  border: 3px solid #f39c12; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.createSentence h1 {
+  color: #E6AC00;
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.createSentence form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.createSentence select, .createSentence input[type="text"] {
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 2px solid #E6AC00;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #E6AC00;
+}
+
+.createSentence button {
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #E6AC00;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.createSentence button:hover {
+  background-color: #b67b22;
+  color: white;
+}
     background-color: rgb(255, 255, 255);
     padding: 3%;
     border-radius: 15px;
@@ -159,6 +211,7 @@ div.machine {
     left: 50%;
     transform: translate(-50%, 0);
     z-index: 11;
+    overflow: hidden;
 }
 
 div.machine img {
@@ -400,6 +453,7 @@ body.gameover{
 
 .gameoverDiv th {
     color: #f0e7d8;
+    color: #f0e7d8;
     background-color: #975A23;
     padding: 20px;
     width: 200px;
@@ -426,15 +480,19 @@ body.gameover{
 .gameoverDiv td {
   background-color: #4b3524;
     color: #f0e7d8;
+  background-color: #4b3524;
+    color: #f0e7d8;
     font-size: 25px;
 }
 
 .gameoverDiv .winner {
     background-color: #c58a47;
+    background-color: #c58a47;
   font-style: italic;
 }
 
 .gameoverDiv .second {
+    background-color: #2b1e16;
     background-color: #2b1e16;
 
 }
@@ -552,6 +610,7 @@ button#closeSession:hover{
   opacity: 0;
   transform: translateY(10px);
   animation: sh-revealAnim 3s ease-out forwards;
+  animation: sh-revealAnim 3s ease-out forwards;
 }
 
 @keyframes sh-revealAnim {
@@ -562,6 +621,7 @@ button#closeSession:hover{
 .sh-lens:hover {
   transform: scale(1.05);
   box-shadow: 0 0 8px #E6AC00;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
   transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
@@ -578,6 +638,7 @@ button#closeSession:hover{
 /* Brillo breve al enfocar botón */
 .sh-focus {
   transition: box-shadow 0.6s ease;
+  transition: box-shadow 0.6s ease;
 }
 .sh-focus:focus {
   box-shadow: 0 0 10px #E6AC00;
@@ -593,6 +654,7 @@ button#closeSession:hover{
 }
 
 .sh-mystery-title {
+  animation: sh-mysteryGlow 5s ease-in-out infinite;
   animation: sh-mysteryGlow 5s ease-in-out infinite;
   letter-spacing: 1px;
 }
@@ -682,6 +744,8 @@ button#closeSession:hover{
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
+    width: 100%;
+    margin: 16px 0px;
 }
 
 #selectdifficulty:hover {
@@ -725,7 +789,7 @@ table th {
 }
 
 table td {
-    padding: 12px;
+    padding: 50px;
     background-color: rgba(255, 255, 255, 0.12);
     border-bottom: 1px solid #E6AC00;
     position: relative;
@@ -805,9 +869,7 @@ table td.secondly {
     background-color: #b67b22;
     color: white;
 }
-
 /* Crear frase admin */
-
 .createSentence {
   margin: 64px;
   background-color: #ffffff75;
@@ -819,7 +881,6 @@ table td.secondly {
   border: 3px solid #f39c12; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 
 .createSentence h1 {
   color: #E6AC00;
@@ -858,3 +919,16 @@ table td.secondly {
 .createSentence button:hover {
   background-color: #b67b22;
   color: white;
+}
+
+.buttonpanel{
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+}
+
+.todo p{
+  text-align: center;
+  padding: 10px;
+}

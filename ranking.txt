@@ -19,4 +19,10 @@
 #Miguel:3400
 #Miguel:4500
 #Maikol:2800
+<<<<<<< HEAD
 #ghg:-3500
+=======
+#ergerg:3000
+#ergergergerger:-2800
+>>>>>>> 304c548 (cambios de diseño)
+#egergerg:2900
