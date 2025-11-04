@@ -25,9 +25,9 @@
                     echo '<form method="post">';
                         echo '<select name="selectdifficulty" id="selectdifficulty" onchange="this.form.submit()">';
                             echo '<option value="" selected hidden>Selecciona dificultad</option>';
-                            echo '<option value="Sencillo">sencillo</option>';
-                            echo '<option value="Normal">normal</option>';
-                            echo '<option value="Experto">experto</option>';
+                            echo '<option value="sencillo">Sencillo</option>';
+                            echo '<option value="normal">Normal</option>';
+                            echo '<option value="experto">Experto</option>';
                         echo '</select>';
                     echo '</form>';
                     echo '<form action="">';
