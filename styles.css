@@ -211,6 +211,7 @@ div.machine {
     left: 50%;
     transform: translate(-50%, 0);
     z-index: 11;
+    overflow: hidden;
 }
 
 div.machine img {
@@ -831,6 +832,7 @@ table td.second {
     background-color: #b67b22;
     color: white;
 }
+
 /* Crear frase admin */
 .createSentence {
   margin: 64px;
@@ -881,4 +883,9 @@ table td.second {
 .createSentence button:hover {
   background-color: #b67b22;
   color: white;
+}
+
+#buttonLogin:hover {
+    background-color: #b67b22;
+    color: white;
 }
