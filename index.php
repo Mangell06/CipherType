@@ -17,7 +17,7 @@
 <body class="play">
     <?php
         if (isset($_SESSION['name'])) {
-            echo "<div class='gameoverDiv cancelSession'>";
+            echo "<div class='cancelSession'>";
             echo "<p>Nombre: ".$_SESSION['name']."</p>";
             echo "<button type='submit' id='closeSession' onclick='destroySession()'>Cerrar sesión</button>";
             echo "</div>";
@@ -29,9 +29,9 @@
             <div class="incontainer">
                 <input type="text" id="inname" name="inname" placeholder="Introduzca su nombre">
                 <select disabled name="indifficulty" id="indifficulty">
-                    <option value="sencillo">sencillo</option>
-                    <option value="normal">normal</option>
-                    <option value="experto">experto</option>
+                    <option value="sencillo">Sencillo</option>
+                    <option value="normal">Normal</option>
+                    <option value="experto">Experto</option>
                 </select>
                 <button disabled type="submit" id="buttonInitialitze">Inicializar</button>
                 <p id="messageerror" class="error"></p>

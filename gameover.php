@@ -22,7 +22,7 @@
 <body class="gameover sh-reveal">
     <?php
         if (isset($_SESSION['name'])) {
-            echo "<div class='gameoverDiv cancelSession sh-reveal'>";
+            echo "<div class='cancelSession sh-reveal'>";
             echo "<p class='sh-highlight'>Nombre: ".$_SESSION['name']."</p>";
             echo "<button type='submit' id='closeSession' onclick='destroySession()' class='sh-lens sh-focus'>Cerrar sesión</button>";
             echo "</div>";
