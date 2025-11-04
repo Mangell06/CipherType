@@ -31,9 +31,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
             echo "<p class='correct'>La frase se ha eliminado correctamente</p>";
         }
         echo '<div class="buttonpanel">';
-            $uri = $_SERVER['REQUEST_URI'];
-            $rutaBase = strpos($uri, '/admin/index.php') !== false ? 'create_sentence.php' : 'admin/create_sentence.php';
-            echo "<form action='$rutaBase' method='post' style='display:inline;'>";
+            echo "<form action='/admin/create_sentence.php' method='post' style='display:inline;'>";
                 echo '<button type="submit" id="addbutton">&#43;</button>';
             echo '</form>';
             echo '<button type="button" id="toggleView">En listar</button>';
@@ -74,9 +72,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                         } else {
                             echo "<tr><td>".$frase;
                         }
-                        $uri = $_SERVER['REQUEST_URI'];
-                        $rutaBase = strpos($uri, '/admin/index.php') !== false ? 'delete_sentences.php' : 'admin/delete_sentences.php';
-                        echo "<form action='$rutaBase' method='post'>";
+                        echo "<form action='/admin/delete_sentences.php' method='post'>";
                         echo "<input name='selectdifficulty' type='hidden' value='".$selectdifficulty."'>";
                         echo "<input name='fraseIndex' type='hidden' value='".$count."'>";
                         echo "<button type='submit' class='deletebutton'>&#128465;</button>";
@@ -90,9 +86,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
     echo '</div>';
     echo '</div>';
 } else {
-    $uri = $_SERVER['REQUEST_URI'];
-    $rutaBase = strpos($uri, '/admin/index.php') !== false ? 'login.php' : 'admin/login.php';
-    echo "<form action='$rutaBase' method='post' id='logincontainer'>";
+    echo "<form action='/admin/login.php' method='post' id='logincontainer'>";
     echo '<label for="username">Nombre de usuario</label>';
     echo '<input type="text" id="username" name="username" placeholder="juan.perez" />';
     echo '<label for="password">Contraseña</label>';
