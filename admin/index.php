@@ -18,7 +18,7 @@
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 $username = $_SESSION['username'];
                 echo '<form action="logout.php" method="post" id="logoutcontainer">';
-                echo "<p>$username</p>";
+                echo "<p>Benvingut: $username</p>";
                 echo '<button type="submit" id="buttonLogout">Cerrar sesión</button>';
                 echo '</form>';
                 echo '<div class="toolscontainer">';
@@ -30,7 +30,7 @@
                             echo '<option value="experto">Experto</option>';
                         echo '</select>';
                     echo '</form>';
-                    echo '<form action="">';
+                    echo '<form action="create_sentence.php" method="post">';
                         echo '<button type="submit" id="addbutton">&#43;</button>';
                     echo '</form>';
                         $selectdifficulty = $_POST['selectdifficulty'] ?? 'sencillo';
