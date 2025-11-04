@@ -756,7 +756,64 @@ table td.second {
     color: white;
 }
 
+<<<<<<< HEAD
+
+
+/* Crear frase admin */
+
+.createSentence {
+  margin: 64px;
+  background-color: #ffffff75;
+  width: 100%;
+  max-width: 600px; 
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 20px;
+  border: 3px solid #f39c12; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.createSentence h1 {
+  color: #E6AC00;
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.createSentence form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.createSentence select, .createSentence input[type="text"] {
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 2px solid #E6AC00;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #E6AC00;
+}
+
+.createSentence button {
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #E6AC00;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.createSentence button:hover {
+  background-color: #b67b22;
+  color: white;
+=======
 #buttonLogin:hover {
     background-color: #b67b22;
     color: white;
+>>>>>>> e8e7c7a48d6b038ee833b9170d16efad6c7df271
 }
