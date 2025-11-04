@@ -57,7 +57,7 @@
                                     }
 
                                     if ($count % 2 !== 0) {
-                                        echo "<tr><td class='second'>".$frase;
+                                        echo "<tr><td class='secondly'>".$frase;
                                     } else {
                                         echo "<tr><td>".$frase;
                                     }
@@ -72,6 +72,10 @@
                             }
                         }
             echo '</div>';
+            if (isset($_POST["deleteSuccess"]) && $_POST["deleteSuccess"] == true) {
+                echo "<p class='correct'>Se ha eliminado correctamente</p>";
+            }
+
             } else {
                 $uri = $_SERVER['REQUEST_URI'];
                 if (strpos($uri, '/admin/index.php') !== false) {
@@ -97,7 +101,7 @@
         const buttonLogin = document.getElementById("buttonLogin");
         const buttonLogout = document.getElementById("buttonLogout");
         document.addEventListener("keydown", (event)=>{
-            if ((event.key).toLocaleLowerCase() === "i"){
+            if ((event.key).toLocaleLowerCase() === "i" && event.shiftKey){
                 buttonLogin.classList.add("highlightButtonTextAdmin");
                 setTimeout(() => {
                     buttonLogin.click();
