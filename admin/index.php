@@ -72,6 +72,10 @@
                             }
                         }
             echo '</div>';
+            if (isset($_POST["deleteSuccess"]) && $_POST["deleteSuccess"] == true) {
+                echo "<p class='correct'>Se ha eliminado correctamente</p>";
+            }
+
             } else {
                 $uri = $_SERVER['REQUEST_URI'];
                 if (strpos($uri, '/admin/index.php') !== false) {
