@@ -88,7 +88,7 @@
                 echo '<label for="username">Nombre de usuario</label>';
                 echo '<input type="text" id="username" name="username" placeholder="juan.perez" />';
                 echo '<label for="password">Contraseña</label>';
-                echo '<input type="password" id="password" name="password" placeholder="password" />';
+                echo '<input type="password" id="password" name="password" placeholder="contraseña123" />';
                 echo '<button type="submit" id="buttonLogin">Iniciar sesión</button>';
                 if (isset($_SESSION['error']) && $_SESSION['error']) {
                     echo '<p class="error">El usuario no existe o la contraseña es incorrecta</p>';
