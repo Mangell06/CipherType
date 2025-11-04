@@ -23,8 +23,11 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
     echo '</form>';
 
     echo '<div class="toolscontainer">';
+        echo '<div class="todo">';
         echo '<div class="buttonpanel">';
-            echo '<form action="create_sentence.php" method="post" style="display:inline;">';
+            $uri = $_SERVER['REQUEST_URI'];
+            $rutaBase = strpos($uri, '/admin/index.php') !== false ? 'create_sentence.php' : 'admin/create_sentence.php';
+            echo "<form action='$rutaBase' method='post' style='display:inline;'>";
                 echo '<button type="submit" id="addbutton">&#43;</button>';
             echo '</form>';
             echo '<button type="button" id="toggleView">En listar</button>';
@@ -65,7 +68,9 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                         } else {
                             echo "<tr><td>".$frase;
                         }
-                        echo '<form action="delete_sentences.php" method="post">';
+                        $uri = $_SERVER['REQUEST_URI'];
+                        $rutaBase = strpos($uri, '/admin/index.php') !== false ? 'delete_sentences.php' : 'admin/delete_sentences.php';
+                        echo "<form action='$rutaBase' method='post'>";
                         echo "<input name='selectdifficulty' type='hidden' value='".$selectdifficulty."'>";
                         echo "<input name='fraseIndex' type='hidden' value='".$count."'>";
                         echo "<button type='submit' class='deletebutton'>&#128465;</button>";
@@ -81,6 +86,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
     if (isset($_POST["deleteSuccess"]) && $_POST["deleteSuccess"] == true) {
         echo "<p class='correct'>Se ha eliminado correctamente</p>";
     }
+    echo '</div>';
 } else {
     $uri = $_SERVER['REQUEST_URI'];
     $rutaBase = strpos($uri, '/admin/index.php') !== false ? 'login.php' : 'admin/login.php';
