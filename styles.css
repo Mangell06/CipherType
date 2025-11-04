@@ -7,7 +7,7 @@
     width: 100%;
     gap: 20px;
     flex-wrap: wrap;
-    padding: 64px 0 0 0;
+    padding: 30px 0 0 0;
 }
 
 
@@ -102,11 +102,12 @@
 .incontainer input,
 .incontainer select,
 .incontainer button {
-    width: 110%;
+    width: 100%;
     padding: 3%;
     border-radius: 4% 8%;
     text-align: center;
     font-weight: bold;
+    margin: 0 auto;
 }
 
 .incontainer input:hover,
@@ -501,6 +502,7 @@ body.gameover{
     color: #E6AC00;
     text-align: center;
     font-size: 30px;
+    margin-bottom: 15px;
 }
 
 .gameoverDiv button[type="submit"]{
@@ -510,6 +512,8 @@ body.gameover{
   border-radius: 20px;
   margin-right: 20px;
   margin-top: 20px;
+  font-size: 15px;
+  padding: 15px;
 }
 
 .gameoverDiv button[type="submit"]:hover{
@@ -526,6 +530,7 @@ body.gameover{
     flex-direction: column;
     padding: 20px;
     border-radius: 20px;
+    margin: 30px 0 30px 0;
 }
 
 .gameoverDiv div.buttons {
@@ -540,7 +545,6 @@ body.gameover{
 }
 
 #returnIndex {
-  width: 25%;
   cursor: pointer;
 }
 
@@ -573,7 +577,7 @@ body.gameover{
   margin-right: 30px;
 }
 
-button#closeSession{
+button#closeSession, button#buttonInitialitze{
   background: white;
   border: 1px solid black;
   padding: 10px;
@@ -581,7 +585,7 @@ button#closeSession{
   margin-right: 20px;
 }
 
-button#closeSession:hover{
+button#closeSession:hover, button#buttonInitialitze:hover{
   background: #E6AC00;
   color: #44240D;
   font-weight: bold;
