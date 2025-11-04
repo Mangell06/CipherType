@@ -18,7 +18,7 @@
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 $username = $_SESSION['username'];
                 echo '<form action="logout.php" method="post" id="logoutcontainer">';
-                echo "<p>Benvingut: $username</p>";
+                echo "<p>Benvingut, $username</p>";
                 echo '<button type="submit" id="buttonLogout">Cerrar sesión</button>';
                 echo '</form>';
                 echo '<div class="toolscontainer">';
@@ -50,9 +50,10 @@
                                     $selectedSentences = explode('*', $partes[1]);
                                     break;
                                 }
+                                $selectdifficultyShow = ucfirst($selectdifficulty);
                                 $count = 0;
                                 echo "<table>";
-                                echo "<tr><th>Frases</th></tr>";
+                                echo "<tr><th>Frases <br/> dificultat: $selectdifficultyShow</th></tr>";
                                 foreach ($selectedSentences as $count => $frase) {
                                     if (trim($frase) == "") {
                                         continue;
