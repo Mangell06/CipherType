@@ -24,8 +24,11 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
 
     echo '<div class="toolscontainer">';
         echo '<div class="todo">';
-        if (isset($_POST["deleteSuccess"]) && $_POST["deleteSuccess"] == true) {
-        echo "<p class='correct'>Se ha eliminado correctamente</p>";
+         if (isset($_SESSION['fraseCreada']) && $_SESSION['fraseCreada']) {
+            echo "<p class='correct'>La frase se ha creado correctamente</p>";
+            unset($_SESSION['fraseCreada']);
+        } else if (isset($_POST["deleteSuccess"]) && $_POST["deleteSuccess"]) {
+            echo "<p class='correct'>La frase se ha eliminado correctamente</p>";
         }
         echo '<div class="buttonpanel">';
             $uri = $_SERVER['REQUEST_URI'];
