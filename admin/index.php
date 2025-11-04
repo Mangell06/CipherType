@@ -29,7 +29,7 @@
                             echo '<option value="experto">experto</option>';
                         echo '</select>';
                     echo '</form>';
-                    echo '<form action="">';
+                    echo '<form action="create_sentence.php" method="post">';
                         echo '<button type="submit" id="addbutton">&#43;</button>';
                     echo '</form>';
                         $selectdifficulty = $_POST['selectdifficulty'] ?? 'sencillo';
