@@ -25,3 +25,4 @@
 #ergerg:3000
 #ergergergerger:-2800
 >>>>>>> 304c548 (cambios de diseño)
+#egergerg:2900
