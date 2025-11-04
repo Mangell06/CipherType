@@ -32,6 +32,7 @@
                     echo '</form>';
                     echo '<form action="create_sentence.php" method="post">';
                         echo '<button type="submit" id="addbutton">&#43;</button>';
+                        
                     echo '</form>';
                         $selectdifficulty = $_POST['selectdifficulty'] ?? 'sencillo';
                         $sentencesByDifficulty = [];
@@ -73,10 +74,12 @@
                             }
                         }
             echo '</div>';
-            if (isset($_POST["deleteSuccess"]) && $_POST["deleteSuccess"] == true) {
+            if (isset($_SESSION['fraseCreada']) && $_SESSION['fraseCreada']) {
+                echo "<p class='correct'>Se ha creado correctamente</p>";
+                unset($_SESSION['fraseCreada']);
+            } else if (isset($_POST["deleteSuccess"]) && $_POST["deleteSuccess"] == true) {
                 echo "<p class='correct'>Se ha eliminado correctamente</p>";
             }
-
             } else {
                 $uri = $_SERVER['REQUEST_URI'];
                 if (strpos($uri, '/admin/index.php') !== false) {
