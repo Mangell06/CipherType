@@ -34,6 +34,7 @@
 <body>
     <form id="formulario" action="/admin/index.php" method="post">
         <input name="selectdifficulty" type='hidden' value='<?php echo $level ?>'>
+        <input name="deleteSuccess" type='hidden' value='true'>
     </form>
     <script>
         document.getElementById("formulario").submit();

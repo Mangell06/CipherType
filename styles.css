@@ -416,13 +416,13 @@ body.gameover{
     
 }
 .gameoverDiv td {
-    background-color: #E6AC00;
+  background-color: rgb(211, 153, 6);
     color: #975A23;
     font-size: 25px;
 }
 
 .gameoverDiv .winner {
-  background-color: goldenrod;
+    background-color: #ffc71f;
   font-style: italic;
 }
 
@@ -504,6 +504,73 @@ body.gameover{
 .cancelSession p {
   font-size: 25px;
   color: white;
+}
+
+.sh-smoke-layer {
+  position: fixed;
+  inset: 0;
+  background: url('media/smoke.png') repeat;
+  background-size: cover;
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 0;
+  animation: sh-smokeMove 40s linear infinite;
+}
+
+@keyframes sh-smokeMove {
+  0% { background-position: 0 0; }
+  50% { background-position: 50px 50px; }
+  100% { background-position: 0 0; }
+}
+
+/* Aparición suave con efecto de descubrimiento */
+.sh-reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: sh-revealAnim 1.5s ease-out forwards;
+}
+
+@keyframes sh-revealAnim {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Efecto lupa al pasar por encima */
+.sh-lens:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 8px #E6AC00;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Texto con brillo dorado tipo “revelación de pista” */
+.sh-highlight {
+  animation: sh-highlightPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes sh-highlightPulse {
+  0%, 100% { color: #E6AC00; text-shadow: 0 0 2px #E6AC00; }
+  50% { color: #fff4cc; text-shadow: 0 0 10px #E6AC00; }
+}
+
+/* Brillo breve al enfocar botón */
+.sh-focus {
+  transition: box-shadow 0.3s ease;
+}
+.sh-focus:focus {
+  box-shadow: 0 0 10px #E6AC00;
+  outline: none;
+}
+
+@keyframes sh-mysteryGlow {
+  0% { text-shadow: 0 0 2px #E6AC00, 0 0 4px #975A23; }
+  25% { text-shadow: 0 0 6px #E6AC00, 0 0 12px #975A23; }
+  50% { text-shadow: 0 0 10px #E6AC00, 0 0 20px #975A23; }
+  75% { text-shadow: 0 0 6px #E6AC00, 0 0 12px #975A23; }
+  100% { text-shadow: 0 0 2px #E6AC00, 0 0 4px #975A23; }
+}
+
+.sh-mystery-title {
+  animation: sh-mysteryGlow 4s ease-in-out infinite;
+  letter-spacing: 1px;
 }
 
 /*----------------------------------- admin.php -----------------------------------*/
@@ -689,6 +756,7 @@ table td.second {
     color: white;
 }
 
+<<<<<<< HEAD
 
 
 /* Crear frase admin */
@@ -743,4 +811,9 @@ table td.second {
 .createSentence button:hover {
   background-color: #b67b22;
   color: white;
+=======
+#buttonLogin:hover {
+    background-color: #b67b22;
+    color: white;
+>>>>>>> e8e7c7a48d6b038ee833b9170d16efad6c7df271
 }
