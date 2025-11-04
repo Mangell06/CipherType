@@ -7,7 +7,7 @@
     width: 100%;
     gap: 20px;
     flex-wrap: wrap;
-    padding: 64px 0 0 0;
+    padding: 30px 0 0 0;
 }
 
 
@@ -31,7 +31,7 @@
     padding: 0 0 2% 0;
     font-size: 2.5rem;
     font-weight: 700;
-    color: #FFD287;
+    color: #E6AC00;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, 
     -1px  1px 0 #000, 1px  1px 0 #000;
 }
@@ -41,7 +41,59 @@
     width: 100%;
 }
 
-.datacontainer > p {
+.datacontainer > p {/* Crear frase admin */
+
+.createSentence {
+  margin: 64px;
+  background-color: #ffffff75;
+  width: 100%;
+  max-width: 600px; 
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 20px;
+  border: 3px solid #f39c12; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.createSentence h1 {
+  color: #E6AC00;
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.createSentence form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.createSentence select, .createSentence input[type="text"] {
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 2px solid #E6AC00;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #E6AC00;
+}
+
+.createSentence button {
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #E6AC00;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.createSentence button:hover {
+  background-color: #b67b22;
+  color: white;
+}
     background-color: rgb(255, 255, 255);
     padding: 3%;
     border-radius: 15px;
@@ -50,11 +102,12 @@
 .incontainer input,
 .incontainer select,
 .incontainer button {
-    width: 110%;
+    width: 100%;
     padding: 3%;
     border-radius: 4% 8%;
     text-align: center;
     font-weight: bold;
+    margin: 0 auto;
 }
 
 .incontainer input:hover,
@@ -82,6 +135,17 @@
 .js-required { display: none; }
 noscript .no-js { display: none; }
 
+.highlightButtonText::first-letter{
+  color: #b67b22 !important; 
+  text-decoration: underline !important;
+  font-weight: bold !important;
+}
+
+.highlightButtonTextAdmin::first-letter{
+  color: #ffffff !important; 
+  text-decoration: underline !important;
+  font-weight: bold !important;
+}
 /*----------------------------------- css play ----------------------------------- */
 html {
   box-sizing: border-box;
@@ -134,12 +198,21 @@ img.mesa {
     z-index: 10;
 }
 
+#textStartInformation{
+  font-size: 30px;
+}
+
+.text{
+  font-size: 30px;
+}
+
 div.machine {
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 0);
     z-index: 11;
+    overflow: hidden;
 }
 
 div.machine img {
@@ -149,7 +222,7 @@ div.machine img {
     left: 50%;
     transform: translate(-50%, 0);
     width: 1024px;
-    min-width: 1024px;
+    min-width: 1280px;
     height: 1536px;
 }
 
@@ -380,7 +453,8 @@ body.gameover{
 }
 
 .gameoverDiv th {
-    color: #44240D;
+    color: #f0e7d8;
+    color: #f0e7d8;
     background-color: #975A23;
     padding: 20px;
     width: 200px;
@@ -405,38 +479,45 @@ body.gameover{
     
 }
 .gameoverDiv td {
-    background-color: #FFD287;
-    color: #975A23;
+  background-color: #4b3524;
+    color: #f0e7d8;
+  background-color: #4b3524;
+    color: #f0e7d8;
     font-size: 25px;
 }
 
 .gameoverDiv .winner {
-  background-color: goldenrod;
+    background-color: #c58a47;
+    background-color: #c58a47;
   font-style: italic;
 }
 
 .gameoverDiv .second {
-    background-color: #a88d5f;
+    background-color: #2b1e16;
+    background-color: #2b1e16;
 
 }
 
 .gameoverDiv h1 {
-    color: #FFD287;
+    color: #E6AC00;
     text-align: center;
     font-size: 30px;
+    margin-bottom: 15px;
 }
 
-.gameoverDiv input[type="button"], input[type="submit"]{
+.gameoverDiv button[type="submit"]{
   background: white;
   border: 1px solid black;
   padding: 10px;
   border-radius: 20px;
-  margin-top: 25px;
   margin-right: 20px;
+  margin-top: 20px;
+  font-size: 15px;
+  padding: 15px;
 }
 
-.gameoverDiv input[type="button"]:hover, input[type="submit"]:hover{
-  background: #FFD287;
+.gameoverDiv button[type="submit"]:hover{
+  background: #E6AC00;
   color: #44240D;
   font-weight: bold;
 }
@@ -449,6 +530,7 @@ body.gameover{
     flex-direction: column;
     padding: 20px;
     border-radius: 20px;
+    margin: 30px 0 30px 0;
 }
 
 .gameoverDiv div.buttons {
@@ -456,8 +538,401 @@ body.gameover{
     justify-content: center;
 }
 
+.containerButton {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+#returnIndex {
+  cursor: pointer;
+}
+
 .gameoverDiv th,
 .gameoverDiv td {
     border: 1px solid #975A23;
     padding: 20px;
+}
+
+/* css cerrar sesión */
+.cancelSession{
+  z-index: 999999;
+  position: absolute;
+  background-color: #ffffff47;
+  width: 337px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+  height: 124px;
+  justify-content: center;
+  right: 20px;
+  top: 20px;
+}
+
+.cancelSession p {
+  font-size: 25px;
+  color: white;
+  margin-right: 30px;
+}
+
+button#closeSession, button#buttonInitialitze{
+  background: white;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 20px;
+  margin-right: 20px;
+}
+
+button#closeSession:hover, button#buttonInitialitze:hover{
+  background: #E6AC00;
+  color: #44240D;
+  font-weight: bold;
+}
+
+
+.sh-smoke-layer {
+  position: fixed;
+  inset: 0;
+  background: url('media/smoke.png') repeat;
+  background-size: cover;
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 0;
+  animation: sh-smokeMove 40s linear infinite;
+}
+
+@keyframes sh-smokeMove {
+  0% { background-position: 0 0; }
+  50% { background-position: 50px 50px; }
+  100% { background-position: 0 0; }
+}
+
+/* Aparición suave con efecto de descubrimiento */
+.sh-reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: sh-revealAnim 3s ease-out forwards;
+  animation: sh-revealAnim 3s ease-out forwards;
+}
+
+@keyframes sh-revealAnim {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Efecto lupa al pasar por encima */
+.sh-lens:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 8px #E6AC00;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* Texto con brillo dorado tipo “revelación de pista” */
+.sh-highlight {
+  animation: sh-highlightPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes sh-highlightPulse {
+  0%, 100% { color: #E6AC00; text-shadow: 0 0 2px #E6AC00; }
+  50% { color: #fff4cc; text-shadow: 0 0 10px #E6AC00; }
+}
+
+/* Brillo breve al enfocar botón */
+.sh-focus {
+  transition: box-shadow 0.6s ease;
+  transition: box-shadow 0.6s ease;
+}
+.sh-focus:focus {
+  box-shadow: 0 0 10px #E6AC00;
+  outline: none;
+}
+
+@keyframes sh-mysteryGlow {
+  0% { text-shadow: 0 0 2px #E6AC00, 0 0 4px #975A23; }
+  25% { text-shadow: 0 0 6px #E6AC00, 0 0 12px #975A23; }
+  50% { text-shadow: 0 0 10px #E6AC00, 0 0 20px #975A23; }
+  75% { text-shadow: 0 0 6px #E6AC00, 0 0 12px #975A23; }
+  100% { text-shadow: 0 0 2px #E6AC00, 0 0 4px #975A23; }
+}
+
+.sh-mystery-title {
+  animation: sh-mysteryGlow 5s ease-in-out infinite;
+  animation: sh-mysteryGlow 5s ease-in-out infinite;
+  letter-spacing: 1px;
+}
+
+/*----------------------------------- admin.php -----------------------------------*/
+
+/* Contenedor principal */
+.admincontainermain {
+    width: 100%;
+    max-width: 900px;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    font-family: "Oswald", sans-serif;
+}
+
+/* Logout */
+#logoutcontainer {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#logoutcontainer p {
+    margin: 0 0 5px 0;
+    font-weight: bold;
+    color: #E6AC00;
+}
+
+#buttonLogout {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #E6AC00;
+    font-weight: bold;
+    border: 2px solid #E6AC00;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#buttonLogout:hover {
+    background-color: #E6AC00;
+    color: black;
+}
+
+/* Panel de herramientas */
+.toolscontainer {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Botones principales */
+#addbutton, #toggleView {
+    font-size: 18px;
+    padding: 10px 18px;
+    border: 2px solid #E6AC00;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #E6AC00;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#addbutton:hover, #toggleView:hover {
+    background-color: #E6AC00;
+    color: black;
+    transform: scale(1.05);
+}
+
+/* Selector de dificultad */
+#selectdifficulty {
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 2px solid #E6AC00;
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #E6AC00;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin: 16px 0px;
+}
+
+#selectdifficulty:hover {
+    background-color: #E6AC00;
+    color: black;
+}
+
+#selectdifficulty option {
+    color: black;
+    background-color: white;
+}
+
+/* Animación de aparición */
+.toolscontainer, table {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+}
+
+/* Tabla de frases */
+table {
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 18px;
+    border-radius: 10px;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+}
+
+table th {
+    background-color: #E6AC00;
+    color: #44240D;
+    padding: 15px;
+}
+
+table td {
+    padding: 50px;
+    background-color: rgba(255, 255, 255, 0.12);
+    border-bottom: 1px solid #E6AC00;
+    position: relative;
+    color: #E6AC00;
+}
+
+table td.secondly {
+    background-color: rgba(255, 255, 255, 0.22);
+}
+
+/* Botón de eliminar */
+.deletebutton {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
+    color: #ff0000;
+    transition: all 0.3s ease;
+}
+
+.deletebutton:hover {
+    color: black;
+    background-color: #ff0000;
+    border-radius: 6px;
+    padding: 2px;
+}
+
+/* Formulario de login */
+#logincontainer {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid #E6AC00;
+    padding: 30px 40px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 300px;
+    text-align: left;
+}
+
+#logincontainer label {
+    font-weight: bold;
+    color: #E6AC00;
+}
+
+#logincontainer input {
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #E6AC00;
+    background-color: rgba(255, 255, 255, 0.1);
+    font-size: 16px;
+    outline: none;
+    color: #E6AC00;
+}
+
+#logincontainer input::placeholder {
+    color: #E6AC00;
+}
+
+/* Botón de login */
+#buttonLogin {
+    padding: 12px;
+    font-size: 16px;
+    background-color: #E6AC00;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#buttonLogin:hover {
+    background-color: #b67b22;
+    color: white;
+}
+/* Crear frase admin */
+.createSentence {
+  margin: 64px;
+  background-color: #ffffff75;
+  width: 100%;
+  max-width: 600px; 
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 20px;
+  border: 3px solid #f39c12; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.createSentence h1 {
+  color: #E6AC00;
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.createSentence form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.createSentence select, .createSentence input[type="text"] {
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 2px solid #E6AC00;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #E6AC00;
+}
+
+.createSentence button {
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #E6AC00;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.createSentence button:hover {
+  background-color: #b67b22;
+  color: white;
+}
+
+.buttonpanel{
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+}
+
+.todo p{
+  text-align: center;
+  padding: 10px;
 }

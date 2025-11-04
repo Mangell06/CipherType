@@ -5,11 +5,9 @@
     if (!isset($name) || !isset($points)) {
         header("HTTP/1.1 403 Forbidden");
         header('Location: /errors/error403.php');
-        exit;
+        exit();
     }
-    if ( isset($_POST['points'])) {
-        $_SESSION["points"] = $points;
-    }
+    $_SESSION["points"] = $points;
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -21,12 +19,20 @@
     <link rel="icon" href="media/lupa.ico">
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 </head>
-<body class="gameover">
-    <div class="gameoverDiv">
-        <h1>¿Quieres registrar tu récord?</h1>
+<body class="gameover sh-reveal">
+    <?php
+        if (isset($_SESSION['name'])) {
+            echo "<div class='cancelSession sh-reveal'>";
+            echo "<p class='sh-highlight'>Nombre: ".$_SESSION['name']."</p>";
+            echo "<button type='submit' id='closeSession' onclick='destroySession()' class='sh-lens sh-focus'>Cerrar sesión</button>";
+            echo "</div>";
+        }
+    ?>
+    <div class="gameoverDiv sh-reveal">
+        <h1 class="sh-highlight">¿Quieres registrar tu récord?</h1>
 
          <?php
-            echo "<table>";
+            echo "<table class='sh-reveal'>";
             echo "<tr><th>Nombre</th><th>Puntos</th></tr>";
             echo "<tr><td>".$name."</td><td>".$points."</td></tr>";
             echo "</table>";
@@ -35,9 +41,9 @@
         <div class="buttons">
             
             <form action="./ranking.php" method="post" class="buttons" style="display:inline;">
-                <input type="submit" value="Sí, lo quiero registrar">
+                <button type="submit" id="returnRanking" value="Sí, lo quiero registrar" class="sh-lens sh-focus">Sí, lo quiero registrar</button>
             </form>
-            <input type="button" id="returnIndex" value="No lo quiero registrar">
+            <button type="submit" id="returnIndex" value="No lo quiero registrar" class="sh-lens sh-focus">No lo quiero registrar</button>
         </div>
     </div>
     <script>
@@ -45,12 +51,35 @@
         gameoverBGX.loop = true;
         gameoverBGX.load();
         gameoverBGX.play();
-        const button = document.getElementById("returnIndex");
-
-        button.addEventListener('click', (e) => {
+        const buttonIndex = document.getElementById("returnIndex");
+        const buttonRanking = document.getElementById("returnRanking");
+        const closeSession = document.getElementById("closeSession");
+        const destroySession = () => {
+            window.location = "/destroy_session.php";
+        }
+        buttonIndex.addEventListener('click', (e) => {
             e.preventDefault();
             window.location = "/index.php";
         })
+
+        document.addEventListener("keydown", (event)=>{
+        if ((event.key).toLocaleLowerCase() === "s"){
+            buttonRanking.classList.add("highlightButtonText");
+            setTimeout(() => {
+                buttonRanking.click();
+            }, "1000");
+        } else if ((event.key).toLocaleLowerCase() === "n"){
+            buttonIndex.classList.add("highlightButtonText");
+            setTimeout(() => {
+                buttonIndex.click();
+            }, "1000");
+        } else if ((event.key).toLocaleLowerCase() === "c"){
+            closeSession.classList.add("highlightButtonText");
+            setTimeout(() => {
+                closeSession.click();
+            }, "1000");
+    }})
+
     </script>
 </body>
 </html>
