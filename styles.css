@@ -145,6 +145,14 @@ img.mesa {
     z-index: 10;
 }
 
+#textStartInformation{
+  font-size: 30px;
+}
+
+.text{
+  font-size: 30px;
+}
+
 div.machine {
     position: absolute;
     bottom: 0;
@@ -160,7 +168,7 @@ div.machine img {
     left: 50%;
     transform: translate(-50%, 0);
     width: 1024px;
-    min-width: 1024px;
+    min-width: 1280px;
     height: 1536px;
 }
 
@@ -442,8 +450,8 @@ body.gameover{
   border: 1px solid black;
   padding: 10px;
   border-radius: 20px;
-  margin-top: 25px;
   margin-right: 20px;
+  margin-top: 20px;
 }
 
 .gameoverDiv button[type="submit"]:hover{
@@ -489,13 +497,13 @@ body.gameover{
   z-index: 999999;
   position: absolute;
   background-color: #ffffff47;
-  width: 400px;
+  width: 337px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   padding: 20px;
   border-radius: 10px;
-  height: 200px;
+  height: 124px;
   justify-content: center;
   right: 20px;
   top: 20px;
@@ -504,7 +512,23 @@ body.gameover{
 .cancelSession p {
   font-size: 25px;
   color: white;
+  margin-right: 30px;
 }
+
+button#closeSession{
+  background: white;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 20px;
+  margin-right: 20px;
+}
+
+button#closeSession:hover{
+  background: #E6AC00;
+  color: #44240D;
+  font-weight: bold;
+}
+
 
 .sh-smoke-layer {
   position: fixed;
