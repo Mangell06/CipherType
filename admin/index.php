@@ -18,16 +18,16 @@
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 $username = $_SESSION['username'];
                 echo '<form action="logout.php" method="post" id="logoutcontainer">';
-                echo "<p>$username</p>";
+                echo "<p>Benvingut: $username</p>";
                 echo '<button type="submit" id="buttonLogout">Cerrar sesión</button>';
                 echo '</form>';
                 echo '<div class="toolscontainer">';
                     echo '<form method="post">';
                         echo '<select name="selectdifficulty" id="selectdifficulty" onchange="this.form.submit()">';
                             echo '<option value="" selected hidden>Selecciona dificultad</option>';
-                            echo '<option value="sencillo">sencillo</option>';
-                            echo '<option value="normal">normal</option>';
-                            echo '<option value="experto">experto</option>';
+                            echo '<option value="sencillo">Sencillo</option>';
+                            echo '<option value="normal">Normal</option>';
+                            echo '<option value="experto">Experto</option>';
                         echo '</select>';
                     echo '</form>';
                     echo '<form action="create_sentence.php" method="post">';
