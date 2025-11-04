@@ -18,7 +18,7 @@ session_start();
 if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
     $username = $_SESSION['username'];
     echo '<form action="logout.php" method="post" id="logoutcontainer">';
-    echo "<p>Benvingut, $username</p>";
+    echo "<p>Bienvenid@ $username</p>";
     echo '<button type="submit" id="buttonLogout">Cerrar sesión</button>';
     echo '</form>';
 
