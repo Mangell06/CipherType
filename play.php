@@ -23,7 +23,7 @@ if (isset($_POST['inname'])) {
 <body class="play">
     <?php
         if (isset($_SESSION['name'])) {
-            echo "<div class='gameoverDiv cancelSession'>";
+            echo "<div class='cancelSession'>";
             echo "<p>Nombre: ".$_SESSION['name']."</p>";
             echo "<button type='submit' id='closeSession' onclick='destroySession()'>Cerrar sesión</button>";
             echo "</div>";
