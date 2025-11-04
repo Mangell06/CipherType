@@ -24,6 +24,9 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
 
     echo '<div class="toolscontainer">';
         echo '<div class="todo">';
+        if (isset($_POST["deleteSuccess"]) && $_POST["deleteSuccess"] == true) {
+        echo "<p class='correct'>Se ha eliminado correctamente</p>";
+        }
         echo '<div class="buttonpanel">';
             $uri = $_SERVER['REQUEST_URI'];
             $rutaBase = strpos($uri, '/admin/index.php') !== false ? 'create_sentence.php' : 'admin/create_sentence.php';
@@ -82,10 +85,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
             }
         echo '</div>';
     echo '</div>';
-
-    if (isset($_POST["deleteSuccess"]) && $_POST["deleteSuccess"] == true) {
-        echo "<p class='correct'>Se ha eliminado correctamente</p>";
-    }
     echo '</div>';
 } else {
     $uri = $_SERVER['REQUEST_URI'];

@@ -927,3 +927,8 @@ table td.secondly {
   width: 100%;
   justify-content: center;
 }
+
+.todo p{
+  text-align: center;
+  padding: 10px;
+}
