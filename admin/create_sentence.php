@@ -1,4 +1,5 @@
 <?php
+session_start();
 if (isset($_POST['newPhrase'])) {
     $sentencesFile = fopen("../sentences.txt", "r+");
     $level = $_POST["selectdifficulty"];
@@ -24,13 +25,12 @@ if (isset($_POST['newPhrase'])) {
         $newContent .= $levelFile . ":" . $levelPhrases . "\n";
     }
 
+
     file_put_contents("../sentences.txt", trim($newContent));
-
-
     fclose($sentencesFile);
-
-
+    $_SESSION['fraseCreada'] = true;
     header("Location: /admin/index.php");
+   
     exit;
 
 }
