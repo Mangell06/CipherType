@@ -6,7 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adminstrator</title>
+    <title>Administrador</title>
+    <link rel="icon" href="../media/lupa.ico">
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css?no-cache=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -87,7 +88,7 @@
                 echo '<label for="username">Nombre de usuario</label>';
                 echo '<input type="text" id="username" name="username" placeholder="juan.perez" />';
                 echo '<label for="password">Contraseña</label>';
-                echo '<input type="password" id="password" name="password" placeholder="password" />';
+                echo '<input type="password" id="password" name="password" placeholder="contraseña123" />';
                 echo '<button type="submit" id="buttonLogin">Iniciar sesión</button>';
                 if (isset($_SESSION['error']) && $_SESSION['error']) {
                     echo '<p class="error">El usuario no existe o la contraseña es incorrecta</p>';
