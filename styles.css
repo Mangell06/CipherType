@@ -744,6 +744,8 @@ button#closeSession:hover{
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
+    width: 100%;
+    margin: 16px 0px;
 }
 
 #selectdifficulty:hover {
@@ -787,7 +789,7 @@ table th {
 }
 
 table td {
-    padding: 12px;
+    padding: 50px;
     background-color: rgba(255, 255, 255, 0.12);
     border-bottom: 1px solid #E6AC00;
     position: relative;
@@ -917,4 +919,16 @@ table td.secondly {
 .createSentence button:hover {
   background-color: #b67b22;
   color: white;
+}
+
+.buttonpanel{
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+}
+
+.todo p{
+  text-align: center;
+  padding: 10px;
 }
