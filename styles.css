@@ -808,7 +808,6 @@ table td.second {
     color: white;
 }
 /* Crear frase admin */
-
 .createSentence {
   margin: 64px;
   background-color: #ffffff75;
@@ -820,7 +819,6 @@ table td.second {
   border: 3px solid #f39c12; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 
 .createSentence h1 {
   color: #E6AC00;
