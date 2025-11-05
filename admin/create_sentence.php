@@ -101,6 +101,19 @@ if (isset($_POST['newPhrase'])) {
             }
         }
     });
+
+    add.addEventListener("click", (event) => {
+        const phraseValue = newPhrase.value.trim();
+        const contieneLetras = /[a-záéíóúüñ]/i.test(phraseValue);
+        if (phraseValue === "" || !contieneLetras){
+            errorMsg.style.display = "block";
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+        } else {
+            errorMsg.style.display = "none";
+        }
+    });
 </script>
 </body>
 </html>
