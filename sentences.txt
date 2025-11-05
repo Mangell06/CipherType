@@ -1,3 +1,3 @@
-sencillo:Nota doblada sobre mesa encontrada*Reloj marca hora exacta del crimen*Huellas de barro van a ventana*Visitante inesperado salió sin ser visto***
+sencillo:Nota doblada sobre mesa encontrada*Reloj marca hora exacta del crimen*Huellas de barro van a ventana*Visitante inesperado salió sin ser visto
 normal:Pañuelo con iniciales indica presencia de alguien*Lámpara encendida revela detalles antes ignorados*Aroma de tabaco no coincide con inquilinos*Carta rota esconde palabras clave importantes*Movimiento del sospechoso deja patrón reconocible
 experto:Sombra proyectada por lámpara revela silueta sospechosa perfectamente visible*Combinación de relojes, huellas y escritos permite deducir orden de eventos*Pequeñas manchas de tinta forman mensaje oculto entre páginas del diario*Ausencia de ciertos objetos es tan relevante como presencia de otros*Solo quien analiza lógicamente puede reconstruir verdad completa del caso
