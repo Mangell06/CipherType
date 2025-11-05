@@ -12,12 +12,12 @@ session_start();
     <link rel="stylesheet" href="../styles.css?no-cache=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
-<body>
-<div class="admincontainermain">
 <?php
 if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
+    echo '<body>';
+    echo '<div class="admincontainermain">';
     $username = $_SESSION['username'];
-    echo '<form action="logout.php" method="post" id="logoutcontainer">';
+    echo '<form action="/admin/logout.php" method="post" id="logoutcontainer">';
     echo "<p>Bienvenid@ $username</p>";
     echo '<button type="submit" id="buttonLogout">Cerrar sesión</button>';
     echo '</form>';
@@ -34,10 +34,10 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
             echo "<form action='/admin/create_sentence.php' method='post' style='display:inline;'>";
                 echo '<button type="submit" id="addbutton">&#43;</button>';
             echo '</form>';
-            echo '<button type="button" id="toggleView">En listar</button>';
+            echo '<button type="button" id="toggleView">Listar</button>';
         echo '</div>';
         echo '<br/>';
-        echo '<div id="contentContainer" style="display:none;">';
+        echo '<div id="contentContainer" style="display:'. (isset($_POST['selectdifficulty']) ? 'block' : 'none') .';">';
             echo '<form method="post">';
                 echo '<select name="selectdifficulty" id="selectdifficulty" onchange="this.form.submit()">';
                     echo '<option value="" selected hidden>Selecciona dificultad</option>';
@@ -86,6 +86,8 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
     echo '</div>';
     echo '</div>';
 } else {
+    echo '<body class="admin">';
+    echo '<div class="admincontainermain">';
     echo "<form action='/admin/login.php' method='post' id='logincontainer'>";
     echo '<label for="username">Nombre de usuario</label>';
     echo '<input type="text" id="username" name="username" placeholder="juan.perez" />';
@@ -112,14 +114,36 @@ if (toggleView && contentContainer) {
 
 const buttonLogin = document.getElementById("buttonLogin");
 const buttonLogout = document.getElementById("buttonLogout");
+const addbutton = document.getElementById("addbutton");
 document.addEventListener("keydown", (event)=>{
-    if ((event.key).toLocaleLowerCase() === "i" && event.shiftKey){
+    if (event.target.nodeName === "INPUT"){
+        return;
+    }
+    if ((event.key).toLocaleLowerCase() === "i"){
+        if (buttonLogin == null){
+            return;
+        }
         buttonLogin.classList.add("highlightButtonTextAdmin");
         setTimeout(() => { buttonLogin.click(); }, "1000"); 
     } else if ((event.key).toLocaleLowerCase() === "c"){    
+        if (buttonLogout == null) {
+            return;
+        }
         buttonLogout.classList.add("highlightButtonText");
         setTimeout(() => { buttonLogout.click(); }, "1000");
-    }
+    } else if (event.key === "+"){    
+        if (addbutton == null) {
+            return;
+        }
+        addbutton.classList.add("highlightButtonText");
+        setTimeout(() => { addbutton.click(); }, "1000");
+    } else if ((event.key).toLocaleLowerCase() === "l"){    
+        if (toggleView == null) {
+            return;
+        }
+        toggleView.classList.add("highlightButtonText");
+        setTimeout(() => { toggleView.click(); }, "1000");
+    } 
 });
 </script>
 </body>
