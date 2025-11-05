@@ -52,14 +52,14 @@ if (isset($_POST['newPhrase'])) {
         <h1>AGREGAR FRASE</h1>
         <form action="create_sentence.php" method="post">
             <label for="selectdifficulty">Selecciona el nivel de dificultad</label>
-            <select name="selectdifficulty" id="selectdifficulty" required>
+            <select name="selectdifficulty" id="selectdifficulty">
                 <option value="sencillo">Sencillo</option>
                 <option value="normal">Normal</option>
                 <option value="experto">Experto</option>
             </select>
 
             <label for="newPhrase">Nueva frase</label>
-            <input type="text" name="newPhrase" id="newPhrase" required>
+            <input type="text" name="newPhrase" id="newPhrase">
 
             <button type="submit" id="add">Añadir Frase</button>
         </form>
@@ -68,6 +68,12 @@ if (isset($_POST['newPhrase'])) {
 <script>
     const add = document.getElementById("add");
     const newPhrase = document.getElementById("newPhrase");
+    const errorMsg = document.createElement("p");
+    errorMsg.className = "error";
+    errorMsg.style.display = "none"; 
+    errorMsg.textContent = "La frase debe contener letras.";
+    newPhrase.insertAdjacentElement("afterend", errorMsg);
+
     document.addEventListener("keydown", (event)=>{
         if (event.target.nodeName === "INPUT"){
             return;
@@ -76,6 +82,16 @@ if (isset($_POST['newPhrase'])) {
             if (add == null){
                 return;
             }
+            const phraseValue = newPhrase.value.trim();
+            const contieneLetras = /[a-záéíóúüñ]/i.test(phraseValue);
+            if (phraseValue === "" || !contieneLetras){
+                errorMsg.style.display = "block";
+                event.preventDefault();
+                return;
+            } else {
+                errorMsg.style.display = "none";
+            }
+
             if (newPhrase.validity.valid){
                 add.classList.add("highlightButtonTextAdmin");
                 setTimeout(() => { add.click(); }, 1000);
