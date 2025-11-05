@@ -46,7 +46,7 @@ if (isset($_POST['newPhrase'])) {
     <link rel="icon" href="../media/lupa.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
-<body>
+<body class="createSentences">
    <div class="toolscontainer">
     <div class="createSentence">
         <h1>AGREGAR FRASE</h1>
@@ -61,9 +61,30 @@ if (isset($_POST['newPhrase'])) {
             <label for="newPhrase">Nueva frase</label>
             <input type="text" name="newPhrase" id="newPhrase" required>
 
-            <button type="submit">Añadir Frase</button>
+            <button type="submit" id="add">Añadir Frase</button>
         </form>
     </div>
 </div>
+<script>
+    const add = document.getElementById("add");
+    const newPhrase = document.getElementById("newPhrase");
+    document.addEventListener("keydown", (event)=>{
+        if (event.target.nodeName === "INPUT"){
+            return;
+        }
+        if ((event.key).toLocaleLowerCase() === "a"){
+            if (add == null){
+                return;
+            }
+            if (newPhrase.validity.valid){
+                add.classList.add("highlightButtonTextAdmin");
+                setTimeout(() => { add.click(); }, 1000);
+            } else{
+                newPhrase.reportValidity();
+                event.preventDefault();
+            }
+        }
+    });
+</script>
 </body>
 </html>

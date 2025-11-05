@@ -72,7 +72,6 @@
     });
 
     document.addEventListener("keydown", (event)=>{
-        console.log(event.target);
         if (event.target.nodeName === "INPUT"){
             return;
         }
