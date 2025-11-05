@@ -240,7 +240,7 @@ if (isset($_POST['inname'])) {
         });
 
         document.addEventListener("keydown", (event)=>{
-         if ((event.key).toLocaleLowerCase() === "c" && event.shiftKey){
+         if ((event.key).toLocaleLowerCase() === "c" && event.ctrlKey){
             closeSession.classList.add("highlightButtonText");
             setTimeout(() => {
                 closeSession.click();

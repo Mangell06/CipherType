@@ -666,6 +666,12 @@ button#closeSession:hover, button#buttonInitialitze:hover{
 /*----------------------------------- admin.php -----------------------------------*/
 
 /* Contenedor principal */
+.admin{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
 .admincontainermain {
     width: 100%;
     max-width: 900px;
@@ -675,6 +681,7 @@ button#closeSession:hover, button#buttonInitialitze:hover{
     align-items: center;
     gap: 30px;
     font-family: "Oswald", sans-serif;
+    justify-content: center;
 }
 
 /* Logout */
@@ -875,6 +882,10 @@ table td.secondly {
     color: white;
 }
 /* Crear frase admin */
+.createSentences{
+  height: 100vh;
+  display: grid;
+}
 .createSentence {
   margin: 64px;
   background-color: #ffffff75;
