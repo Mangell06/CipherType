@@ -14,17 +14,40 @@
         <img src="/media/postit.png" alt="Imagen de un post-it">
         <p>Watson parece que hemos perdido la pista... La página que buscas no existe.</p>
     </div>
+
     <div class="smallPostits">
         <div>
             <img class="pins" src="/media/pin.png" alt="Imagen de una chincheta">
-            <input type="button" value="Página inicial" onclick="changePageInitialPage()">
+            <input type="button" id="goIndex" value="Página inicial" onclick="changePageInitialPage()">
         </div>
         <div>
             <img class="pins" src="/media/pin.png" alt="Imagen de una chincheta">
-            <input type="button" value="Ranking" onclick="changePageStatsPage()">
+            <input type="button" id="goRanking" value="Ranking" onclick="changePageStatsPage()">
         </div>
      </div>
+
      <script>
+        const goIndex = document.getElementById("goIndex");
+        const goRanking = document.getElementById("goRanking");
+
+        document.addEventListener("keydown", (event) => {
+            const key = event.key.toLowerCase();
+
+            if (key === "p") {
+                goIndex.classList.add("highlightButtonTextErrors");
+                setTimeout(() => {
+                    goIndex.click();
+                }, 1000);
+            }
+
+            if (key === "r") {
+                goRanking.classList.add("highlightButtonTextErrors");
+                setTimeout(() => {
+                    goRanking.click();
+                }, 1000);
+            }
+        });
+
         function changePageInitialPage(){
             window.location = "/index.php";
         }

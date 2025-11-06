@@ -41,7 +41,7 @@
             </div>
         </form>
         <div class="datacontainer">
-            <h1>Description</h1>
+            <h1>Descripción</h1>
             <p>
                 Mi querido Watson, este juego es una batalla entre tu mente
                 y el paso del tiempo: las palabras son las pistas, y tu rapidez 
@@ -72,7 +72,6 @@
     });
 
     document.addEventListener("keydown", (event)=>{
-        console.log(event.target);
         if (event.target.nodeName === "INPUT"){
             return;
         }
