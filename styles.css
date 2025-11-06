@@ -146,6 +146,12 @@ noscript .no-js { display: none; }
   text-decoration: underline !important;
   font-weight: bold !important;
 }
+
+.highlightButtonTextErrors{
+  color: #53534c !important; 
+  text-decoration: underline !important;
+  font-weight: bold !important;
+}
 /*----------------------------------- css play ----------------------------------- */
 html {
   box-sizing: border-box;
