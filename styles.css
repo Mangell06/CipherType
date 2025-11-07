@@ -129,7 +129,7 @@
 }
 
 .correct {
-  color: green;
+  color: #3b3;
 }
 
 .js-required { display: none; }
@@ -676,7 +676,7 @@ button#closeSession:hover, button#buttonInitialitze:hover{
     height: 100vh;
     display: flex;
     justify-content: center;
-    background-color: #735E59;
+    background-color: #000000D6;
 }
 
 .admincontainermain {
@@ -693,9 +693,6 @@ button#closeSession:hover, button#buttonInitialitze:hover{
 
 /* Logout */
 #logoutcontainer {
-    position: absolute;
-    top: 10px;
-    right: 30px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -727,6 +724,13 @@ button#closeSession:hover, button#buttonInitialitze:hover{
     align-items: center;
 }
 
+.welcome{
+  position: absolute;
+  right: 105px;
+  top: 40px;
+  color: white;
+}
+
 /* Botones principales */
 #addbutton, #toggleView {
     font-size: 18px;
@@ -740,7 +744,7 @@ button#closeSession:hover, button#buttonInitialitze:hover{
     transition: all 0.3s ease;
 }
 
-#addbutton:hover, #toggleView:hover, #buttonLogout {
+#addbutton:hover, #toggleView:hover, #buttonLogout:hover {
     background-color: #3E322F;
     color: white;
     transform: scale(1.05);
@@ -868,7 +872,7 @@ table td.secondly {
 }
 
 .panel{
-  background-color: #88706B;
+  background-color: #000000D6;
 }
 
 /* Botón de login */

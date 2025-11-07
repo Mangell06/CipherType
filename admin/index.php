@@ -17,24 +17,29 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
     echo '<body class="panel">';
     echo '<div class="admincontainermain">';
     $username = $_SESSION['username'];
-    echo '<form action="/admin/logout.php" method="post" id="logoutcontainer">';
-    echo "<p>Bienvenid@ $username</p>";
-    echo '<button type="submit" id="buttonLogout">Cerrar sesión</button>';
-    echo '</form>';
-
-    echo '<div class="toolscontainer">';
-        echo '<div class="todo">';
-         if (isset($_SESSION['fraseCreada']) && $_SESSION['fraseCreada']) {
+    echo '<div class="phrases">';
+    echo "<p class='welcome'>Bienvenid@ $username</p>";
+    if (isset($_SESSION['fraseCreada']) && $_SESSION['fraseCreada']) {
             echo "<p class='correct'>La frase se ha creado correctamente</p>";
             unset($_SESSION['fraseCreada']);
         } else if (isset($_POST["deleteSuccess"]) && $_POST["deleteSuccess"]) {
             echo "<p class='correct'>La frase se ha eliminado correctamente</p>";
         }
+    echo '</div>';
+    echo '<div class="toolscontainer">';
+        echo '<div class="todo">';
+         
         echo '<div class="buttonpanel">';
             echo "<form action='/admin/create_sentence.php' method='post' style='display:inline;'>";
                 echo '<button type="submit" id="addbutton">Añadir frase</button>';
             echo '</form>';
+            echo "<form action='/admin/create_sentence.php' method='post' style='display:inline;'>";
+                echo '<button type="submit" id="addbutton">Insertar imágenes</button>';
+            echo '</form>';
             echo '<button type="button" id="toggleView">Listar frases</button>';
+            echo '<form action="/admin/logout.php" method="post" id="logoutcontainer">';
+            echo '<button type="submit" id="buttonLogout">Cerrar sesión</button>';
+            echo '</form>';
         echo '</div>';
         echo '<br/>';
         echo '<div id="contentContainer" style="display:'. (isset($_POST['selectdifficulty']) ? 'block' : 'none') .';">';
@@ -131,7 +136,7 @@ document.addEventListener("keydown", (event)=>{
         }
         buttonLogout.classList.add("highlightButtonText");
         setTimeout(() => { buttonLogout.click(); }, "1000");
-    } else if (event.key === "+"){    
+    } else if (event.key === "a"){    
         if (addbutton == null) {
             return;
         }

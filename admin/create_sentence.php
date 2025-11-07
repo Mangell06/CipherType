@@ -8,7 +8,9 @@ if (isset($_POST['newPhrase'])) {
     $newContent = "";
     $levelFound = false;
 
-
+    //existe imagen, si existe imagen entra, sino va al codigo de abajo
+    //meterlo dentro de carpeta image
+    //coger el fichero, y meter al final (append al fichero) la imagen con la nueva frase
     while (!feof($sentencesFile)) {
         $separatorLevelSentences = explode(":", fgets($sentencesFile), 2);
         $levelFile = $separatorLevelSentences[0];
@@ -20,6 +22,14 @@ if (isset($_POST['newPhrase'])) {
             } else {
                 $levelPhrases .= "*" . $newPhrase;
             }
+            if ($_FILES["image"]){
+                $filenameExtension = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
+                $randomFilename = uniqid().".".$filenameExtension;
+                $levelPhrases .= "|".$randomFilename;
+                $uploaddir = "image/";
+                $uploadfile = $uploaddir . $randomFilename;
+                $fileSaveSuccess = move_uploaded_file($uploaddir, $uploadfile);
+            }
         }
 
         $newContent .= $levelFile . ":" . $levelPhrases . "\n";
@@ -29,8 +39,8 @@ if (isset($_POST['newPhrase'])) {
     file_put_contents("../sentences.txt", trim($newContent));
     fclose($sentencesFile);
     $_SESSION['fraseCreada'] = true;
+    $_SESSION['imagenCreada'] = $fileSaveSuccess;
     header("Location: /admin/index.php");
-   
     exit;
 
 }
@@ -50,7 +60,17 @@ if (isset($_POST['newPhrase'])) {
    <div class="toolscontainer">
     <div class="createSentence">
         <h1>AGREGAR FRASE</h1>
-        <form action="create_sentence.php" method="post">
+        <?php
+            if($fileSaveSuccess)
+            {
+                echo "El fichero se ha guardado exitosamente.";
+            }
+            else
+            {
+                echo "El fichero no se ha guardado.";
+            }
+        ?>
+        <form action="create_sentence.php" method="post" enctype="multipart/form-data">
             <label for="selectdifficulty">Selecciona el nivel de dificultad</label>
             <select name="selectdifficulty" id="selectdifficulty">
                 <option value="sencillo">Sencillo</option>
@@ -61,6 +81,8 @@ if (isset($_POST['newPhrase'])) {
             <label for="newPhrase">Nueva frase</label>
             <input type="text" name="newPhrase" id="newPhrase">
 
+            <label for="newImage">Insertar imagen</label>
+            <input type="file" name="image" accept="image/*">
             <button type="submit" id="add">Añadir Frase</button>
         </form>
     </div>
