@@ -142,7 +142,7 @@ noscript .no-js { display: none; }
 }
 
 .highlightButtonTextAdmin::first-letter{
-  color: #ffffff !important; 
+  color: #eedc3b !important; 
   text-decoration: underline !important;
   font-weight: bold !important;
 }
@@ -676,6 +676,7 @@ button#closeSession:hover, button#buttonInitialitze:hover{
     height: 100vh;
     display: flex;
     justify-content: center;
+    background-color: #735E59;
 }
 
 .admincontainermain {
@@ -717,11 +718,6 @@ button#closeSession:hover, button#buttonInitialitze:hover{
     transition: all 0.3s ease;
 }
 
-#buttonLogout:hover {
-    background-color: #E6AC00;
-    color: black;
-}
-
 /* Panel de herramientas */
 .toolscontainer {
     display: flex;
@@ -744,9 +740,9 @@ button#closeSession:hover, button#buttonInitialitze:hover{
     transition: all 0.3s ease;
 }
 
-#addbutton:hover, #toggleView:hover {
-    background-color: #E6AC00;
-    color: black;
+#addbutton:hover, #toggleView:hover, #buttonLogout {
+    background-color: #3E322F;
+    color: white;
     transform: scale(1.05);
 }
 
@@ -841,8 +837,8 @@ table td.secondly {
 
 /* Formulario de login */
 #logincontainer {
-    background-color: rgba(255, 255, 255, 0.15);
-    border: 1px solid #E6AC00;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #3B312F;
     padding: 30px 40px;
     border-radius: 15px;
     display: flex;
@@ -854,29 +850,34 @@ table td.secondly {
 
 #logincontainer label {
     font-weight: bold;
-    color: #E6AC00;
+    color: #63514C;
 }
 
 #logincontainer input {
     padding: 10px;
     border-radius: 10px;
-    border: 2px solid #E6AC00;
+    border: 2px solid #63514C;
     background-color: rgba(255, 255, 255, 0.1);
     font-size: 16px;
     outline: none;
-    color: #E6AC00;
+    color: #63514C;
 }
 
 #logincontainer input::placeholder {
-    color: #E6AC00;
+    color: #63514C;
+}
+
+.panel{
+  background-color: #88706B;
 }
 
 /* Botón de login */
-#buttonLogin {
+#buttonLogin, #addbutton, #toggleView, #buttonLogout{
     padding: 12px;
     font-size: 16px;
-    background-color: #E6AC00;
+    background-color: #63524b;
     border: none;
+    color: white;
     border-radius: 10px;
     font-weight: bold;
     cursor: pointer;
@@ -884,7 +885,7 @@ table td.secondly {
 }
 
 #buttonLogin:hover {
-    background-color: #b67b22;
+    background-color: #3E322F;
     color: white;
 }
 /* Crear frase admin */

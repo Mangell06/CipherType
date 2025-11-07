@@ -14,7 +14,7 @@ session_start();
 </head>
 <?php
 if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
-    echo '<body>';
+    echo '<body class="panel">';
     echo '<div class="admincontainermain">';
     $username = $_SESSION['username'];
     echo '<form action="/admin/logout.php" method="post" id="logoutcontainer">';
@@ -32,9 +32,9 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
         }
         echo '<div class="buttonpanel">';
             echo "<form action='/admin/create_sentence.php' method='post' style='display:inline;'>";
-                echo '<button type="submit" id="addbutton">&#43;</button>';
+                echo '<button type="submit" id="addbutton">Añadir frase</button>';
             echo '</form>';
-            echo '<button type="button" id="toggleView">Listar</button>';
+            echo '<button type="button" id="toggleView">Listar frases</button>';
         echo '</div>';
         echo '<br/>';
         echo '<div id="contentContainer" style="display:'. (isset($_POST['selectdifficulty']) ? 'block' : 'none') .';">';
