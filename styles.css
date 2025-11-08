@@ -876,7 +876,7 @@ table td.secondly {
 }
 
 /* Botón de login */
-#buttonLogin, #addbutton, #toggleView, #buttonLogout, .uploadImage > div button{
+#buttonLogin, #addbutton, #addImagebutton, #toggleView, #buttonLogout, .uploadImage > div button{
     padding: 12px;
     font-size: 16px;
     background-color: #63524b;
