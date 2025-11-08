@@ -33,7 +33,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
             echo "<form action='/admin/create_sentence.php' method='post' style='display:inline;'>";
                 echo '<button type="submit" id="addbutton">Añadir frase</button>';
             echo '</form>';
-            echo "<form action='/admin/create_sentence.php' method='post' style='display:inline;'>";
+            echo "<form action='/admin/upload_image.php' method='get' style='display:inline;'>";
                 echo '<button type="submit" id="addbutton">Insertar imágenes</button>';
             echo '</form>';
             echo '<button type="button" id="toggleView">Listar frases</button>';

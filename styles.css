@@ -744,20 +744,20 @@ button#closeSession:hover, button#buttonInitialitze:hover{
     transition: all 0.3s ease;
 }
 
-#addbutton:hover, #toggleView:hover, #buttonLogout:hover {
+#addbutton:hover, #toggleView:hover, #buttonLogout:hover, .uploadImage > div button:hover {
     background-color: #3E322F;
     color: white;
     transform: scale(1.05);
 }
 
 /* Selector de dificultad */
-#selectdifficulty {
+#selectdifficulty, #selectlanguage{
     padding: 10px 15px;
     font-size: 16px;
     border-radius: 10px;
-    border: 2px solid #E6AC00;
+    border: 2px solid #63524b;
     background-color: rgba(255, 255, 255, 0.12);
-    color: #E6AC00;
+    color: #63524b;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -765,12 +765,12 @@ button#closeSession:hover, button#buttonInitialitze:hover{
     margin: 16px 0px;
 }
 
-#selectdifficulty:hover {
-    background-color: #E6AC00;
-    color: black;
+#selectdifficulty:hover, #selectlanguage:hover{
+    background-color: #63524b;
+    color: white;
 }
 
-#selectdifficulty option {
+#selectdifficulty option, #selectlanguage option {
     color: black;
     background-color: white;
 }
@@ -876,7 +876,7 @@ table td.secondly {
 }
 
 /* Botón de login */
-#buttonLogin, #addbutton, #toggleView, #buttonLogout{
+#buttonLogin, #addbutton, #toggleView, #buttonLogout, .uploadImage > div button{
     padding: 12px;
     font-size: 16px;
     background-color: #63524b;
@@ -946,6 +946,69 @@ table td.secondly {
 .createSentence button:hover {
   background-color: #b67b22;
   color: white;
+}
+
+/* upload image */
+body.uploadImage{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000D6;
+}
+
+.uploadImage div {
+  width: 60%;
+  justify-content: center;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid #3B312F;
+  padding: 30px 40px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 300px;
+  text-align: left;
+}
+
+.uploadImage > div button {
+  display: block;
+  margin-top: 20px;
+  width: 60%;
+}
+
+.uploadImage > div > form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.uploadImage > div > form > select {
+  width: 100%;
+  margin-bottom: 30px;
+  background-color: #63524b;
+  color: white;
+  border: 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.uploadImage > div > form > select:hover{
+  background-color: #3E322F;
+}
+.uploadImage label[for="selectdifficulty"] {
+  order: -1;
+  width: 100%;
+}
+.uploadImage > div > form > select#selectdifficulty{
+  width: 100%;
+  order: -1;
+  margin-bottom: 30px;
+} 
+
+.uploadImage > div > form > input {
+  width: 100%;
 }
 
 .buttonpanel{

@@ -7,10 +7,8 @@ if (isset($_POST['newPhrase'])) {
 
     $newContent = "";
     $levelFound = false;
+    $fileSaveSuccess;
 
-    //existe imagen, si existe imagen entra, sino va al codigo de abajo
-    //meterlo dentro de carpeta image
-    //coger el fichero, y meter al final (append al fichero) la imagen con la nueva frase
     while (!feof($sentencesFile)) {
         $separatorLevelSentences = explode(":", fgets($sentencesFile), 2);
         $levelFile = $separatorLevelSentences[0];
@@ -28,7 +26,8 @@ if (isset($_POST['newPhrase'])) {
                 $levelPhrases .= "|".$randomFilename;
                 $uploaddir = "image/";
                 $uploadfile = $uploaddir . $randomFilename;
-                $fileSaveSuccess = move_uploaded_file($uploaddir, $uploadfile);
+                $tmp_name = $_FILES["image"]["tmp_name"];
+                $fileSaveSuccess = move_uploaded_file($tmp_name, $uploadfile);
             }
         }
 
@@ -60,16 +59,6 @@ if (isset($_POST['newPhrase'])) {
    <div class="toolscontainer">
     <div class="createSentence">
         <h1>AGREGAR FRASE</h1>
-        <?php
-            if($fileSaveSuccess)
-            {
-                echo "El fichero se ha guardado exitosamente.";
-            }
-            else
-            {
-                echo "El fichero no se ha guardado.";
-            }
-        ?>
         <form action="create_sentence.php" method="post" enctype="multipart/form-data">
             <label for="selectdifficulty">Selecciona el nivel de dificultad</label>
             <select name="selectdifficulty" id="selectdifficulty">
@@ -77,7 +66,12 @@ if (isset($_POST['newPhrase'])) {
                 <option value="normal">Normal</option>
                 <option value="experto">Experto</option>
             </select>
-
+            <label for="selectlanguage">Selecciona el idioma:</label>
+            <select name="selectlanguage" id="selectlanguage">
+                <option value="catalán">Catalán</option>
+                <option value="castellano">Castellano</option>
+                <option value="inglés">Inglés</option>
+            </select>
             <label for="newPhrase">Nueva frase</label>
             <input type="text" name="newPhrase" id="newPhrase">
 
