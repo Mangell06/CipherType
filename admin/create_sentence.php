@@ -11,7 +11,7 @@ if (isset($_POST['newPhrase'])) {
 
     $newContent = "";
     $levelFound = false;
-
+    $fileSaveSuccess;
 
     while (!feof($sentencesFile)) {
         $separatorLevelSentences = explode(":", fgets($sentencesFile), 2);
@@ -24,6 +24,15 @@ if (isset($_POST['newPhrase'])) {
             } else {
                 $levelPhrases .= "*" . $newPhrase;
             }
+            if ($_FILES["image"]){
+                $filenameExtension = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
+                $randomFilename = uniqid().".".$filenameExtension;
+                $levelPhrases .= "|".$randomFilename;
+                $uploaddir = "image/";
+                $uploadfile = $uploaddir . $randomFilename;
+                $tmp_name = $_FILES["image"]["tmp_name"];
+                $fileSaveSuccess = move_uploaded_file($tmp_name, $uploadfile);
+            }
         }
 
         $newContent .= $levelFile . ":" . $levelPhrases . "\n";
@@ -33,8 +42,8 @@ if (isset($_POST['newPhrase'])) {
     file_put_contents("../sentences.txt", trim($newContent));
     fclose($sentencesFile);
     $_SESSION['fraseCreada'] = true;
+    $_SESSION['imagenCreada'] = $fileSaveSuccess;
     header("Location: /admin/index.php");
-   
     exit;
 
 }
@@ -54,7 +63,7 @@ if (isset($_POST['newPhrase'])) {
    <div class="toolscontainer">
     <div class="createSentence">
         <h1>AGREGAR FRASE</h1>
-        <form action="create_sentence.php" method="post">
+        <form action="create_sentence.php" method="post" enctype="multipart/form-data">
         <?php
             echo '<label for="selectdifficulty">' . $_SESSION['lang_data']['TEXT_SELECT_DIFICULTY'] . '</label>';
         ?>
@@ -65,11 +74,19 @@ if (isset($_POST['newPhrase'])) {
                 echo '<option value="experto">' . $_SESSION['lang_data']['DIFFICULTY_EXPERT'] . '</option>';
             ?>
             </select>
+            <label for="selectlanguage">Selecciona el idioma:</label>
+            <select name="selectlanguage" id="selectlanguage">
+                <option value="catalán">Catalán</option>
+                <option value="castellano">Castellano</option>
+                <option value="inglés">Inglés</option>
+            </select>
             <?php
                 echo '<label for="newPhrase">' . $_SESSION['lang_data']['TEXT_NEW_PHRASE'] . '</label>';
             ?>
             <input type="text" name="newPhrase" id="newPhrase">
 
+            <label for="newImage">Insertar imagen</label>
+            <input type="file" name="image" accept="image/*">
             <?php
                 echo '<button type="submit" id="add">' . $_SESSION['lang_data']['TEXT_ADD_PHRASES'] . '</button>';
             ?>
