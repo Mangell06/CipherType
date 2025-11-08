@@ -2,12 +2,14 @@
     session_start();
     $name = $_SESSION['name'];
     $points = $_POST['points'];
+    $temp = $_POST['temp'];
     if (!isset($name) || !isset($points)) {
         header("HTTP/1.1 403 Forbidden");
         header('Location: /errors/error403.php');
         exit();
     }
     $_SESSION["points"] = $points;
+    $_SESSION["temp"] = $temp;
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -27,6 +29,15 @@
             echo "<button type='submit' id='closeSession' onclick='destroySession()' class='sh-lens sh-focus'>Cerrar sesión</button>";
             echo "</div>";
         }
+
+        function formatearTiempo($segundos) {
+        if ($segundos === null) return null;
+        $horas = floor($segundos / 3600);
+        $minutos = floor(($segundos % 3600) / 60);
+        $segundosRestantes = $segundos % 60;
+
+        return sprintf("%02d:%02d:%02d", $horas, $minutos, $segundosRestantes);
+    }
     ?>
     <div class="gameoverDiv sh-reveal">
         
@@ -36,8 +47,8 @@
 
          <?php
             echo "<table class='sh-reveal'>";
-            echo "<tr><th>". $_SESSION['lang_data']['TEXT_NAME'] ."</th><th>". $_SESSION['lang_data']['TEXT_POINTS'] ."</th></tr>";
-            echo "<tr><td>".$name."</td><td>".$points."</td></tr>";
+            echo "<tr><th>". $_SESSION['lang_data']['TEXT_NAME'] ."</th><th>". $_SESSION['lang_data']['TEXT_POINTS'] ."</th><th>". $_SESSION['lang_data']['TEXT_TEMP'] ."</th></tr>";
+            echo "<tr><td>".$name."</td><td>".$points."</td><td>".formatearTiempo($temp)."</td></tr>";
             echo "</table>";
          ?>
 
