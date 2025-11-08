@@ -1,10 +1,26 @@
 <?php
+    session_start();
     $sentencesFile = fopen("../sentences.txt","r+"); //abrir archivo
     $phraseIndex = $_POST["fraseIndex"]; // coger por post la frase
     $level = $_POST["selectdifficulty"]; //coger por post el nivel
     $newContent = "";
     while(!feof($sentencesFile)) {
-        $separetorLevelSentences = explode(":", fgets($sentencesFile),2);
+        $linea = fgets($sentencesFile);
+        if ($linea === false || trim($linea) === '') continue;
+        $linea = trim($linea);
+
+        if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+            $idiomaActual = substr($linea, 1, -1);
+            $dentroIdioma = ($idiomaActual === $_SESSION['selected_lang']);
+            $newContent .= $linea . "\n";
+            continue;
+        }
+
+        if (!$dentroIdioma) {
+            $newContent .= $linea . "\n";
+            continue;
+        }
+        $separetorLevelSentences = explode(":", $linea,2);
         $levelFile = $separetorLevelSentences[0];
         $levelPhrases = trim($separetorLevelSentences[1]);
 
