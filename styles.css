@@ -954,3 +954,55 @@ table td.secondly {
   text-align: center;
   padding: 10px;
 }
+
+.languageMain {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 60px 0;
+    font-family: 'EB Garamond', serif; /* elegante, tipo victorian */
+    background-color: #2b2b2b; /* fondo oscuro misterioso */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+}
+
+.languageMain form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+#lenguageselect {
+    padding: 12px 18px;
+    font-size: 18px;
+    border-radius: 8px;
+    border: 2px solid #8b5e3c; /* borde madera / cuero */
+    background-color: #f4ecd8; /* color tipo papel antiguo */
+    color: #3b2f2f;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#lenguageselect:hover {
+    background-color: #e6dbc4;
+    border-color: #5c4329;
+    transform: scale(1.05);
+}
+
+#lenguageselect:focus {
+    outline: none;
+    border-color: #a67c52;
+    box-shadow: 0 0 10px rgba(166, 124, 82, 0.7);
+}
+
+.languageMain select option {
+    background-color: #f4ecd8; /* mantener estilo papel en las opciones */
+    color: #3b2f2f;
+}
+
+.languageMain select option:hover {
+    background-color: #e6dbc4;
+}
