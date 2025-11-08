@@ -43,7 +43,7 @@
         echo "</form>";
         echo "</div>";
     } else {
-        if ($_POST['lenguageselect']) {
+        if (isset($_POST['lenguageselect'])) {
             $idiomaSeleccionado = $_POST['lenguageselect'];
             $_SESSION['selected_lang'] = $idiomaSeleccionado;
             $_SESSION['lang_data'] = [];

@@ -14,7 +14,22 @@ if (isset($_POST['newPhrase'])) {
 
 
     while (!feof($sentencesFile)) {
-        $separatorLevelSentences = explode(":", fgets($sentencesFile), 2);
+        $linea = fgets($sentencesFile);
+        if ($linea === false || trim($linea) === '') continue;
+        $linea = trim($linea);
+
+        if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+            $idiomaActual = substr($linea, 1, -1);
+            $dentroIdioma = ($idiomaActual === $_SESSION['selected_lang']);
+            $newContent .= $linea . "\n";
+            continue;
+        }
+
+        if (!$dentroIdioma) {
+            $newContent .= $linea . "\n";
+            continue;
+        }
+        $separatorLevelSentences = explode(":", $linea, 2);
         $levelFile = $separatorLevelSentences[0];
         $levelPhrases = trim($separatorLevelSentences[1]);
 
