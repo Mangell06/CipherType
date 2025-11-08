@@ -1,4 +1,9 @@
-
+<?php
+    if (!isset($_SESSION['lang_data'])) {
+        header('Location: index.php');
+        exit;
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,9 +17,13 @@
 <body class="gameErrorJS">
     <div class="datacontainer">
         <noscript>
-                <h1 class="error">Querido Watson, debes activar el javascript para seguirle la pista</h1>
+            <?php
+               echo '<h1 class="error">' . $_SESSION['lang_data']['TEXT_ERROR_JAVASCRIPT'] . '</h1>';
+             ?>
         </noscript>
-        <h1 class="js-required hidden">Tienes js activado</h1>
+        <?php
+            echo '<h1 class="js-required hidden">' . $_SESSION['lang_data']['TEXT_JAVASCRIPT_ACTIVATE'] . '</h1>';
+        ?>
     </div>
     
     <script>

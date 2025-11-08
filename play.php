@@ -3,6 +3,10 @@ session_start();
 if (isset($_POST['inname'])) {
     $_SESSION['name'] = $_POST['inname'];
 }
+if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
+    header('Location: index.php');
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,33 +28,42 @@ if (isset($_POST['inname'])) {
     <?php
         if (isset($_SESSION['name'])) {
             echo "<div class='cancelSession'>";
-            echo "<p>Nombre: ".$_SESSION['name']."</p>";
-            echo "<button type='submit' id='closeSession' onclick='destroySession()'>Cerrar sesión</button>";
+            echo "<p>". $_SESSION['lang_data']['TEXT_NAME'].": ".$_SESSION['name']."</p>";
+            echo "<button type='submit' id='closeSession' onclick='destroySession()'>". $_SESSION['lang_data']['TEXT_LOGOUT']."</button>";
             echo "</div>";
         }
     ?>
-    <img class="mesa" src="media/mesa.jpg" alt="Imagen de una mesa">
+    <?php
+    echo '<img class="mesa" src="media/mesa.jpg" alt="'. $_SESSION['lang_data']['ALT_MESA'].'">';
+    ?>
     <div class="machine">
         <div class="textos">
             <p id="timer"></p>
-            <p id="textStartInformation" class="hidden">Escribe la siguiente frase: </p>
+            <?php
+            echo '<p id="textStartInformation" class="hidden">'. $_SESSION['lang_data']['SUBTITLE_INGAME'].'</p>';
+            ?>
+            
             <div class="text">
             </div>
         </div>
-        <img src="media/typingmachine.png" alt="Imagen de máquina de escribir">
-
+        <?php
+            echo '<img src="media/typingmachine.png" alt="'. $_SESSION['lang_data']['ALT_MACHINE'].'">';
+        ?>
     </div>
-    <img id="lupa" src="media/lupa_easteregg.png" alt="lupa easteregg">
-    <img id="vela" src="media/velaEasterEgg.png" alt="vela Easter Egg">
-    <img id="libro" src="media/libroEasterEgg.png" alt="libro Easter Egg">
-    <img id="sombrero" src="media/sombreroSherlock.png" alt="sombrero Easter Egg">
-    <img id="sherlock" class="invisible" src="media/sherlockHolmes.png" alt="sherlock">
+    <?php
+    echo '<img id="lupa" src="media/lupa_easteregg.png" alt="'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][0].' Easter Egg">';
+    echo '<img id="vela" src="media/velaEasterEgg.png" alt="'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][1].' Easter Egg">';
+    echo '<img id="libro" src="media/libroEasterEgg.png" alt="'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][2].' Easter Egg">';
+    echo '<img id="sombrero" src="media/sombreroSherlock.png" alt="'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][3].' Easter Egg">';
+    echo '<img id="sherlock" class="invisible" src="media/sherlockHolmes.png" alt="sherlock">';
+    ?>
     <div class="invisible listaEntera">
-        <p>Lupa</p>
-        <p>Vela</p>
-        <p>Libro</p>
-        <p>Sombrero</p>
-
+    <?php
+         echo '<p>'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][0].'</p>';
+         echo '<p>'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][1].'</p>';
+         echo '<p>'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][2].'</p>';
+         echo '<p>'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][3].'</p>';
+    ?>
     </div>
     <form id="endForm" action="gameover.php" method="POST" style="display:none;">
         <input type="hidden" name="points" id="pointsField">
@@ -75,14 +88,14 @@ if (isset($_POST['inname'])) {
         const listaP = listaDiv.querySelectorAll("p");
         const imgSherlock = document.getElementById("sherlock");
         const ids = ["lupa", "vela", "libro", "sombrero"];
-        const nombres = ["Lupa", "Vela", "Libro", "Sombrero"];
+        const nombres = <?php echo json_encode($_SESSION['lang_data']['ELEMENTS_EASTEREGG']); ?>;
         win = false;
         let eventCont = 4;
         ids.forEach((id, index) => {
             const element = document.getElementById(id);
             element.addEventListener("click", () => {
                 element.classList.add("invisible");
-                alert(`Has clicado el objeto ${nombres[index]}`);
+                alert(`<?php echo $_SESSION['lang_data']['TEXT_GET_ELEMENT']; ?> ${nombres[index]}`);
                 eventCont--;
                 if (eventCont <= 3) {
                     listaDiv.classList.remove("invisible");
@@ -101,7 +114,7 @@ if (isset($_POST['inname'])) {
                 });
                 if (win) {
                     setTimeout(() => {
-                        alert("Gracias Watson por encontrar todos mis objetos, te obsequio con 7000 puntos más.");
+                        alert(<?php echo json_encode($_SESSION['lang_data']['COMPLETE_EASTEREGG']); ?>);
                     }, 1000);
                     points += 7000;
                 }
@@ -117,7 +130,7 @@ if (isset($_POST['inname'])) {
             }
             cont--;
             if (cont === 0) {
-                p.innerText = "YA!";
+                p.innerText = <?php echo json_encode($_SESSION['lang_data']['TEXT_START'] . '!'); ?>;
                 return;
             }
             p.innerText = cont;
@@ -129,15 +142,28 @@ if (isset($_POST['inname'])) {
             render();
         }
 
-        const frase = "<?php
-        $randomPhrase = "";
+         const frase = "<?php
+       $randomPhrase = "";
         $difficulty = $_POST["indifficulty"];
-        $sentencesFile = fopen("sentences.txt", "r");
         $sentencesLines = [];
+        $dentroIdioma = false;
+
+        $sentencesFile = fopen("sentences.txt", "r");
         while (!feof($sentencesFile)) {
-            array_push($sentencesLines, fgets($sentencesFile));
+            $linea = fgets($sentencesFile);
+            if ($linea === false) continue;
+            $linea = trim($linea);
+            if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+                $idiomaActual = substr($linea, 1, -1);
+                $dentroIdioma = ($idiomaActual === $_SESSION['selected_lang']);
+                continue;
+            }
+            if ($dentroIdioma && $linea !== '') {
+                $sentencesLines[] = $linea;
+            }
         }
         fclose($sentencesFile);
+
         
         $textoSencilloSubstringTrim = trim(substr($sentencesLines[0], 9));
         $separateSentences = explode("*", $textoSencilloSubstringTrim);
@@ -180,7 +206,14 @@ if (isset($_POST['inname'])) {
 
         function checkInput(isMayus, inletter) {
             const letter = document.getElementById("letter"+indexLetter);
-            return (isMayus && inletter.toUpperCase() === letter.textContent) || inletter.toLowerCase() === letter.textContent;
+            if (/’|‘/.test(letter.textContent)) {
+                comparate = "'";
+            } else if (/“|”/.test(letter.textContent)) {
+                comparate = '"';
+            } else {
+                comparate = letter.textContent;
+            }
+            return (isMayus && inletter.toUpperCase() === comparate) || inletter.toLowerCase() === comparate;
         }
 
         function isCorrectLetter(iscorrect, isspace) {
@@ -223,18 +256,19 @@ if (isset($_POST['inname'])) {
                     inputChar = (inputChar + "\u0301").normalize("NFC");
                     pendingAccent = "";
                 }
-
-                if (/^\p{L}$| |,$/u.test(e.key)) {
-                    let iscorrect = e.shiftKey;
-                    iscorrect = checkInput(iscorrect, inputChar);
-                    isCorrectLetter(iscorrect, e.key === " " ? true : false);
-                    indexLetter++;
-                    if (indexLetter < frase.length && frase[indexLetter] !== " ") {
-                        showPhrase();  
-                    }
-                    if (indexLetter >= frase.length) {
-                        endGame();
-                    }
+                if (
+                (event.key === "Shift" && !event.ctrlKey) ||
+                (event.key === "Control" && !event.shiftKey)
+                ) return;
+                let iscorrect = e.shiftKey;
+                iscorrect = checkInput(iscorrect, inputChar);
+                isCorrectLetter(iscorrect, e.key === " " ? true : false);
+                indexLetter++;
+                if (indexLetter < frase.length && frase[indexLetter] !== " ") {
+                    showPhrase();  
+                }
+                if (indexLetter >= frase.length) {
+                    endGame();
                 }
             }
         });

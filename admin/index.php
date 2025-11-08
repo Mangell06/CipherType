@@ -1,5 +1,9 @@
 <?php
 session_start();
+    if (!isset($_SESSION['lang_data'])) {
+        header('Location: ../index.php');
+        exit;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -18,32 +22,32 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
     echo '<div class="admincontainermain">';
     $username = $_SESSION['username'];
     echo '<form action="/admin/logout.php" method="post" id="logoutcontainer">';
-    echo "<p>Bienvenid@ $username</p>";
-    echo '<button type="submit" id="buttonLogout">Cerrar sesión</button>';
+    echo "<p>" . $_SESSION['lang_data']['WELCOME_USER'] . " $username</p>";
+    echo '<button type="submit" id="buttonLogout">' . $_SESSION['lang_data']['TEXT_LOGOUT'] . '</button>';
     echo '</form>';
 
     echo '<div class="toolscontainer">';
         echo '<div class="todo">';
          if (isset($_SESSION['fraseCreada']) && $_SESSION['fraseCreada']) {
-            echo "<p class='correct'>La frase se ha creado correctamente</p>";
+            echo "<p class='correct'>" . $_SESSION['lang_data']['CORRECT_ADD_PHRASE'] . "</p>";
             unset($_SESSION['fraseCreada']);
         } else if (isset($_POST["deleteSuccess"]) && $_POST["deleteSuccess"]) {
-            echo "<p class='correct'>La frase se ha eliminado correctamente</p>";
+            echo "<p class='correct'>" . $_SESSION['lang_data']['CORRECT_DELET_PHRASE'] . "/p>";
         }
         echo '<div class="buttonpanel">';
             echo "<form action='/admin/create_sentence.php' method='post' style='display:inline;'>";
-                echo '<button type="submit" id="addbutton">&#43;</button>';
+                echo '<button type="submit" id="addbutton">' . $_SESSION['lang_data']['TEXT_ADD_PHRASES'] . '</button>';
             echo '</form>';
-            echo '<button type="button" id="toggleView">Listar</button>';
+            echo '<button type="button" id="toggleView">' . $_SESSION['lang_data']['LIST_PHRASES'] . '</button>';
         echo '</div>';
         echo '<br/>';
         echo '<div id="contentContainer" style="display:'. (isset($_POST['selectdifficulty']) ? 'block' : 'none') .';">';
             echo '<form method="post">';
                 echo '<select name="selectdifficulty" id="selectdifficulty" onchange="this.form.submit()">';
-                    echo '<option value="" selected hidden>Selecciona dificultad</option>';
-                    echo '<option value="sencillo">Sencillo</option>';
-                    echo '<option value="normal">Normal</option>';
-                    echo '<option value="experto">Experto</option>';
+                    echo '<option value="" selected hidden>' . $_SESSION['lang_data']['TEXT_SELECT_DIFICULTY'] . '</option>';
+                    echo '<option value="sencillo">' . $_SESSION['lang_data']['DIFFICULTY_SIMPLE'] . '</option>';
+                    echo '<option value="normal">' . $_SESSION['lang_data']['DIFFICULTY_NORMAL'] . '</option>';
+                    echo '<option value="experto">' . $_SESSION['lang_data']['DIFFICULTY_EXPERT'] . '</option>';
                 echo '</select>';
             echo '</form>';
 
@@ -51,36 +55,53 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 $sentences = fopen('../sentences.txt', 'r');
                 if ($sentences) {
+                    $dentroIdioma = false;
                     while (!feof($sentences)) {
                         $linea = fgets($sentences);
                         if ($linea === false || trim($linea) === '') continue;
                         $linea = trim($linea);
+                        if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+                            $idiomaActual = substr($linea, 1, -1);
+                            $dentroIdioma = ($idiomaActual === $_SESSION['selected_lang']);
+                            continue;
+                        }
+
+                        if (!$dentroIdioma) continue;
+
                         $partes = explode(':', $linea, 2);
                         if (count($partes) < 2) continue;
                         $nivel = trim($partes[0]);
                         if ($nivel !== $selectdifficulty) continue;
+
                         $selectedSentences = explode('*', $partes[1]);
                         break;
                     }
+
+                    fclose($sentences);
                     $selectdifficultyShow = ucfirst($selectdifficulty);
                     echo "<table>";
                     echo "<tr><th>Frases <br/> dificultat: $selectdifficultyShow</th></tr>";
+
                     foreach ($selectedSentences as $count => $frase) {
-                        if (trim($frase) == "") continue;
+                        $frase = trim($frase);
+                        if ($frase == "") continue;
+
                         if ($count % 2 !== 0) {
                             echo "<tr><td class='secondly'>".$frase;
                         } else {
                             echo "<tr><td>".$frase;
                         }
+
                         echo "<form action='/admin/delete_sentences.php' method='post'>";
                         echo "<input name='selectdifficulty' type='hidden' value='".$selectdifficulty."'>";
                         echo "<input name='fraseIndex' type='hidden' value='".$count."'>";
                         echo "<button type='submit' class='deletebutton'>&#128465;</button>";
                         echo '</form></td></tr>';
                     }
+
                     echo "</table>";
-                    fclose($sentences);
                 }
+
             }
         echo '</div>';
     echo '</div>';
@@ -89,13 +110,13 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
     echo '<body class="admin">';
     echo '<div class="admincontainermain">';
     echo "<form action='/admin/login.php' method='post' id='logincontainer'>";
-    echo '<label for="username">Nombre de usuario</label>';
+    echo '<label for="username">' . $_SESSION['lang_data']['TEXT_NAMEUSER'] . '</label>';
     echo '<input type="text" id="username" name="username" placeholder="juan.perez" />';
-    echo '<label for="password">Contraseña</label>';
-    echo '<input type="password" id="password" name="password" placeholder="contraseña123" />';
-    echo '<button type="submit" id="buttonLogin">Iniciar sesión</button>';
+    echo '<label for="password">' . $_SESSION['lang_data']['TEXT_PASSWORD'] . '</label>';
+    echo '<input type="password" id="password" name="password" placeholder="' . $_SESSION['lang_data']['TEXT_PASSWORD'] . '123" />';
+    echo '<button type="submit" id="buttonLogin">' . $_SESSION['lang_data']['TEXT_BUTTON_LOGIN'] . '</button>';
     if (isset($_SESSION['error']) && $_SESSION['error']) {
-        echo '<p class="error">El usuario no existe o la contraseña es incorrecta</p>';
+        echo '<p class="error">' . $_SESSION['lang_data']['TEXT_ERROR_USER'] . '</p>';
         unset($_SESSION['error']);
     }
     echo '</form>';

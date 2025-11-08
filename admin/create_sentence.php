@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (!isset($_SESSION['lang_data'])) {
+    header('Location: ../index.php');
+    exit;
+}
 if (isset($_POST['newPhrase'])) {
     $sentencesFile = fopen("../sentences.txt", "r+");
     $level = $_POST["selectdifficulty"];
@@ -51,17 +55,24 @@ if (isset($_POST['newPhrase'])) {
     <div class="createSentence">
         <h1>AGREGAR FRASE</h1>
         <form action="create_sentence.php" method="post">
-            <label for="selectdifficulty">Selecciona el nivel de dificultad</label>
+        <?php
+            echo '<label for="selectdifficulty">' . $_SESSION['lang_data']['TEXT_SELECT_DIFICULTY'] . '</label>';
+        ?>
             <select name="selectdifficulty" id="selectdifficulty">
-                <option value="sencillo">Sencillo</option>
-                <option value="normal">Normal</option>
-                <option value="experto">Experto</option>
+            <?php
+                echo '<option value="sencillo">' . $_SESSION['lang_data']['DIFFICULTY_SIMPLE'] . '</option>';
+                echo '<option value="normal">' . $_SESSION['lang_data']['DIFFICULTY_NORMAL'] . '</option>';
+                echo '<option value="experto">' . $_SESSION['lang_data']['DIFFICULTY_EXPERT'] . '</option>';
+            ?>
             </select>
-
-            <label for="newPhrase">Nueva frase</label>
+            <?php
+                echo '<label for="newPhrase">' . $_SESSION['lang_data']['TEXT_NEW_PHRASE'] . '</label>';
+            ?>
             <input type="text" name="newPhrase" id="newPhrase">
 
-            <button type="submit" id="add">Añadir Frase</button>
+            <?php
+                echo '<button type="submit" id="add">' . $_SESSION['lang_data']['TEXT_ADD_PHRASES'] . '</button>';
+            ?>
         </form>
     </div>
 </div>
@@ -71,7 +82,7 @@ if (isset($_POST['newPhrase'])) {
     const errorMsg = document.createElement("p");
     errorMsg.className = "error";
     errorMsg.style.display = "none"; 
-    errorMsg.textContent = "La frase debe contener letras.";
+    errorMsg.textContent = "<?php $_SESSION['lang_data']['TEXT_ADD_PHRASES']?>";
     newPhrase.insertAdjacentElement("afterend", errorMsg);
 
     document.addEventListener("keydown", (event)=>{
