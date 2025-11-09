@@ -45,6 +45,7 @@ TEXT_PUSHPIN="Imagen de una chincheta"
 TEXT_POSTIT="Imagen de un post-it"
 TEXT_JAVASCRIPT_ACTIVATE="Tienes js activado"
 TEXT_ERROR_NAME="Querido Watson, tu nombre no puede ser un espacio vacio"
+TEXT_TEMP="Tiempo"
 
 [ENGLISH]
 TEXT_INITIALITZE="Initialize"
@@ -93,6 +94,7 @@ TEXT_PUSHPIN="Image of a pushpin"
 TEXT_POSTIT="Image of a post-it"
 TEXT_JAVASCRIPT_ACTIVATE="You have JS enabled"
 TEXT_ERROR_NAME="Dear Watson, your name cannot be an empty space"
+TEXT_TEMP="Time"
 
 [CATALÁN]
 TEXT_INITIALITZE="Inicialitzar"
@@ -141,3 +143,4 @@ TEXT_PUSHPIN="Imatge d'un xinxet"
 TEXT_POSTIT="Imatge d'un post-it"
 TEXT_JAVASCRIPT_ACTIVATE="Tens JS activat"
 TEXT_ERROR_NAME="Estimadíssim Watson, el teu nom no pot ser un espai buit"
+TEXT_TEMP="Temps"
