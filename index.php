@@ -60,13 +60,14 @@
                 if ($dentroIdioma && strpos($linea, '=') !== false) {
                     list($clave, $valor) = explode('=', $linea, 2);
                     $clave = trim($clave);
-                    $valor = trim($valor, "\"|\t ");
-                    if (str_contains($clave, 'ELEMENTS_EASTEREGG')) {
+                    if (str_contains($valor, '|')) {
+                        $valor = trim($valor, "\"|\t ");
                         $_SESSION['lang_data'][$clave] = array_map(
                             fn($v) => trim($v, '"'),
                             explode('|', $valor)
                         );
                     } else { 
+                        $valor = trim($valor, "\"\t ");
                         $_SESSION['lang_data'][$clave] = $valor;
                     }
                 }
