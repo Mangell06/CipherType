@@ -1,38 +1,55 @@
 <?php
 session_start();
-if (isset($_FILES['uploadimage']) && !empty($_FILES['uploadimage']['name'])) {
-    $sentencesFile = fopen("../sentences.txt", "r+");
+if (!isset($_GET['lang']) && isset($_SESSION['selected_lang'])) {
+    header("Location: /admin/upload_image.php?lang=".$_SESSION['selected_lang']);
+    exit;
+}
+
+if (isset($_FILES['uploadimage']) && !empty($_FILES['uploadimage']['name']) && isset($_GET['lang'])) {
     $level = $_POST["selectdifficulty"];
     $phraseSeleccionada = $_POST["frase".$level];
+    $fileSaveSuccess = false;
+    $idiomaDelUsuario = $_GET['lang'];
+    $sentencesFile = fopen("../sentences.txt", "r+");
     $newContent = "";
-    $fileSaveSuccess;
-    while(!feof($sentencesFile)) {
-        $separetorLevelSentences = explode(":", fgets($sentencesFile),2);
-        $levelFile = $separetorLevelSentences[0];
-        $levelPhrases = trim($separetorLevelSentences[1]);
+    $dentroIdioma = false;
+    while (!feof($sentencesFile)) {
+        $linea = fgets($sentencesFile);
+        if ($linea === false) continue;
+        $linea = trim($linea);
+        if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+            $idiomaActual = substr($linea, 1, -1);
+            $dentroIdioma = ($idiomaActual === $idiomaDelUsuario);
+        }
+        if ($dentroIdioma) {
+            $separetorLevelSentences = explode(":",  $linea);
+            $levelFile = $separetorLevelSentences[0];
+            if ($level === $levelFile) {
+                $newContent .= $levelFile.":";
+                $levelPhrases = trim($separetorLevelSentences[1]);
+                $phrases = explode("*", $levelPhrases);
+                $phrasesArray = [];
+                for ($i = 0; $i < count($phrases); $i++){
+                    if ($phraseSeleccionada == $phrases[$i]){
+                        $filenameExtension = pathinfo($_FILES["uploadimage"]["name"], PATHINFO_EXTENSION);
+                        $randomFilename = uniqid().".".$filenameExtension;
+                        $uploaddir = "image/";
+                        $uploadfile = $uploaddir . $randomFilename;
+                        $tmp_name = $_FILES["uploadimage"]["tmp_name"];
+                        $fileSaveSuccess = move_uploaded_file($tmp_name, $uploadfile);
 
-        $newContent .= $levelFile.":";
-        
-        $phrases = explode("*", $levelPhrases);
-        $phrasesArray = [];
-        for ($i = 0; $i < count($phrases); $i++){
-            if ($level == $levelFile && $phraseSeleccionada == $phrases[$i]){
-                $filenameExtension = pathinfo($_FILES["uploadimage"]["name"], PATHINFO_EXTENSION);
-                $randomFilename = uniqid().".".$filenameExtension;
-                $uploaddir = "image/";
-                $uploadfile = $uploaddir . $randomFilename;
-                $tmp_name = $_FILES["uploadimage"]["tmp_name"];
-                $fileSaveSuccess = move_uploaded_file($tmp_name, $uploadfile);
-
-                $phrasesArray[] = $phrases[$i]."|".$randomFilename;
-            } else {
-                $phrasesArray[] = $phrases[$i];
+                        $phrasesArray[] = $phrases[$i]."|".$randomFilename;
+                    } else {
+                        $phrasesArray[] = $phrases[$i];
+                    }
+                }
+                $newContent .= implode("*", $phrasesArray);
+                $newContent .= "\n";
+                continue;
             }
         }
-        $newContent .= implode("*", $phrasesArray);
-        $newContent .= "\n";
+        $newContent .= $linea."\n";
     }
-
     file_put_contents("../sentences.txt", trim($newContent));
     fclose($sentencesFile);
     $_SESSION['imagenCreada'] = $fileSaveSuccess;
@@ -57,13 +74,52 @@ if (isset($_FILES['uploadimage']) && !empty($_FILES['uploadimage']['name'])) {
 
 <body class="uploadImage">
     <?php
+
     echo "<div id=''>";
-    echo "<form action='upload_image.php' method='post' enctype='multipart/form-data'>";
+    echo '<form method="get">';
+    echo '<select name="lang" onchange="this.form.submit()">';
+    $archivo = fopen('../idiomas.txt', 'r');
+    if ($archivo) {
+        while (($linea = fgets($archivo)) !== false) {
+            $linea = trim($linea);
+            if ($linea === '') continue;
+            if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+                $idioma = substr($linea, 1, -1); // quita los corchetes
+                if (isset($_GET['lang']) && $idioma === $_GET['lang']) {
+                    echo "<option selected value='".$idioma."'>".$idioma."</option>";
+                }
+                else {
+                    echo "<option value='".$idioma."'>".$idioma."</option>";
+                }
+            }
+        }
+        fclose($archivo);
+    }
+    echo '</select>';
+    echo '</form>';
+    echo "<form method='post' enctype='multipart/form-data'>";
+
+    $sentencesLines = [];
+    $dentroIdioma = false;
+
     $sentencesFile = fopen("../sentences.txt", "r+");
-    $difficulties = [];
-    
     while (!feof($sentencesFile)) {
-        $difficultyLevel = explode(":", fgets($sentencesFile));
+        $linea = fgets($sentencesFile);
+        if ($linea === false) continue;
+        $linea = trim($linea);
+        if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+            $idiomaActual = substr($linea, 1, -1);
+            $dentroIdioma = (isset($_GET['lang']) && $idiomaActual === $_GET['lang']);
+            continue;
+        }
+        if ($dentroIdioma && $linea !== '') {
+            $sentencesLines[] = $linea;
+        }
+    }
+    $difficulties = [];
+
+    foreach ($sentencesLines as $sentenceValue) {
+        $difficultyLevel = explode(":", $sentenceValue);
         $difficulty = $difficultyLevel[0];
         $phrases = $difficultyLevel[1];
         $separatePhrases = explode("*", $difficultyLevel[1]);
@@ -82,10 +138,15 @@ if (isset($_FILES['uploadimage']) && !empty($_FILES['uploadimage']['name'])) {
 
     echo "<label for='selectdifficulty'>Selecciona el nivel de dificultad</label>";
     echo "<select name='selectdifficulty' id='selectdifficulty'>";
-    for ($j = 0; $j < count($difficulties); $j++) {
-        echo "<option value='" . $difficulties[$j] . "'>" . ucfirst($difficulties[$j]) . "</option>";
-    }
+        echo "<option value='sencillo'>" . $_SESSION['lang_data']['DIFFICULTY_SIMPLE'] . "</option>";
+        echo "<option value='normal'>" . $_SESSION['lang_data']['DIFFICULTY_NORMAL'] . "</option>";
+        echo "<option value='experto'>" . $_SESSION['lang_data']['DIFFICULTY_EXPERT'] . "</option>";
     echo "</select>";
+    //Este for recoge las dificultades directamente, pero en lugar de ser DIFFICULTY_SENCILLO es DIFFICULTY_SIMPLE. Entonces se tiene que poner tal cual.
+    // for ($j = 0; $j < count($difficulties); $j++) {
+    //     echo "<option value='" . $difficulties[$j] . "'>" . ucfirst($difficulties[$j]) . "</option>";
+    // }
+    
     echo "<input type='file' name='uploadimage'>";
     if (isset($_POST["selectdifficulty"]) && (!isset($_FILES['uploadimage']) || empty($_FILES['uploadimage']['name']))){
         echo 'Tienes que insertar una imagen';

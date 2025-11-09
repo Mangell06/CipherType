@@ -26,9 +26,11 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
     if (isset($_SESSION['fraseCreada']) && $_SESSION['fraseCreada']) {
             echo "<p class='correct'>" . $_SESSION['lang_data']['CORRECT_ADD_PHRASE'] . "</p>";
             unset($_SESSION['fraseCreada']);
-        } else if (isset($_POST["deleteSuccess"]) && $_POST["deleteSuccess"]) {
-            echo "<p class='correct'>" . $_SESSION['lang_data']['CORRECT_DELET_PHRASE'] . "/p>";
-        }
+    } else if (isset($_POST["deleteSuccess"]) && $_POST["deleteSuccess"]) {
+        echo "<p class='correct'>" . $_SESSION['lang_data']['CORRECT_DELET_PHRASE'] . "</p>";
+    } else if (isset($_SESSION['imagenCreada']) && $_SESSION['imagenCreada']){
+        echo "<p class='correct'>" . $_SESSION['lang_data']['CORRECT_INSERT_IMAGE'] . "</p>";
+    }
     echo '</div>';
     echo '<div class="toolscontainer">';
         echo '<div class="todo">';
