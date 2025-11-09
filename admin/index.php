@@ -18,27 +18,32 @@ session_start();
 </head>
 <?php
 if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
-    echo '<body>';
+    echo '<body class="panel">';
     echo '<div class="admincontainermain">';
     $username = $_SESSION['username'];
-    echo '<form action="/admin/logout.php" method="post" id="logoutcontainer">';
-    echo "<p>" . $_SESSION['lang_data']['WELCOME_USER'] . " $username</p>";
-    echo '<button type="submit" id="buttonLogout">' . $_SESSION['lang_data']['TEXT_LOGOUT'] . '</button>';
-    echo '</form>';
-
-    echo '<div class="toolscontainer">';
-        echo '<div class="todo">';
-         if (isset($_SESSION['fraseCreada']) && $_SESSION['fraseCreada']) {
+    echo '<div class="phrases">';
+    echo "<p class='welcome'>" . $_SESSION['lang_data']['WELCOME_USER'] . " $username</p>";
+    if (isset($_SESSION['fraseCreada']) && $_SESSION['fraseCreada']) {
             echo "<p class='correct'>" . $_SESSION['lang_data']['CORRECT_ADD_PHRASE'] . "</p>";
             unset($_SESSION['fraseCreada']);
         } else if (isset($_POST["deleteSuccess"]) && $_POST["deleteSuccess"]) {
             echo "<p class='correct'>" . $_SESSION['lang_data']['CORRECT_DELET_PHRASE'] . "/p>";
         }
+    echo '</div>';
+    echo '<div class="toolscontainer">';
+        echo '<div class="todo">';
+         
         echo '<div class="buttonpanel">';
             echo "<form action='/admin/create_sentence.php' method='post' style='display:inline;'>";
                 echo '<button type="submit" id="addbutton">' . $_SESSION['lang_data']['TEXT_ADD_PHRASES'] . '</button>';
             echo '</form>';
+            echo "<form action='/admin/upload_image.php' method='get' style='display:inline;'>";
+                echo '<button type="submit" id="addImagebutton">Insertar imágenes</button>';
+            echo '</form>';
             echo '<button type="button" id="toggleView">' . $_SESSION['lang_data']['LIST_PHRASES'] . '</button>';
+            echo '<form action="/admin/logout.php" method="post" id="logoutcontainer">';
+            echo '<button type="submit" id="buttonLogout">' . $_SESSION['lang_data']['TEXT_LOGOUT'] . '</button>';
+            echo '</form>';
         echo '</div>';
         echo '<br/>';
         echo '<div id="contentContainer" style="display:'. (isset($_POST['selectdifficulty']) ? 'block' : 'none') .';">';
@@ -152,7 +157,7 @@ document.addEventListener("keydown", (event)=>{
         }
         buttonLogout.classList.add("highlightButtonText");
         setTimeout(() => { buttonLogout.click(); }, "1000");
-    } else if (event.key === "+"){    
+    } else if (event.key === "a"){    
         if (addbutton == null) {
             return;
         }

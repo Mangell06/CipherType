@@ -33,6 +33,7 @@ if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
             echo "</div>";
         }
     ?>
+    
     <?php
     echo '<img class="mesa" src="media/mesa.jpg" alt="'. $_SESSION['lang_data']['ALT_MESA'].'">';
     ?>
@@ -65,13 +66,35 @@ if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
          echo '<p>'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][3].'</p>';
     ?>
     </div>
+    <div id="temp"></div>
     <form id="endForm" action="gameover.php" method="POST" style="display:none;">
         <input type="hidden" name="points" id="pointsField">
+        <input type="hidden" name="temp" id="tempField">
     </form>
     <script>
         const closeSession = document.getElementById("closeSession");
+        const tempDiv = document.getElementById("temp")
         const destroySession = () => {
             window.location = "/destroy_session.php";
+        }
+
+        let temp = -4
+        setInterval(()=>{
+            temp += 1;
+            if (temp < 0){tempDiv.innerText = "00:00:00";}
+            else{tempDiv.innerText = formatearTiempo(temp);}
+        },1000)
+
+        function formatearTiempo(segundos) {
+            const horas = Math.floor(segundos / 3600);
+            const minutos = Math.floor((segundos % 3600) / 60);
+            const segundosRestantes = segundos % 60;
+
+            const formatoHoras = String(horas).padStart(2, '0');
+            const formatoMinutos = String(minutos).padStart(2, '0');
+            const formatoSegundos = String(segundosRestantes).padStart(2, '0');
+
+            return `${formatoHoras}:${formatoMinutos}:${formatoSegundos}`;
         }
 
         const correctSound = new Audio('media/correctchoice.mp3');
@@ -240,6 +263,7 @@ if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
 
         function endGame() {
             document.getElementById("pointsField").value = points;
+            document.getElementById("tempField").value = temp;
             document.getElementById("endForm").submit();
         }
 
