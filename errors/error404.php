@@ -1,4 +1,5 @@
 <?php
+    session_start();
     if (!isset($_SESSION['lang_data'])) {
         header('Location: index.php');
         exit;
