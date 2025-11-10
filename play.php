@@ -33,9 +33,16 @@ if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
             echo "</div>";
         }
     ?>
-    
+        <div id='bonusSpecialWrapper' class="bonusWrapper hideBonus">
+        <div class="mainBonus">
+        <div class="containerBonus">
+        <p id="multiplicatorBonus">X3</p>
+        <progress id="file" max="100" value="100">3S</progress>
+        </div>
+        </div>
+        </div>
     <?php
-    echo '<img class="mesa" src="media/mesa.jpg" alt="'. $_SESSION['lang_data']['ALT_MESA'].'">';
+        echo '<img class="mesa" src="media/mesa.jpg" alt="'. $_SESSION['lang_data']['ALT_MESA'].'">';
     ?>
     <div class="machine">
         <div class="textos">
@@ -72,6 +79,12 @@ if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
         <input type="hidden" name="temp" id="tempField">
     </form>
     <script>
+        let pendingAccent = "";
+        let indexLetter = 0;
+        let funcionar = false;
+        let multiplicador = 1;
+        let letrasAcertadas = 0;
+        let letrasErroneas = 0;
         const closeSession = document.getElementById("closeSession");
         const tempDiv = document.getElementById("temp")
         const destroySession = () => {
@@ -84,6 +97,35 @@ if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
             if (temp < 0){tempDiv.innerText = "00:00:00";}
             else{tempDiv.innerText = formatearTiempo(temp);}
         },1000)
+        
+        let countPulsation = 3
+        const progress = document.getElementById("file");
+        let inverseCountPulsation = 1;
+        setInterval(()=>{
+            if (letrasAcertadas > 5) {
+                countPulsation -= 1;
+                progress.value = 100 - 33 * inverseCountPulsation;
+                inverseCountPulsation += 1;
+            } else {
+                inverseCountPulsation = 1;
+                countPulsation = 3;
+            }
+            if (countPulsation < 0) {
+                const containerBonus = document.getElementById('bonusSpecialWrapper');
+                const multiplicatorP = document.getElementById('multiplicatorBonus');
+                multiplicador = 0;
+                countPulsation = 3;
+                letrasAcertadas = 0;
+                letrasErroneas = 0;
+                if (letrasAcertadas >= 5) {
+                    multiplicatorP.textContent = "X"+multiplicador;
+                    containerBonus.classList.remove("hideBonus");
+                } else {
+                    multiplicatorP.textContent = "X"+multiplicador;
+                    containerBonus.classList.add("hideBonus");
+                }
+            }
+        },1000);
 
         function formatearTiempo(segundos) {
             const horas = Math.floor(segundos / 3600);
@@ -223,10 +265,6 @@ if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
             funcionar = true;
         }
 
-        let pendingAccent = "";
-        let indexLetter = 0;
-        let funcionar = false;
-
         function checkInput(isMayus, inletter) {
             const letter = document.getElementById("letter"+indexLetter);
             if (/’|‘/.test(letter.textContent)) {
@@ -240,24 +278,48 @@ if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
         }
 
         function isCorrectLetter(iscorrect, isspace) {
+            const anteriorMultiplicator = multiplicador;
             const letter = document.getElementById("letter"+indexLetter);
             if (!isspace) {
                 letter.className = iscorrect ? "correct" : "error";
-                points += iscorrect ? 100 : -100;
+                points += iscorrect ? 100 * multiplicador : -100;
                 if (iscorrect) {
                     correctSound.play();
+                    letrasAcertadas += 1;   
                 } else {
                     wrongSound.play();
+                    letrasErroneas += 1;
                 }
             } else {
                 if (letter.textContent != " ") {
                     letter.className = "error";
                     wrongSound.play();
                     points -= 100
+                    letrasErroneas += 1;
                 } else {
                     correctSound.play();
-                    points += 100;   
+                    points += 100 * multiplicador;
+                    letrasAcertadas += 1;   
                 }
+            }
+            const containerBonus = document.getElementById('bonusSpecialWrapper');
+            if (letrasErroneas === 3) {
+                letrasAcertadas = letrasAcertadas < 5 ? 0 : letrasAcertadas - 5;
+                letrasErroneas = 0;
+            }
+            const multiplicatorP = document.getElementById('multiplicatorBonus');
+            multiplicador = Math.floor(letrasAcertadas / 5);
+            if (letrasAcertadas >= 5) {
+                multiplicatorP.textContent = "X"+multiplicador;
+                containerBonus.classList.remove("hideBonus");
+            } else {
+                multiplicatorP.textContent = "X"+multiplicador;
+                containerBonus.classList.add("hideBonus");
+            }
+            if (anteriorMultiplicator !== multiplicador) {
+                countPulsation = 3;
+                inverseCountPulsation = 1;
+                progress.value = 100;
             }
         }
 
@@ -281,8 +343,8 @@ if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
                     pendingAccent = "";
                 }
                 if (
-                (event.key === "Shift" && !event.ctrlKey) ||
-                (event.key === "Control" && !event.shiftKey)
+                (e.key === "Shift" && !e.ctrlKey) ||
+                (e.key === "Control" && !e.shiftKey)
                 ) return;
                 let iscorrect = e.shiftKey;
                 iscorrect = checkInput(iscorrect, inputChar);
@@ -303,7 +365,7 @@ if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
             setTimeout(() => {
                 closeSession.click();
             }, "1000");
-    }})
+        }});
 
     </script>
 </body>
