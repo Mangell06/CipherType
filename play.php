@@ -7,6 +7,55 @@ if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
     header('Location: index.php');
     exit;
 }
+
+$randomPhrase = "";
+$difficulty = $_POST["indifficulty"];
+$sentencesLines = [];
+$dentroIdioma = false;
+
+$sentencesFile = fopen("sentences.txt", "r");
+while (!feof($sentencesFile)) {
+    $linea = fgets($sentencesFile);
+    if ($linea === false) continue;
+    $linea = trim($linea);
+    if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+        $idiomaActual = substr($linea, 1, -1);
+        $dentroIdioma = ($idiomaActual === $_SESSION['selected_lang']);
+        continue;
+    }
+    if ($dentroIdioma && $linea !== '') {
+        $sentencesLines[] = $linea;
+    }
+}
+fclose($sentencesFile);
+
+
+$textoSencilloSubstringTrim = trim(substr($sentencesLines[0], 9));
+$separateSentences = explode("*", $textoSencilloSubstringTrim);
+
+if (!function_exists('getRandomPhrase')) {
+    function getRandomPhrase($stringFrases){
+        $textoSubstringTrim = trim($stringFrases);
+        $array = explode("*", $textoSubstringTrim);
+        $randomPhraseKey = array_rand($array, 1);
+        return $array[$randomPhraseKey];
+    }
+}
+
+
+
+$phraseWithImage;
+if (isset($difficulty) && $difficulty === "sencillo") {
+    $phraseWithImage = getRandomPhrase(substr($sentencesLines[0], 9));
+} else if (isset($difficulty) && $difficulty === "normal") {
+    $phraseWithImage = getRandomPhrase(substr($sentencesLines[1], 7));
+} else if (isset($difficulty) && $difficulty === "experto") {
+    $phraseWithImage = getRandomPhrase(substr($sentencesLines[2], 8));
+}
+
+$phraseWithImageSplit = explode("|", $phraseWithImage);
+$imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,6 +87,9 @@ if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
     echo '<img class="mesa" src="media/mesa.jpg" alt="'. $_SESSION['lang_data']['ALT_MESA'].'">';
     ?>
     <div class="machine">
+        <?php
+        echo $imageName == "" ? "" : "<img id='image' class='imagePhrase hidden' src='/admin/image/$imageName'>";
+        ?>
         <div class="textos">
             <p id="timer"></p>
             <?php
@@ -48,7 +100,7 @@ if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
             </div>
         </div>
         <?php
-            echo '<img src="media/typingmachine.png" alt="'. $_SESSION['lang_data']['ALT_MACHINE'].'">';
+            echo '<img class="typingMachine" src="media/typingmachine.png" alt="'. $_SESSION['lang_data']['ALT_MACHINE'].'">';
         ?>
     </div>
     <?php
@@ -73,6 +125,7 @@ if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
     </form>
     <script>
         const closeSession = document.getElementById("closeSession");
+        const image = document.getElementById("image");
         const tempDiv = document.getElementById("temp")
         const destroySession = () => {
             window.location = "/destroy_session.php";
@@ -162,52 +215,15 @@ if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
         const afterInterval = () => {
             p.style.display = "none";
             pInformation.classList.remove("hidden");
+            image?.classList.remove("hidden");
             render();
         }
 
-         const frase = "<?php
-       $randomPhrase = "";
-        $difficulty = $_POST["indifficulty"];
-        $sentencesLines = [];
-        $dentroIdioma = false;
-
-        $sentencesFile = fopen("sentences.txt", "r");
-        while (!feof($sentencesFile)) {
-            $linea = fgets($sentencesFile);
-            if ($linea === false) continue;
-            $linea = trim($linea);
-            if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
-                $idiomaActual = substr($linea, 1, -1);
-                $dentroIdioma = ($idiomaActual === $_SESSION['selected_lang']);
-                continue;
-            }
-            if ($dentroIdioma && $linea !== '') {
-                $sentencesLines[] = $linea;
-            }
-        }
-        fclose($sentencesFile);
-
-        
-        $textoSencilloSubstringTrim = trim(substr($sentencesLines[0], 9));
-        $separateSentences = explode("*", $textoSencilloSubstringTrim);
-        
-        if (!function_exists('getRandomPhrase')) {
-            function getRandomPhrase($stringFrases){
-                $textoSubstringTrim = trim($stringFrases);
-                $array = explode("*", $textoSubstringTrim);
-                $randomPhraseKey = array_rand($array, 1);
-                return $array[$randomPhraseKey];
-            }
-        }
-        
-        if (isset($difficulty) && $difficulty === "sencillo") {
-            echo getRandomPhrase(substr($sentencesLines[0], 9));
-        } else if (isset($difficulty) && $difficulty === "normal") {
-            echo getRandomPhrase(substr($sentencesLines[1], 7));
-        } else if (isset($difficulty) && $difficulty === "experto") {
-            echo getRandomPhrase(substr($sentencesLines[2], 8));
-        }
-        ?>";
+        <?php
+        echo 'const frase = "';
+        echo $phraseWithImageSplit[0].'";';
+        // echo 'const imageName = "'.(isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "").'";';
+        ?>
 
          const showPhrase = () => { const span = document.getElementById("letter"+indexLetter); span.className = "highlight"; };
 
