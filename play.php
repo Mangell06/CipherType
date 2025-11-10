@@ -310,12 +310,8 @@ $imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
                 if (letter.textContent != " ") {
                     letter.className = "error";
                     wrongSound.play();
-                    points -= 100
-                    letrasErroneas += 1;
                 } else {
                     correctSound.play();
-                    points += 100 * multiplicador;
-                    letrasAcertadas += 1;   
                 }
             }
             const containerBonus = document.getElementById('bonusSpecialWrapper');
