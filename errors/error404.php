@@ -1,3 +1,10 @@
+<?php
+    session_start();
+    if (!isset($_SESSION['lang_data'])) {
+        header('Location: index.php');
+        exit;
+    }
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,19 +17,25 @@
 </head>
 <body class="error">
     <div class="postit">
-        <img class="topPin" src="/media/pin.png" alt="Imagen de una chincheta">
-        <img src="/media/postit.png" alt="Imagen de un post-it">
-        <p>Watson parece que hemos perdido la pista... La página que buscas no existe.</p>
+        <?php
+        echo '<img class="topPin" src="/media/pin.png" alt="'. $_SESSION['lang_data']['TEXT_PUSHPIN'] .'">';
+        echo '<img src="/media/postit.png" alt="'. $_SESSION['lang_data']['TEXT_POSTIT'] .'">';
+        echo "<p>". $_SESSION['lang_data']['TEXT_ERROR_404'] ."</p>";
+        ?>
     </div>
 
     <div class="smallPostits">
         <div>
-            <img class="pins" src="/media/pin.png" alt="Imagen de una chincheta">
-            <input type="button" id="goIndex" value="Página inicial" onclick="changePageInitialPage()">
+            <?php
+            echo '<img class="pins" src="/media/pin.png" alt="'. $_SESSION['lang_data']['TEXT_PUSHPIN'] .'">';
+            echo '<input type="button" id="goIndex" value="'. $_SESSION['lang_data']['TEXT_BUTTON_RETURN'] .'" onclick="changePageInitialPage()">';
+            ?>
         </div>
         <div>
-            <img class="pins" src="/media/pin.png" alt="Imagen de una chincheta">
-            <input type="button" id="goRanking" value="Ranking" onclick="changePageStatsPage()">
+            <?php
+            echo '<img class="pins" src="/media/pin.png" alt="'. $_SESSION['lang_data']['TEXT_PUSHPIN'] .'">';
+            echo '<input type="button" id="goRanking" value="'. $_SESSION['lang_data']['TEXT_BUTTON_RANKING'] .'" onclick="changePageStatsPage()">';
+            ?>
         </div>
      </div>
 

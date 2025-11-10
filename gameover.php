@@ -1,13 +1,15 @@
 <?php
     session_start();
-    $name = $_SESSION['name'];
-    $points = $_POST['points'];
-    if (!isset($name) || !isset($points)) {
+    if (!isset($_SESSION['name']) || !isset($_POST['points'])) {
         header("HTTP/1.1 403 Forbidden");
         header('Location: /errors/error403.php');
         exit();
     }
+    $name = $_SESSION['name'];
+    $points = $_POST['points'];
+    $temp = $_POST['temp'];
     $_SESSION["points"] = $points;
+    $_SESSION["temp"] = $temp;
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -23,27 +25,43 @@
     <?php
         if (isset($_SESSION['name'])) {
             echo "<div class='cancelSession sh-reveal'>";
-            echo "<p class='sh-highlight'>Nombre: ".$_SESSION['name']."</p>";
+            echo "<p class='sh-highlight'>" . $_SESSION['lang_data']['TEXT_NAME'] . ": ".$_SESSION['name']."</p>";
             echo "<button type='submit' id='closeSession' onclick='destroySession()' class='sh-lens sh-focus'>Cerrar sesión</button>";
             echo "</div>";
         }
+
+        function formatearTiempo($segundos) {
+        if ($segundos === null) return null;
+        $horas = floor($segundos / 3600);
+        $minutos = floor(($segundos % 3600) / 60);
+        $segundosRestantes = $segundos % 60;
+
+        return sprintf("%02d:%02d:%02d", $horas, $minutos, $segundosRestantes);
+    }
     ?>
     <div class="gameoverDiv sh-reveal">
-        <h1 class="sh-highlight">¿Quieres registrar tu récord?</h1>
+        
+    <?php
+       echo '<h1 class="sh-highlight">'. $_SESSION['lang_data']['TITLE_GAME_OVER'] .'</h1>';
+    ?>
 
          <?php
             echo "<table class='sh-reveal'>";
-            echo "<tr><th>Nombre</th><th>Puntos</th></tr>";
-            echo "<tr><td>".$name."</td><td>".$points."</td></tr>";
+            echo "<tr><th>". $_SESSION['lang_data']['TEXT_NAME'] ."</th><th>". $_SESSION['lang_data']['TEXT_POINTS'] ."</th><th>". $_SESSION['lang_data']['TEXT_TEMP'] ."</th></tr>";
+            echo "<tr><td>".$name."</td><td>".$points."</td><td>".formatearTiempo($temp)."</td></tr>";
             echo "</table>";
          ?>
 
         <div class="buttons">
             
             <form action="./ranking.php" method="post" class="buttons" style="display:inline;">
-                <button type="submit" id="returnRanking" value="Sí, lo quiero registrar" class="sh-lens sh-focus">Sí, lo quiero registrar</button>
+            <?php
+                echo '<button type="submit" id="returnRanking" value="Sí, lo quiero registrar" class="sh-lens sh-focus">'. $_SESSION['lang_data']['TEXT_REGISTER'] .'</button>'
+            ?>
             </form>
-            <button type="submit" id="returnIndex" value="No lo quiero registrar" class="sh-lens sh-focus">No lo quiero registrar</button>
+            <?php
+                echo '<button type="submit" id="returnIndex" value="No lo quiero registrar" class="sh-lens sh-focus">'. $_SESSION['lang_data']['TEXT_NOT_REGISTER'] .'</button>'
+            ?>
         </div>
     </div>
     <script>

@@ -18,41 +18,90 @@
     <?php
         if (isset($_SESSION['name'])) {
             echo "<div class='cancelSession'>";
-            echo "<p>Nombre: ".$_SESSION['name']."</p>";
-            echo "<button type='submit' id='closeSession' onclick='destroySession()'>Cerrar sesión</button>";
+            echo "<p>". $_SESSION['lang_data']['TEXT_NAME'].": ".$_SESSION['name']."</p>";
+            echo "<button type='submit' id='closeSession' onclick='destroySession()'>". $_SESSION['lang_data']['TEXT_LOGOUT']."</button>";
             echo "</div>";
         }
+    if (!isset($_POST['lenguageselect']) && !isset($_SESSION['selected_lang'])) {
+        echo "<div class='languageMain'>";
+        echo "<form method='post'>";
+        echo "<select name='lenguageselect' id='lenguageselect' onchange='this.form.submit()'>";
+        echo "<option value='' selected disabled hidden>CASTELLANO</option>";
+        $archivo = fopen('idiomas.txt', 'r');
+        if ($archivo) {
+            while (($linea = fgets($archivo)) !== false) {
+                $linea = trim($linea);
+                if ($linea === '') continue;
+                if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+                    $idioma = substr($linea, 1, -1); // quita los corchetes
+                    echo "<option value='".$idioma."'>".$idioma."</option>";
+                }
+            }
+            fclose($archivo);
+        }
+        echo "</select>";
+        echo "</form>";
+        echo "</div>";
+    } else {
+        if (isset($_POST['lenguageselect'])) {
+            $idiomaSeleccionado = $_POST['lenguageselect'];
+            $_SESSION['selected_lang'] = $idiomaSeleccionado;
+            $_SESSION['lang_data'] = [];
+             $archivo = fopen('idiomas.txt', 'r');
+            $dentroIdioma = false;
+            while (($linea = fgets($archivo)) !== false) {
+                $linea = trim($linea);
+                if ($linea === '') continue;
+                if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+                    $idiomaActual = substr($linea, 1, -1);
+                    $dentroIdioma = ($idiomaActual === $idiomaSeleccionado);
+                    continue;
+                }
+                if ($dentroIdioma && strpos($linea, '=') !== false) {
+                    list($clave, $valor) = explode('=', $linea, 2);
+                    $clave = trim($clave);
+                    if (str_contains($valor, '|')) {
+                        $valor = trim($valor, "\"|\t ");
+                        $_SESSION['lang_data'][$clave] = array_map(
+                            fn($v) => trim($v, '"'),
+                            explode('|', $valor)
+                        );
+                    } else { 
+                        $valor = trim($valor, "\"\t ");
+                        $_SESSION['lang_data'][$clave] = $valor;
+                    }
+                }
+            }
+            fclose($archivo);
+        }
+        echo "<div class='maincontainer'>";
+        echo "<form action='./play.php' method='post' class='datacontainer'>";
+        echo "<h1>CipherType</h1>";
+        echo "<div class='incontainer'>";
+        echo '<input type="text" id="inname" name="inname" placeholder="' . $_SESSION['lang_data']['TEXT_NAME_GAME'] . '">';
+        echo "<select name='indifficulty' id='indifficulty'>";
+        echo "<option value='sencillo'>" . $_SESSION['lang_data']['DIFFICULTY_SIMPLE'] . "</option>";
+        echo "<option value='normal'>" . $_SESSION['lang_data']['DIFFICULTY_NORMAL'] . "</option>";
+        echo "<option value='experto'>" . $_SESSION['lang_data']['DIFFICULTY_EXPERT'] . "</option>";
+        echo "</select>";
+        echo "<button disabled type='submit' id='buttonInitialitze'>" . $_SESSION['lang_data']['TEXT_INITIALITZE'] . "</button>";
+        echo "<p id='messageerror' class='error'></p>";
+        echo "<noscript>";
+        echo "<p class='error'>" . $_SESSION['lang_data']['TEXT_ERROR_JAVASCRIPT'] . "</p>";
+        echo "</noscript>";
+        echo "</div>";
+        echo "</form>";
+        echo "<div class='datacontainer'>";
+        echo "<h1>Descripción</h1>";
+        echo "<p>" . $_SESSION['lang_data']['DESCRIPTION_GAME'] . "</p>";
+        echo "</div>";
+        echo "</div>";
+        echo "<img class='mesa' src='media/mesamesa.jpg' alt='" . $_SESSION['lang_data']['ALT_MESA'] . "'>";
+        echo "<div class='machine'>";
+        echo "<img class='typingMachine' src='media/typingmachine.png' alt='" . $_SESSION['lang_data']['ALT_MACHINE'] . "'>";
+        echo "</div>";
+    }
     ?>
-    <div class="maincontainer">
-        <form action="./play.php" method="post" class="datacontainer">
-            <h1>CipherType</h1>
-            <div class="incontainer">
-                <input type="text" id="inname" name="inname" placeholder="Introduzca su nombre">
-                <select disabled name="indifficulty" id="indifficulty">
-                    <option value="sencillo">Sencillo</option>
-                    <option value="normal">Normal</option>
-                    <option value="experto">Experto</option>
-                </select>
-                <button disabled type="submit" id="buttonInitialitze">Inicializar</button>
-                <p id="messageerror" class="error"></p>
-                <noscript>
-                <p class="error">Querido Watson, debes activar el javascript para seguirle la pista</p>
-                </noscript>
-            </div>
-        </form>
-        <div class="datacontainer">
-            <h1>Descripción</h1>
-            <p>
-                Mi querido Watson, este juego es una batalla entre tu mente
-                y el paso del tiempo: las palabras son las pistas, y tu rapidez 
-                y precisión al escribir son la clave para ganar.
-            </p>
-        </div>
-    </div>
-    <img class="mesa" src="media/mesamesa.jpg" alt="Imagen de una mesa">
-    <div class="machine">
-        <img src="media/typingmachine.png" alt="Imagen de máquina de escribir">
-    </div>
     <script>
     const closeSession = document.getElementById("closeSession");
         const destroySession = () => {
@@ -67,7 +116,7 @@
         if (input.value.trim() === "") {
             event.preventDefault();
             const message = document.getElementById('messageerror');
-            message.textContent = "Querido Watson, tu nombre no puede ser un espacio vacio";
+            message.textContent = "<?php echo $_SESSION['lang_data']['TEXT_ERROR_NAME'];?>";
         }
     });
 

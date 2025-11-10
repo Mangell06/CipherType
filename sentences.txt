@@ -1,3 +1,12 @@
-sencillo:Nota doblada sobre mesa encontrada*Reloj marca hora exacta del crimen*Huellas de barro van a ventana*Visitante inesperado salió sin ser visto
+[CASTELLANO]
+sencillo:Reloj marca hora exacta del crimen*Huellas de barro van a ventana*Visitante inesperado salió sin ser visto*WQRWETRWE
 normal:Pañuelo con iniciales indica presencia de alguien*Lámpara encendida revela detalles antes ignorados*Aroma de tabaco no coincide con inquilinos*Carta rota esconde palabras clave importantes*Movimiento del sospechoso deja patrón reconocible
 experto:Sombra proyectada por lámpara revela silueta sospechosa perfectamente visible*Combinación de relojes, huellas y escritos permite deducir orden de eventos*Pequeñas manchas de tinta forman mensaje oculto entre páginas del diario*Ausencia de ciertos objetos es tan relevante como presencia de otros*Solo quien analiza lógicamente puede reconstruir verdad completa del caso
+[ENGLISH]
+sencillo:Clock shows exact time of the crime*Mud footprints lead to the window*Unexpected visitor left without being seen*WQRWETRWE
+normal:Handkerchief with initials indicates someone’s presence*Lit lamp reveals details previously ignored*Tobacco smell does not match the tenants*Broken letter hides important key words*Suspect’s movement leaves recognizable pattern
+experto:Shadow cast by lamp reveals perfectly visible suspicious silhouette*Combination of clocks, footprints, and writings allows deducing event order*Small ink stains form hidden message within diary pages*Absence of certain objects is as relevant as presence of others*Only those who analyze logically can reconstruct the full truth of the case
+[CATALÁN]
+sencillo:Rellotge marca l’hora exacta del crim*Empremtes de fang van a la finestra*Visitant inesperat va sortir sense ser vist*WQRWETRWE
+normal:Mocador amb inicials indica la presència d’algú*Llàntia encesa revela detalls abans ignorats*Aroma de tabac no coincideix amb els inquilins*Carta trencada amaga paraules clau importants*Moviment del sospitós deixa patró reconeixible
+experto:Ombra projectada per la llàntia revela silueta sospitosa perfectament visible*Combinació de rellotges, empremtes i escrits permet deduir l’ordre d’esdeveniments*Petites taques d’alleta formen missatge ocult entre pàgines del diari*Absència de certs objectes és tan rellevant com la presència d’altres*Només qui analitza lògicament pot reconstruir la veritat completa del cas

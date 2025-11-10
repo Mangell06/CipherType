@@ -1,6 +1,12 @@
+<?php
+    session_start();
+    if (!isset($_SESSION['lang_data'])) {
+        header('Location: ../index.php');
+        exit;
+    }
+?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,14 +20,18 @@
 
 <body class="error">
     <div class="postit">
-        <img class="topPin" src="/media/pin.png" alt="Imagen de una chincheta">
-        <img src="/media/postit.png" alt="Imagen de una post-it">
-        <p>Watson, ¿cómo esperas descubrir al culpable si ni siquiera has revisado las pistas? Acceso denegado.</p>
+    <?php
+        echo '<img class="topPin" src="/media/pin.png" alt="'. $_SESSION['lang_data']['TEXT_PUSHPIN'] .'">';
+        echo '<img src="/media/postit.png" alt="'. $_SESSION['lang_data']['TEXT_POSTIT'] .'">';
+        echo "<p>". $_SESSION['lang_data']['TEXT_ERROR_403'] ."</p>"
+    ?>
     </div>
     <div class="smallPostits">
         <div>
-            <img class="pins" src="/media/pin.png" alt="Imagen de una chincheta">
-            <input type="button" id="goIndex" value="Página inicial" onclick="changePage()">
+            <?php
+            echo '<img class="pins" src="/media/pin.png" alt='. $_SESSION['lang_data']['TEXT_PUSHPIN'] .'>';
+            echo '<input type="button" id="goIndex" value='. $_SESSION['lang_data']['TEXT_BUTTON_RETURN'] .' onclick="changePage()">';
+            ?>
         </div>
     </div>
     <script>

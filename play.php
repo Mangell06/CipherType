@@ -3,6 +3,59 @@ session_start();
 if (isset($_POST['inname'])) {
     $_SESSION['name'] = $_POST['inname'];
 }
+if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
+    header('Location: index.php');
+    exit;
+}
+
+$randomPhrase = "";
+$difficulty = $_POST["indifficulty"];
+$sentencesLines = [];
+$dentroIdioma = false;
+
+$sentencesFile = fopen("sentences.txt", "r");
+while (!feof($sentencesFile)) {
+    $linea = fgets($sentencesFile);
+    if ($linea === false) continue;
+    $linea = trim($linea);
+    if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+        $idiomaActual = substr($linea, 1, -1);
+        $dentroIdioma = ($idiomaActual === $_SESSION['selected_lang']);
+        continue;
+    }
+    if ($dentroIdioma && $linea !== '') {
+        $sentencesLines[] = $linea;
+    }
+}
+fclose($sentencesFile);
+
+
+$textoSencilloSubstringTrim = trim(substr($sentencesLines[0], 9));
+$separateSentences = explode("*", $textoSencilloSubstringTrim);
+
+if (!function_exists('getRandomPhrase')) {
+    function getRandomPhrase($stringFrases){
+        $textoSubstringTrim = trim($stringFrases);
+        $array = explode("*", $textoSubstringTrim);
+        $randomPhraseKey = array_rand($array, 1);
+        return $array[$randomPhraseKey];
+    }
+}
+
+
+
+$phraseWithImage;
+if (isset($difficulty) && $difficulty === "sencillo") {
+    $phraseWithImage = getRandomPhrase(substr($sentencesLines[0], 9));
+} else if (isset($difficulty) && $difficulty === "normal") {
+    $phraseWithImage = getRandomPhrase(substr($sentencesLines[1], 7));
+} else if (isset($difficulty) && $difficulty === "experto") {
+    $phraseWithImage = getRandomPhrase(substr($sentencesLines[2], 8));
+}
+
+$phraseWithImageSplit = explode("|", $phraseWithImage);
+$imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,8 +77,8 @@ if (isset($_POST['inname'])) {
     <?php
         if (isset($_SESSION['name'])) {
             echo "<div class='cancelSession'>";
-            echo "<p>Nombre: ".$_SESSION['name']."</p>";
-            echo "<button type='submit' id='closeSession' onclick='destroySession()'>Cerrar sesión</button>";
+            echo "<p>". $_SESSION['lang_data']['TEXT_NAME'].": ".$_SESSION['name']."</p>";
+            echo "<button type='submit' id='closeSession' onclick='destroySession()'>". $_SESSION['lang_data']['TEXT_LOGOUT']."</button>";
             echo "</div>";
         }
     ?>
@@ -43,35 +96,114 @@ if (isset($_POST['inname'])) {
         ?></span>
     </div>
     <img class="mesa" src="media/mesa.jpg" alt="Imagen de una mesa">
+        <div id='bonusSpecialWrapper' class="bonusWrapper hideBonus">
+        <div class="mainBonus">
+        <div class="containerBonus">
+        <p id="multiplicatorBonus">X3</p>
+        <progress id="file" max="100" value="100">3S</progress>
+        </div>
+        </div>
+        </div>
+    <?php
+        echo '<img class="mesa" src="media/mesa.jpg" alt="'. $_SESSION['lang_data']['ALT_MESA'].'">';
+    ?>
     <div class="machine">
+        <?php
+        echo $imageName == "" ? "" : "<img id='image' class='imagePhrase hidden' src='/admin/image/$imageName'>";
+        ?>
         <div class="textos">
             <p id="timer"></p>
-            <p id="textStartInformation">Escribe la siguiente frase: </p>
+            <?php
+            echo '<p id="textStartInformation" class="hidden">'. $_SESSION['lang_data']['SUBTITLE_INGAME'].'</p>';
+            ?>
+            
             <div class="text">
             </div>
         </div>
-        <img src="media/typingmachine.png" alt="Imagen de máquina de escribir">
-
+        <?php
+            echo '<img class="typingMachine" src="media/typingmachine.png" alt="'. $_SESSION['lang_data']['ALT_MACHINE'].'">';
+        ?>
     </div>
-    <img id="lupa" src="media/lupa_easteregg.png" alt="lupa easteregg">
-    <img id="vela" src="media/velaEasterEgg.png" alt="vela Easter Egg">
-    <img id="libro" src="media/libroEasterEgg.png" alt="libro Easter Egg">
-    <img id="sombrero" src="media/sombreroSherlock.png" alt="sombrero Easter Egg">
-    <img id="sherlock" class="invisible" src="media/sherlockHolmes.png" alt="sherlock">
+    <?php
+    echo '<img id="lupa" src="media/lupa_easteregg.png" alt="'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][0].' Easter Egg">';
+    echo '<img id="vela" src="media/velaEasterEgg.png" alt="'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][1].' Easter Egg">';
+    echo '<img id="libro" src="media/libroEasterEgg.png" alt="'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][2].' Easter Egg">';
+    echo '<img id="sombrero" src="media/sombreroSherlock.png" alt="'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][3].' Easter Egg">';
+    echo '<img id="sherlock" class="invisible" src="media/sherlockHolmes.png" alt="sherlock">';
+    ?>
     <div class="invisible listaEntera">
-        <p>Lupa</p>
-        <p>Vela</p>
-        <p>Libro</p>
-        <p>Sombrero</p>
-
+    <?php
+         echo '<p>'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][0].'</p>';
+         echo '<p>'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][1].'</p>';
+         echo '<p>'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][2].'</p>';
+         echo '<p>'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][3].'</p>';
+    ?>
     </div>
+    <div id="temp"></div>
     <form id="endForm" action="gameover.php" method="POST" style="display:none;">
         <input type="hidden" name="points" id="pointsField">
+        <input type="hidden" name="temp" id="tempField">
     </form>
     <script>
+        let pendingAccent = "";
+        let indexLetter = 0;
+        let funcionar = false;
+        let multiplicador = 1;
+        let letrasAcertadas = 0;
+        let letrasErroneas = 0;
         const closeSession = document.getElementById("closeSession");
+        const image = document.getElementById("image");
+        const tempDiv = document.getElementById("temp")
         const destroySession = () => {
             window.location = "/destroy_session.php";
+        }
+
+        let temp = -4
+        setInterval(()=>{
+            temp += 1;
+            if (temp < 0){tempDiv.innerText = "00:00:00";}
+            else{tempDiv.innerText = formatearTiempo(temp);}
+        },1000)
+        
+        let countPulsation = 3
+        const progress = document.getElementById("file");
+        let inverseCountPulsation = 1;
+        setInterval(()=>{
+            if (letrasAcertadas > 5) {
+                countPulsation -= 1;
+                progress.value = 100 - 33 * inverseCountPulsation;
+                inverseCountPulsation += 1;
+            } else {
+                inverseCountPulsation = 1;
+                countPulsation = 3;
+            }
+            if (countPulsation < 0) {
+                const containerBonus = document.getElementById('bonusSpecialWrapper');
+                const multiplicatorP = document.getElementById('multiplicatorBonus');
+                multiplicador = 0;
+                countPulsation = 3;
+                letrasAcertadas = 0;
+                letrasErroneas = 0;
+                if (letrasAcertadas >= 5) {
+                    multiplicatorP.textContent = "X"+multiplicador;
+                    containerBonus.classList.remove("hideBonus");
+                } else {
+                    multiplicatorP.textContent = "X"+multiplicador;
+                    containerBonus.classList.add("hideBonus");
+                }
+            }
+        },1000);
+
+        function formatearTiempo(segundos) {
+            const horas = Math.floor(segundos / 3600);
+            const minutos = Math.floor((segundos % 3600) / 60);
+            const segundosRestantes = segundos % 60;
+
+            const formatoHoras = String(horas).padStart(2, '0');
+            const formatoMinutos = String(minutos).padStart(2, '0');
+            const formatoSegundos = String(segundosRestantes).padStart(2, '0');
+
+            return `${formatoHoras}:${formatoMinutos}:${formatoSegundos}`;
         }
 
         const correctSound = new Audio('media/correctchoice.mp3');
@@ -144,13 +276,14 @@ if (isset($_POST['inname'])) {
         currentFraseSpan.textContent = fraseActualIndex + 1;
 
         const ids = ["lupa", "vela", "libro", "sombrero"];
-        const nombres = ["Lupa", "Vela", "Libro", "Sombrero"];
-
+        const nombres = <?php echo json_encode($_SESSION['lang_data']['ELEMENTS_EASTEREGG']); ?>;
+        win = false;
+        let eventCont = 4;
         ids.forEach((id, index) => {
             const element = document.getElementById(id);
             element.addEventListener("click", () => {
                 element.classList.add("invisible");
-                alert(`Has clicado el objeto ${nombres[index]}`);
+                alert(`<?php echo $_SESSION['lang_data']['TEXT_GET_ELEMENT']; ?> ${nombres[index]}`);
                 eventCont--;
                 if (eventCont <= 3) {
                     listaDiv.classList.remove("invisible");
@@ -168,7 +301,7 @@ if (isset($_POST['inname'])) {
                 });
                 if (win) {
                     setTimeout(() => {
-                        alert("Gracias Watson por encontrar todos mis objetos, te obsequio con 7000 puntos más.");
+                        alert(<?php echo json_encode($_SESSION['lang_data']['COMPLETE_EASTEREGG']); ?>);
                     }, 1000);
                     points += 7000;
                 }
@@ -241,39 +374,67 @@ if (isset($_POST['inname'])) {
             render();
         }
 
-        let pendingAccent = "";
-        let indexLetter = 0;
-        let funcionar = false;
-
         function checkInput(isMayus, inletter) {
             const letter = document.getElementById("letter"+indexLetter);
-            return (isMayus && inletter.toUpperCase() === letter.textContent) || inletter.toLowerCase() === letter.textContent;
+            if (/’|‘/.test(letter.textContent)) {
+                comparate = "'";
+            } else if (/“|”/.test(letter.textContent)) {
+                comparate = '"';
+            } else {
+                comparate = letter.textContent;
+            }
+            return (isMayus && inletter.toUpperCase() === comparate) || inletter.toLowerCase() === comparate;
         }
 
         function isCorrectLetter(iscorrect, isspace) {
+            const anteriorMultiplicator = multiplicador;
             const letter = document.getElementById("letter"+indexLetter);
             if (!isspace) {
                 letter.className = iscorrect ? "correct" : "error";
-                points += iscorrect ? 100 : -100;
+                points += iscorrect ? 100 * multiplicador : -100;
                 if (iscorrect) {
                     correctSound.play();
+                    letrasAcertadas += 1;   
                 } else {
                     wrongSound.play();
+                    letrasErroneas += 1;
                 }
             } else {
                 if (letter.textContent != " ") {
                     letter.className = "error";
                     wrongSound.play();
-                    points -= 100;
+                    points -= 100
+                    letrasErroneas += 1;
                 } else {
                     correctSound.play();
-                    points += 100;   
+                    points += 100 * multiplicador;
+                    letrasAcertadas += 1;   
                 }
+            }
+            const containerBonus = document.getElementById('bonusSpecialWrapper');
+            if (letrasErroneas === 3) {
+                letrasAcertadas = letrasAcertadas < 5 ? 0 : letrasAcertadas - 5;
+                letrasErroneas = 0;
+            }
+            const multiplicatorP = document.getElementById('multiplicatorBonus');
+            multiplicador = Math.floor(letrasAcertadas / 5);
+            if (letrasAcertadas >= 5) {
+                multiplicatorP.textContent = "X"+multiplicador;
+                containerBonus.classList.remove("hideBonus");
+            } else {
+                multiplicatorP.textContent = "X"+multiplicador;
+                containerBonus.classList.add("hideBonus");
+            }
+            if (anteriorMultiplicator !== multiplicador) {
+                countPulsation = 3;
+                inverseCountPulsation = 1;
+                progress.value = 100;
             }
         }
 
         function endGame() {
             document.getElementById("pointsField").value = points;
+            document.getElementById("tempField").value = temp;
             document.getElementById("endForm").submit();
         }
 
@@ -290,35 +451,30 @@ if (isset($_POST['inname'])) {
                     inputChar = (inputChar + "\u0301").normalize("NFC");
                     pendingAccent = "";
                 }
-
-                if (/^\p{L}$| |,$/u.test(e.key)) {
-                    let iscorrect = e.shiftKey;
-                    iscorrect = checkInput(iscorrect, inputChar);
-                    isCorrectLetter(iscorrect, e.key === " " ? true : false);
-                    indexLetter++;
-                    
-                    if (indexLetter < fraseActual.length && fraseActual[indexLetter] !== " ") {
-                        showPhrase();  
-                    }
-                    
-                    if (indexLetter >= fraseActual.length) {
-                        funcionar = false;
-                        setTimeout(() => {
-                            prepareNextPhrase();
-                        }, 500);
-                    }
+                if (
+                (e.key === "Shift" && !e.ctrlKey) ||
+                (e.key === "Control" && !e.shiftKey)
+                ) return;
+                let iscorrect = e.shiftKey;
+                iscorrect = checkInput(iscorrect, inputChar);
+                isCorrectLetter(iscorrect, e.key === " " ? true : false);
+                indexLetter++;
+                if (indexLetter < frase.length && frase[indexLetter] !== " ") {
+                    showPhrase();  
+                }
+                if (indexLetter >= frase.length) {
+                    endGame();
                 }
             }
         });
 
         document.addEventListener("keydown", (event)=>{
-            if ((event.key).toLocaleLowerCase() === "c" && event.ctrlKey){
-                closeSession.classList.add("highlightButtonText");
-                setTimeout(() => {
-                    closeSession.click();
-                }, "1000");
-            }
-        });
+         if ((event.key).toLocaleLowerCase() === "c" && event.ctrlKey){
+            closeSession.classList.add("highlightButtonText");
+            setTimeout(() => {
+                closeSession.click();
+            }, "1000");
+        }});
 
        startTimer();
     </script>
