@@ -911,6 +911,18 @@ table td.secondly {
     background-color: #3E322F;
     color: white;
 }
+
+body.panel .winner td {
+    background-color: #c58a47;
+    font-style: italic;
+    color: #663C17;
+}
+
+body.panel .secondly td {
+    background-color: #c5ae47;
+    font-style: italic;
+    color: #663C17;
+}
 /* Crear frase admin */
 .createSentences{
   height: 100vh;

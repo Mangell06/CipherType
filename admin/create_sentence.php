@@ -12,7 +12,7 @@ if (isset($_POST['newPhrase'])) {
     $newContent = "";
     $levelFound = false;
     $fileSaveSuccess;
-
+    $randomFilename="";
     while (!feof($sentencesFile)) {
         $linea = fgets($sentencesFile);
         if ($linea === false || trim($linea) === '') continue;
@@ -58,6 +58,7 @@ if (isset($_POST['newPhrase'])) {
     fclose($sentencesFile);
     $_SESSION['fraseCreada'] = true;
     $_SESSION['imagenCreada'] = $fileSaveSuccess;
+    $_SESSION['last_sentence_added'] = $newPhrase . ($randomFilename ? "|" . $randomFilename : "");
     header("Location: /admin/index.php");
     exit;
 
