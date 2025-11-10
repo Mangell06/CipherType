@@ -94,17 +94,26 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                         if ($frase == "") continue;
                         $fraseSplit = explode("|", $frase);
                         $imageName = $fraseSplit[1] ?? "";
-                        $secondlyClass = $count % 2 !== 0 ? "secondly" : "";
-                        echo "<tr><td class='$secondlyClass'><img src='/admin/image/$imageName'><td class='$secondlyClass'>".$fraseSplit[0];
+                        if (isset($_SESSION['last_sentence_added']) && $_SESSION['last_sentence_added'] === $frase) {
+                            $rowClass = "winner";
+                        } else if ($count % 2 === 0) { 
+                            $rowClass = "secondly";
+                        } else {
+                            $rowClass = "";
+                        }
+
+                        echo "<tr class='$rowClass'><td><img src='/admin/image/$imageName'></td><td>".$fraseSplit[0];
 
                         echo "<form action='/admin/delete_sentences.php' method='post'>";
                         echo "<input name='selectdifficulty' type='hidden' value='".$selectdifficulty."'>";
                         echo "<input name='fraseIndex' type='hidden' value='".$count."'>";
                         echo "<button type='submit' class='deletebutton'>&#128465;</button>";
-                        echo '</form></td></tr>';
+                        echo "</form></td></tr>";
                     }
 
                     echo "</table>";
+                    unset($_SESSION['last_sentence_added']);
+
                 }
 
             }
