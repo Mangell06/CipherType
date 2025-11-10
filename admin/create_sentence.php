@@ -20,7 +20,7 @@ if (isset($_POST['newPhrase'])) {
 
         if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
             $idiomaActual = substr($linea, 1, -1);
-            $dentroIdioma = ($idiomaActual === $_SESSION['selected_lang']);
+            $dentroIdioma = ($idiomaActual === $_POST['selectlanguage']);
             $newContent .= $linea . "\n";
             continue;
         }
@@ -39,7 +39,7 @@ if (isset($_POST['newPhrase'])) {
             } else {
                 $levelPhrases .= "*" . $newPhrase;
             }
-            if ($_FILES["image"]){
+            if (isset($_FILES["image"]) && $_FILES["image"]["tmp_name"] != "" && is_uploaded_file($_FILES["image"]["tmp_name"])) {
                 $filenameExtension = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
                 $randomFilename = uniqid().".".$filenameExtension;
                 $levelPhrases .= "|".$randomFilename;
@@ -92,9 +92,9 @@ if (isset($_POST['newPhrase'])) {
             </select>
             <label for="selectlanguage">Selecciona el idioma:</label>
             <select name="selectlanguage" id="selectlanguage">
-                <option value="catalán">Catalán</option>
-                <option value="castellano">Castellano</option>
-                <option value="inglés">Inglés</option>
+                <option value="CATALÁN">Catalán</option>
+                <option value="CASTELLANO">Castellano</option>
+                <option value="ENGLISH">Inglés</option>
             </select>
             <?php
                 echo '<label for="newPhrase">' . $_SESSION['lang_data']['TEXT_NEW_PHRASE'] . '</label>';
