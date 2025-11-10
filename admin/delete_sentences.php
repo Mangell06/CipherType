@@ -31,6 +31,11 @@
         for ($i = 0; $i < count($phrases); $i++){
             if ($i != $phraseIndex || $level != $levelFile){
                 $phrasesArray[] = $phrases[$i];
+            } else{
+                $parts = explode("|", $phrases[$i]);
+                if (isset($parts[1]) && file_exists("image/" . $parts[1])) {
+                    unlink("image/" . $parts[1]);
+                }
             }
         }
         $newContent .= implode("*", $phrasesArray);
