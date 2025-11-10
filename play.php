@@ -301,7 +301,7 @@ $imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
                 points += iscorrect ? 100 * multiplicador : -100;
                 if (iscorrect) {
                     correctSound.play();
-                    letrasAcertadas += 1;   
+                    letrasAcertadas += 1;
                 } else {
                     wrongSound.play();
                     letrasErroneas += 1;
