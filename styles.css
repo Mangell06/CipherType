@@ -728,12 +728,13 @@ button#closeSession:hover, button#buttonInitialitze:hover{
 }
 
 /* Panel de herramientas */
-.toolscontainer {
+.toolscontaineradmin {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    background-color: #000000D6;
 }
 
 .welcome{
@@ -756,7 +757,7 @@ button#closeSession:hover, button#buttonInitialitze:hover{
     transition: all 0.3s ease;
 }
 
-#addbutton:hover, #toggleView:hover, #buttonLogout:hover, .uploadImage > div button:hover {
+#addbutton:hover, #toggleView:hover, #buttonLogout:hover, .uploadImage > div button:hover, .createSentence button:hover {
     background-color: #3E322F;
     color: white;
     transform: scale(1.05);
@@ -791,6 +792,7 @@ button#closeSession:hover, button#buttonInitialitze:hover{
 .toolscontainer, table {
     transition: opacity 0.4s ease, transform 0.4s ease;
 }
+
 
 .hidden {
     opacity: 0;
@@ -888,7 +890,7 @@ table td.secondly {
 }
 
 /* Botón de login */
-#buttonLogin, #addbutton, #addImagebutton, #toggleView, #buttonLogout, .uploadImage > div button{
+#buttonLogin, #addbutton, #addImagebutton, #toggleView, #buttonLogout, .uploadImage > div button, .createSentence button{
     padding: 12px;
     font-size: 16px;
     background-color: #63524b;
@@ -923,18 +925,19 @@ body.panel .secondly td {
 }
 .createSentence {
   margin: 64px;
-  background-color: #ffffff75;
+  background-color: #fff;
   width: 100%;
-  max-width: 600px; 
+  max-width: 600px;
   flex-direction: column;
   padding: 20px;
   border-radius: 20px;
-  border: 3px solid #f39c12; 
+  border: 3px solid #63524b;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #63524b;
 }
 
 .createSentence h1 {
-  color: #E6AC00;
+  color: #63524b;
   font-size: 2em;
   text-align: center;
   margin-bottom: 20px;
@@ -951,25 +954,9 @@ body.panel .secondly td {
   padding: 10px 15px;
   font-size: 16px;
   border-radius: 10px;
-  border: 2px solid #E6AC00;
+  border: 2px solid #63524b;
   background-color: rgba(255, 255, 255, 0.1);
-  color: #E6AC00;
-}
-
-.createSentence button {
-  padding: 12px 20px;
-  font-size: 16px;
-  background-color: #E6AC00;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.createSentence button:hover {
-  background-color: #b67b22;
-  color: white;
+  color: #63524b;
 }
 
 /* upload image */

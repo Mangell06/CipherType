@@ -74,11 +74,16 @@ if (isset($_POST['newPhrase'])) {
     <link rel="stylesheet" href="../styles.css?no-cache=<?php echo time(); ?>">
     <link rel="icon" href="../media/lupa.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <?php
+        echo "<title>".$_SESSION['lang_data']['TITLE_ADD_PHRASE']."</title>";
+    ?>
 </head>
 <body class="createSentences">
-   <div class="toolscontainer">
+   <div class="toolscontaineradmin">
     <div class="createSentence">
-        <h1>AGREGAR FRASE</h1>
+        <?php
+            echo "<h1>".$_SESSION['lang_data']['TITLE_ADD_PHRASE']."</h1>";
+        ?>
         <form action="create_sentence.php" method="post" enctype="multipart/form-data">
         <?php
             echo '<label for="selectdifficulty">' . $_SESSION['lang_data']['TEXT_SELECT_DIFICULTY'] . '</label>';
@@ -90,18 +95,26 @@ if (isset($_POST['newPhrase'])) {
                 echo '<option value="experto">' . $_SESSION['lang_data']['DIFFICULTY_EXPERT'] . '</option>';
             ?>
             </select>
-            <label for="selectlanguage">Selecciona el idioma:</label>
+            <?php
+                echo "<label for='selectlanguage'>".$_SESSION['lang_data']['TEXT_SELECT_LANGUAGE']."</label>";
+            ?>
+            
             <select name="selectlanguage" id="selectlanguage">
-                <option value="CATALÁN">Catalán</option>
-                <option value="CASTELLANO">Castellano</option>
-                <option value="ENGLISH">Inglés</option>
+                <?php
+                    echo "<option value='CATALÁN'>".$_SESSION['lang_data']['LANGUAGE_CATALAN']."</option>";
+                    echo "<option value='CASTELLANO'>".$_SESSION['lang_data']['LANGUAGE_SPANISH']."</option>";
+                    echo "<option value='ENGLISH'>".$_SESSION['lang_data']['LANGUAGE_ENGLISH']."</option>"
+                ?>
+                
             </select>
             <?php
                 echo '<label for="newPhrase">' . $_SESSION['lang_data']['TEXT_NEW_PHRASE'] . '</label>';
             ?>
             <input type="text" name="newPhrase" id="newPhrase">
 
-            <label for="newImage">Insertar imagen</label>
+            <?php
+                echo "<label for='newImage'>".$_SESSION['lang_data']['UPLOAD_IMAGE_TAB']."</label>";
+            ?>
             <input type="file" name="image" accept="image/*">
             <?php
                 echo '<button type="submit" id="add">' . $_SESSION['lang_data']['TEXT_ADD_PHRASES'] . '</button>';
