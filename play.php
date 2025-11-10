@@ -16,7 +16,7 @@ if (isset($_POST['inname'])) {
     <link
         href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
         rel="stylesheet">
-     <link rel="stylesheet" href="styles.css?no-cache=<?php echo time(); ?>">
+    <link rel="stylesheet" href="styles.css?no-cache=<?php echo time(); ?>">
     <link rel="icon" href="media/lupa.ico">
 </head>
 
@@ -34,11 +34,9 @@ if (isset($_POST['inname'])) {
         <div class="textos">
             <p id="timer"></p>
             <p id="textStartInformation" class="hidden">Escribe la siguiente frase: </p>
-            <div class="text">
-            </div>
+            <div class="text"></div>
         </div>
         <img src="media/typingmachine.png" alt="Imagen de máquina de escribir">
-
     </div>
     <img id="lupa" src="media/lupa_easteregg.png" alt="lupa easteregg">
     <img id="vela" src="media/velaEasterEgg.png" alt="vela Easter Egg">
@@ -50,20 +48,13 @@ if (isset($_POST['inname'])) {
         <p>Vela</p>
         <p>Libro</p>
         <p>Sombrero</p>
-
     </div>
     <form id="endForm" action="gameover.php" method="POST" style="display:none;">
         <input type="hidden" name="points" id="pointsField">
     </form>
     <script>
-        const closeSession = document.getElementById("closeSession");
-        const destroySession = () => {
-            window.location = "/destroy_session.php";
-        }
-
         const correctSound = new Audio('media/correctchoice.mp3');
         const wrongSound = new Audio('media/wrongchoice1.mp3');
-
         correctSound.load();
         wrongSound.load();
 
@@ -76,39 +67,40 @@ if (isset($_POST['inname'])) {
         const imgSherlock = document.getElementById("sherlock");
         const ids = ["lupa", "vela", "libro", "sombrero"];
         const nombres = ["Lupa", "Vela", "Libro", "Sombrero"];
-        win = false;
+        let win = false;
         let eventCont = 4;
-        ids.forEach((id, index) => {
-            const element = document.getElementById(id);
-            element.addEventListener("click", () => {
-                element.classList.add("invisible");
-                alert(`Has clicado el objeto ${nombres[index]}`);
-                eventCont--;
-                if (eventCont <= 3) {
-                    listaDiv.classList.remove("invisible");
 
+        // Variables para manejar la frase
+        let frase = "<?php
+            $randomPhrase = '';
+            $difficulty = $_POST['indifficulty'];
+            $sentencesFile = fopen('sentences.txt', 'r');
+            $sentencesLines = [];
+            while (!feof($sentencesFile)) {
+                array_push($sentencesLines, fgets($sentencesFile));
+            }
+            fclose($sentencesFile);
+            
+            if (!function_exists('getRandomPhrase')) {
+                function getRandomPhrase($stringFrases) {
+                    $textoSubstringTrim = trim($stringFrases);
+                    $array = explode('*', $textoSubstringTrim);
+                    $randomPhraseKey = array_rand($array, 1);
+                    return $array[$randomPhraseKey];
                 }
-                if (eventCont <= 0) {
-                    imgSherlock.classList.remove("invisible");
-                    win = true;
-                }
+            }
+            
+            if (isset($difficulty) && $difficulty === 'sencillo') {
+                echo getRandomPhrase(substr($sentencesLines[0], 9));
+            } else if (isset($difficulty) && $difficulty === 'normal') {
+                echo getRandomPhrase(substr($sentencesLines[1], 7));
+            } else if (isset($difficulty) && $difficulty === 'experto') {
+                echo getRandomPhrase(substr($sentencesLines[2], 8));
+            }
+        ?>";
 
-                listaP.forEach(pItem => {
-                    if (pItem.textContent.toLowerCase() === nombres[index].toLowerCase()) {
-                        pItem.classList.remove("invisible");
-                        pItem.classList.add("found");
-                    }
-                });
-                if (win) {
-                    setTimeout(() => {
-                        alert("Gracias Watson por encontrar todos mis objetos, te obsequio con 7000 puntos más.");
-                    }, 1000);
-                    points += 7000;
-                }
-            });
-        });
-
-        let cont = 4;
+        // Contador
+        let cont = 3;  // El contador comienza desde 3
         const interval = setInterval(() => {
             if (cont <= 0) {
                 clearInterval(interval);
@@ -116,54 +108,38 @@ if (isset($_POST['inname'])) {
                 return;
             }
             cont--;
-            if (cont === 0) {
-                p.innerText = "YA!";
-                return;
-            }
-            p.innerText = cont;
-        }, 750)
+            p.innerText = cont === 0 ? "YA!" : cont;
+        }, 1000);
 
+        // Función para reiniciar el contador
+        const resetTimer = () => {
+            cont = 3;  // Reiniciar el contador
+            p.style.display = "block";
+            p.innerText = cont;
+            pInformation.classList.add("hidden");
+            div.innerHTML = "";  // Limpia la frase anterior
+            setTimeout(() => {
+                const interval = setInterval(() => {
+                    if (cont <= 0) {
+                        clearInterval(interval);
+                        afterInterval();
+                    } else {
+                        cont--;
+                        p.innerText = cont === 0 ? "YA!" : cont;
+                    }
+                }, 1000);
+            }, 500);  // Pausa de medio segundo antes de iniciar el contador
+        };
+
+        // Después del intervalo, se muestra la frase
         const afterInterval = () => {
             p.style.display = "none";
             pInformation.classList.remove("hidden");
-            render();
-        }
+            render();  // Aquí se renderiza la frase
+        };
 
-        const frase = "<?php
-        $randomPhrase = "";
-        $difficulty = $_POST["indifficulty"];
-        $sentencesFile = fopen("sentences.txt", "r");
-        $sentencesLines = [];
-        while (!feof($sentencesFile)) {
-            array_push($sentencesLines, fgets($sentencesFile));
-        }
-        fclose($sentencesFile);
-        
-        $textoSencilloSubstringTrim = trim(substr($sentencesLines[0], 9));
-        $separateSentences = explode("*", $textoSencilloSubstringTrim);
-        
-        if (!function_exists('getRandomPhrase')) {
-            function getRandomPhrase($stringFrases){
-                $textoSubstringTrim = trim($stringFrases);
-                $array = explode("*", $textoSubstringTrim);
-                $randomPhraseKey = array_rand($array, 1);
-                return $array[$randomPhraseKey];
-            }
-        }
-        
-        if (isset($difficulty) && $difficulty === "sencillo") {
-            echo getRandomPhrase(substr($sentencesLines[0], 9));
-        } else if (isset($difficulty) && $difficulty === "normal") {
-            echo getRandomPhrase(substr($sentencesLines[1], 7));
-        } else if (isset($difficulty) && $difficulty === "experto") {
-            echo getRandomPhrase(substr($sentencesLines[2], 8));
-        }
-        ?>";
-
-         const showPhrase = () => { const span = document.getElementById("letter"+indexLetter); span.className = "highlight"; };
-
-         const render = () => {
-            div.innerText = "";
+        const render = () => {
+            div.innerHTML = "";  // Limpia la frase anterior
             for (let i = 0; i < frase.length; i++) {
                 const span = document.createElement("span");
                 span.id = "letter" + i;
@@ -171,46 +147,18 @@ if (isset($_POST['inname'])) {
                 div.appendChild(span);
             }
             showPhrase();
-            funcionar = true;
-        }
+            funcionar = true;  // Permite que las teclas sean detectadas
+        };
 
-        let pendingAccent = "";
+        const showPhrase = () => {
+            const span = document.getElementById("letter" + indexLetter);
+            span.className = "highlight";
+        };
+
         let indexLetter = 0;
-        let funcionar = false;
+        let pendingAccent = "";
 
-        function checkInput(isMayus, inletter) {
-            const letter = document.getElementById("letter"+indexLetter);
-            return (isMayus && inletter.toUpperCase() === letter.textContent) || inletter.toLowerCase() === letter.textContent;
-        }
-
-        function isCorrectLetter(iscorrect, isspace) {
-            const letter = document.getElementById("letter"+indexLetter);
-            if (!isspace) {
-                letter.className = iscorrect ? "correct" : "error";
-                points += iscorrect ? 100 : -100;
-                if (iscorrect) {
-                    correctSound.play();
-                } else {
-                    wrongSound.play();
-                }
-            } else {
-                if (letter.textContent != " ") {
-                    letter.className = "error";
-                    wrongSound.play();
-                    points -= 100
-                } else {
-                    correctSound.play();
-                    points += 100;   
-                }
-            }
-        }
-
-        function endGame() {
-            document.getElementById("pointsField").value = points;
-            document.getElementById("endForm").submit();
-        }
-
-        document.addEventListener('keyup',(e) => {
+        document.addEventListener('keyup', (e) => {
             if (funcionar) {
                 if (e.key === "Dead") {
                     pendingAccent = e.code;
@@ -229,24 +177,51 @@ if (isset($_POST['inname'])) {
                     iscorrect = checkInput(iscorrect, inputChar);
                     isCorrectLetter(iscorrect, e.key === " " ? true : false);
                     indexLetter++;
-                    if (indexLetter < frase.length && frase[indexLetter] !== " ") {
-                        showPhrase();  
-                    }
+
                     if (indexLetter >= frase.length) {
-                        endGame();
+                        setTimeout(() => {
+                            alert("¡Bien hecho! Estás listo para la siguiente ronda.");
+                            resetTimer(); // Llamar a la función para reiniciar el contador
+                            // Cambiar la frase a una nueva
+                            render();
+                        }, 500);  // Pausa antes de pasar a la siguiente frase
                     }
                 }
             }
         });
 
-        document.addEventListener("keydown", (event)=>{
-         if ((event.key).toLocaleLowerCase() === "c" && event.ctrlKey){
-            closeSession.classList.add("highlightButtonText");
-            setTimeout(() => {
-                closeSession.click();
-            }, "1000");
-    }})
+        // Lógica para verificar si la tecla presionada es correcta
+        function checkInput(isMayus, inletter) {
+            const letter = document.getElementById("letter" + indexLetter);
+            return (isMayus && inletter.toUpperCase() === letter.textContent) || inletter.toLowerCase() === letter.textContent;
+        }
 
+        function isCorrectLetter(iscorrect, isspace) {
+            const letter = document.getElementById("letter" + indexLetter);
+            if (!isspace) {
+                letter.className = iscorrect ? "correct" : "error";
+                points += iscorrect ? 100 : -100;
+                if (iscorrect) {
+                    correctSound.play();
+                } else {
+                    wrongSound.play();
+                }
+            } else {
+                if (letter.textContent !== " ") {
+                    letter.className = "error";
+                    wrongSound.play();
+                    points -= 100;
+                } else {
+                    correctSound.play();
+                    points += 100;   
+                }
+            }
+        }
+
+        function endGame() {
+            document.getElementById("pointsField").value = points;
+            document.getElementById("endForm").submit();
+        }
     </script>
 </body>
 </html>
