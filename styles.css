@@ -221,7 +221,7 @@ div.machine {
     overflow: hidden;
 }
 
-div.machine img {
+div.machine .typingMachine {
     position: relative;
     z-index: 7;
     bottom: -650px;
@@ -230,6 +230,16 @@ div.machine img {
     width: 1024px;
     min-width: 1280px;
     height: 1536px;
+}
+
+div.machine .imagePhrase {
+  position: absolute;
+  bottom: 304px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  height: 120px;
+  width: 120px;
+  z-index: 9999;
 }
 
 div.machine .textos {

@@ -26,9 +26,11 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
     if (isset($_SESSION['fraseCreada']) && $_SESSION['fraseCreada']) {
             echo "<p class='correct'>" . $_SESSION['lang_data']['CORRECT_ADD_PHRASE'] . "</p>";
             unset($_SESSION['fraseCreada']);
-        } else if (isset($_POST["deleteSuccess"]) && $_POST["deleteSuccess"]) {
-            echo "<p class='correct'>" . $_SESSION['lang_data']['CORRECT_DELET_PHRASE'] . "/p>";
-        }
+    } else if (isset($_POST["deleteSuccess"]) && $_POST["deleteSuccess"]) {
+        echo "<p class='correct'>" . $_SESSION['lang_data']['CORRECT_DELET_PHRASE'] . "</p>";
+    } else if (isset($_SESSION['imagenCreada']) && $_SESSION['imagenCreada']){
+        echo "<p class='correct'>" . $_SESSION['lang_data']['CORRECT_INSERT_IMAGE'] . "</p>";
+    }
     echo '</div>';
     echo '<div class="toolscontainer">';
         echo '<div class="todo">';
@@ -85,17 +87,15 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                     fclose($sentences);
                     $selectdifficultyShow = ucfirst($selectdifficulty);
                     echo "<table>";
-                    echo "<tr><th>Frases <br/> dificultat: $selectdifficultyShow</th></tr>";
+                    echo "<tr><th>Imagen</th><th>Frases <br/> dificultad: $selectdifficultyShow</th></tr>";
 
                     foreach ($selectedSentences as $count => $frase) {
                         $frase = trim($frase);
                         if ($frase == "") continue;
-
-                        if ($count % 2 !== 0) {
-                            echo "<tr><td class='secondly'>".$frase;
-                        } else {
-                            echo "<tr><td>".$frase;
-                        }
+                        $fraseSplit = explode("|", $frase);
+                        $imageName = $fraseSplit[1] ?? "";
+                        $secondlyClass = $count % 2 !== 0 ? "secondly" : "";
+                        echo "<tr><td class='$secondlyClass'><img src='/admin/image/$imageName'><td class='$secondlyClass'>".$fraseSplit[0];
 
                         echo "<form action='/admin/delete_sentences.php' method='post'>";
                         echo "<input name='selectdifficulty' type='hidden' value='".$selectdifficulty."'>";

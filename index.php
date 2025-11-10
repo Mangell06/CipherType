@@ -98,7 +98,7 @@
         echo "</div>";
         echo "<img class='mesa' src='media/mesamesa.jpg' alt='" . $_SESSION['lang_data']['ALT_MESA'] . "'>";
         echo "<div class='machine'>";
-        echo "<img src='media/typingmachine.png' alt='" . $_SESSION['lang_data']['ALT_MACHINE'] . "'>";
+        echo "<img class='typingMachine' src='media/typingmachine.png' alt='" . $_SESSION['lang_data']['ALT_MACHINE'] . "'>";
         echo "</div>";
     }
     ?>
