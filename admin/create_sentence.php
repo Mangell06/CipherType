@@ -11,7 +11,7 @@ if (isset($_POST['newPhrase'])) {
 
     $newContent = "";
     $levelFound = false;
-    $fileSaveSuccess;
+    $fileSaveSuccess = false;
     $randomFilename="";
     while (!feof($sentencesFile)) {
         $linea = fgets($sentencesFile);
