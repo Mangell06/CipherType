@@ -301,7 +301,7 @@ $imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
                 points += iscorrect ? 100 * multiplicador : -100;
                 if (iscorrect) {
                     correctSound.play();
-                    letrasAcertadas += 1;   
+                    letrasAcertadas += 1;
                 } else {
                     wrongSound.play();
                     letrasErroneas += 1;
@@ -310,12 +310,8 @@ $imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
                 if (letter.textContent != " ") {
                     letter.className = "error";
                     wrongSound.play();
-                    points -= 100
-                    letrasErroneas += 1;
                 } else {
                     correctSound.play();
-                    points += 100 * multiplicador;
-                    letrasAcertadas += 1;   
                 }
             }
             const containerBonus = document.getElementById('bonusSpecialWrapper');
