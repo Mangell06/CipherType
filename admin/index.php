@@ -1,9 +1,45 @@
 <?php
 session_start();
-    if (!isset($_SESSION['lang_data'])) {
-        header('Location: ../index.php');
-        exit;
+if (!isset($_SESSION['selected_lang'])) {
+    $_SESSION['selected_lang'] = 'CASTELLANO';
+}
+if (isset($_POST['lenguageselect'])) {
+    $_SESSION['selected_lang'] = $_POST['lenguageselect'];
+    unset($_SESSION['lang_data']); // fuerza recarga
+}
+if (!isset($_SESSION['lang_data'])) {
+    $_SESSION['lang_data'] = [];
+    $idiomaSeleccionado = $_SESSION['selected_lang'];
+
+    $archivo = fopen('../idiomas.txt', 'r');
+    $dentroIdioma = false;
+    while (($linea = fgets($archivo)) !== false) {
+        $linea = trim($linea);
+        if ($linea === '') continue;
+
+        if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+            $idiomaActual = substr($linea, 1, -1);
+            $dentroIdioma = ($idiomaActual === $idiomaSeleccionado);
+            continue;
+        }
+
+        if ($dentroIdioma && strpos($linea, '=') !== false) {
+            list($clave, $valor) = explode('=', $linea, 2);
+            $clave = trim($clave);
+            if (str_contains($valor, '|')) {
+                $valor = trim($valor, "\"|\t ");
+                $_SESSION['lang_data'][$clave] = array_map(
+                    fn($v) => trim($v, '"'),
+                    explode('|', $valor)
+                );
+            } else {
+                $valor = trim($valor, "\"\t ");
+                $_SESSION['lang_data'][$clave] = $valor;
+            }
+        }
     }
+    fclose($archivo);
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -17,9 +53,60 @@ session_start();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <?php
+if (!isset($_SESSION['selected_lang'])) {
+    $_SESSION['selected_lang'] = 'CASTELLANO';
+}
+if (isset($_POST['lenguageselect'])) {
+    $idiomaSeleccionado = $_POST['lenguageselect'];
+    $_SESSION['selected_lang'] = $idiomaSeleccionado;
+    $_SESSION['lang_data'] = [];
+        $archivo = fopen('../idiomas.txt', 'r');
+    $dentroIdioma = false;
+    while (($linea = fgets($archivo)) !== false) {
+        $linea = trim($linea);
+        if ($linea === '') continue;
+        if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+            $idiomaActual = substr($linea, 1, -1);
+            $dentroIdioma = ($idiomaActual === $idiomaSeleccionado);
+            continue;
+        }
+        if ($dentroIdioma && strpos($linea, '=') !== false) {
+            list($clave, $valor) = explode('=', $linea, 2);
+            $clave = trim($clave);
+            if (str_contains($valor, '|')) {
+                $valor = trim($valor, "\"|\t ");
+                $_SESSION['lang_data'][$clave] = array_map(
+                    fn($v) => trim($v, '"'),
+                    explode('|', $valor)
+                );
+            } else { 
+                $valor = trim($valor, "\"\t ");
+                $_SESSION['lang_data'][$clave] = $valor;
+            }
+        }
+    }
+    fclose($archivo);
+}
 if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
     echo '<body class="panel">';
     echo '<div class="admincontainermain">';
+    echo "<form method='post'>";
+    echo "<select name='lenguageselect' class='rightpositionlenguage' id='lenguageselect' onchange='this.form.submit()'>";
+    echo "<option value='' selected disabled hidden>".$_SESSION['selected_lang']."</option>";
+    $archivo = fopen('../idiomas.txt', 'r');
+    if ($archivo) {
+        while (($linea = fgets($archivo)) !== false) {
+            $linea = trim($linea);
+            if ($linea === '') continue;
+            if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+                $idioma = substr($linea, 1, -1); // quita los corchetes
+                echo "<option value='".$idioma."'>".$idioma."</option>";
+            }
+        }
+        fclose($archivo);
+    }
+    echo "</select>";
+    echo "</form>";
     $username = $_SESSION['username'];
     echo '<div class="phrases">';
     echo "<p class='welcome'>" . $_SESSION['lang_data']['WELCOME_USER'] . " $username</p>";
@@ -34,13 +121,12 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
     echo '</div>';
     echo '<div class="toolscontainer">';
         echo '<div class="todo">';
-         
         echo '<div class="buttonpanel">';
             echo "<form action='/admin/create_sentence.php' method='post' style='display:inline;'>";
                 echo '<button type="submit" id="addbutton">' . $_SESSION['lang_data']['TEXT_ADD_PHRASES'] . '</button>';
             echo '</form>';
             echo "<form action='/admin/upload_image.php' method='get' style='display:inline;'>";
-                echo '<button type="submit" id="addImagebutton">Insertar imágenes</button>';
+            echo '<button type="submit" id="addImagebutton">Insertar imágenes</button>';
             echo '</form>';
             echo '<button type="button" id="toggleView">' . $_SESSION['lang_data']['LIST_PHRASES'] . '</button>';
             echo '<form action="/admin/logout.php" method="post" id="logoutcontainer">';

@@ -5,11 +5,41 @@
         $line = "#{$_SESSION['name']}:{$_SESSION['points']}:{$_SESSION['temp']}\n";
         fwrite($file, $line);
         fclose($file);
+    }    
+if (!isset($_SESSION['lang_data'])) {
+    $_SESSION['selected_lang'] = 'CASTELLANO';
+    $_SESSION['lang_data'] = [];
+    $idiomaSeleccionado = $_SESSION['selected_lang'];
+
+    $archivo = fopen('idiomas.txt', 'r');
+    $dentroIdioma = false;
+    while (($linea = fgets($archivo)) !== false) {
+        $linea = trim($linea);
+        if ($linea === '') continue;
+
+        if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+            $idiomaActual = substr($linea, 1, -1);
+            $dentroIdioma = ($idiomaActual === $idiomaSeleccionado);
+            continue;
+        }
+
+        if ($dentroIdioma && strpos($linea, '=') !== false) {
+            list($clave, $valor) = explode('=', $linea, 2);
+            $clave = trim($clave);
+            if (str_contains($valor, '|')) {
+                $valor = trim($valor, "\"|\t ");
+                $_SESSION['lang_data'][$clave] = array_map(
+                    fn($v) => trim($v, '"'),
+                    explode('|', $valor)
+                );
+            } else {
+                $valor = trim($valor, "\"\t ");
+                $_SESSION['lang_data'][$clave] = $valor;
+            }
+        }
     }
-    if (!isset($_SESSION['lang_data'])) {
-        header('Location: ../index.php');
-        exit;
-    }
+    fclose($archivo);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
