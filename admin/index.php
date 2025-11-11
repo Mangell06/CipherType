@@ -126,7 +126,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 echo '<button type="submit" id="addbutton">' . $_SESSION['lang_data']['TEXT_ADD_PHRASES'] . '</button>';
             echo '</form>';
             echo "<form action='/admin/upload_image.php' method='get' style='display:inline;'>";
-            echo '<button type="submit" id="addImagebutton">Insertar imágenes</button>';
+                echo '<button type="submit" id="addImagebutton">'.$_SESSION['lang_data']['UPLOAD_IMAGE_TAB'].'</button>';
             echo '</form>';
             echo '<button type="button" id="toggleView">' . $_SESSION['lang_data']['LIST_PHRASES'] . '</button>';
             echo '<form action="/admin/logout.php" method="post" id="logoutcontainer">';
@@ -236,36 +236,78 @@ if (toggleView && contentContainer) {
 const buttonLogin = document.getElementById("buttonLogin");
 const buttonLogout = document.getElementById("buttonLogout");
 const addbutton = document.getElementById("addbutton");
-document.addEventListener("keydown", (event)=>{
-    if (event.target.nodeName === "INPUT"){
-        return;
+const addImagebutton = document.getElementById("addImagebutton");
+const selectedLang = "<?php echo isset($_SESSION['selected_lang']) ? $_SESSION['selected_lang'] : ''; ?>";
+
+const keysPressed = new Set();
+
+document.addEventListener("keydown", (event) => {
+    if (event.target.nodeName === "INPUT") return;
+
+    keysPressed.add(event.key.toLowerCase());
+
+    if (selectedLang === "CASTELLANO") {
+        if (event.key.toLowerCase() === "i" && event.shiftKey) {
+            addImagebutton.classList.add("highlightButtonText");
+            setTimeout(() => addImagebutton.click(), 1000);
+        } else if (event.key.toLowerCase() === "i") {
+            buttonLogin.classList.add("highlightButtonText");
+            setTimeout(() => buttonLogin.click(), 1000);
+        } else if (event.key.toLowerCase() === "c") {
+            buttonLogout.classList.add("highlightButtonText");
+            setTimeout(() => buttonLogout.click(), 1000);
+        } else if (event.key.toLowerCase() === "l") {
+            toggleView.classList.add("highlightButtonText");
+            setTimeout(() => toggleView.click(), 1000);
+        } else if (event.key.toLowerCase() === "a") {
+            addbutton.classList.add("highlightButtonText");
+            setTimeout(() => addbutton.click(), 1000);
+        }
+
+    } else if (selectedLang === "CATALÁN") {
+        if (event.key.toLowerCase() === "a" && event.shiftKey) {
+            addImagebutton.classList.add("highlightButtonText");
+            setTimeout(() => addImagebutton.click(), 1000);
+        } else if (event.key.toLowerCase() === "i") {
+            buttonLogin.classList.add("highlightButtonText");
+            setTimeout(() => buttonLogin.click(), 1000);
+        } else if (event.key.toLowerCase() === "t") {
+            buttonLogout.classList.add("highlightButtonText");
+            setTimeout(() => buttonLogout.click(), 1000);
+        } else if (event.key.toLowerCase() === "l") {
+            toggleView.classList.add("highlightButtonText");
+            setTimeout(() => toggleView.click(), 1000);
+        } else if (event.key.toLowerCase() === "a") {
+            addbutton.classList.add("highlightButtonText");
+            setTimeout(() => addbutton.click(), 1000);
+        }
+
+    } else if (selectedLang === "ENGLISH") {
+        if (keysPressed.has("l") && keysPressed.has("o")) {
+            buttonLogout.classList.add("highlightButtonText");
+            setTimeout(() => buttonLogout.click(), 1000);
+        } else if (event.key.toLowerCase() === "l" && event.shiftKey) {
+            toggleView.classList.add("highlightButtonText");
+            setTimeout(() => toggleView.click(), 1000);
+        } else if (event.key.toLowerCase() === "l") {
+            buttonLogin.classList.add("highlightButtonText");
+            setTimeout(() => buttonLogin.click(), 1000);
+        } else if (event.key.toLowerCase() === "a") {
+            addbutton.classList.add("highlightButtonText");
+            setTimeout(() => addbutton.click(), 1000);
+        } else if (event.key.toLowerCase() === "i") {
+            addImagebutton.classList.add("highlightButtonText");
+            setTimeout(() => addImagebutton.click(), 1000);
+        }
     }
-    if ((event.key).toLocaleLowerCase() === "i"){
-        if (buttonLogin == null){
-            return;
-        }
-        buttonLogin.classList.add("highlightButtonTextAdmin");
-        setTimeout(() => { buttonLogin.click(); }, "1000"); 
-    } else if ((event.key).toLocaleLowerCase() === "c"){    
-        if (buttonLogout == null) {
-            return;
-        }
-        buttonLogout.classList.add("highlightButtonText");
-        setTimeout(() => { buttonLogout.click(); }, "1000");
-    } else if (event.key === "a"){    
-        if (addbutton == null) {
-            return;
-        }
-        addbutton.classList.add("highlightButtonText");
-        setTimeout(() => { addbutton.click(); }, "1000");
-    } else if ((event.key).toLocaleLowerCase() === "l"){    
-        if (toggleView == null) {
-            return;
-        }
-        toggleView.classList.add("highlightButtonText");
-        setTimeout(() => { toggleView.click(); }, "1000");
-    } 
 });
+
+document.addEventListener("keyup", (event) => {
+    keysPressed.delete(event.key.toLowerCase());
+});
+
+
+
 </script>
 </body>
 </html>
