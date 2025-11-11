@@ -52,6 +52,7 @@ TEXT_POSTIT="Imagen de un post-it"
 TEXT_JAVASCRIPT_ACTIVATE="Tienes js activado"
 TEXT_ERROR_NAME="Querido Watson, tu nombre no puede ser un espacio vacio"
 TEXT_TEMP="Tiempo"
+TEXT_EXPLICATION_PERMADEATH="Modo Permadeath: En este modo el jugador solo dispone de 5 vidas. Cada error resta una vida y, cuando se llega a cero, la partida termina de inmediato. Durante la partida se muestra en todo momento cuántas vidas quedan. En el ránking se indica si la partida se ha jugado en modo permadeath y este modo otorga una bonificación adicional a la puntuación."
 
 [ENGLISH]
 TEXT_INITIALITZE="Initialize"
@@ -107,6 +108,7 @@ TEXT_POSTIT="Image of a post-it"
 TEXT_JAVASCRIPT_ACTIVATE="You have JS enabled"
 TEXT_ERROR_NAME="Dear Watson, your name cannot be an empty space"
 TEXT_TEMP="Time"
+TEXT_EXPLICATION_PERMADEATH="Permadeath Mode: In this mode, the player has only 5 lives. Each mistake removes one life, and when the player reaches zero, the game ends immediately. The remaining lives are always visible during the match. The leaderboard indicates whether the game was played in permadeath mode, and this mode provides an additional score bonus."
 
 [CATALÁN]
 TEXT_INITIALITZE="Inicialitzar"
@@ -162,3 +164,4 @@ TEXT_POSTIT="Imatge d'un post-it"
 TEXT_JAVASCRIPT_ACTIVATE="Tens JS activat"
 TEXT_ERROR_NAME="Estimadíssim Watson, el teu nom no pot ser un espai buit"
 TEXT_TEMP="Temps"
+TEXT_EXPLICATION_PERMADEATH="Mode Permadeath: En aquest mode el jugador només disposa de 5 vides. Cada error resta una vida i, en arribar a zero, la partida s’acaba immediatament. Durant la partida es mostra en tot moment quantes vides queden. Al rànquing s’indica si la partida s’ha jugat en mode permadeath i aquest mode concedeix un bonus addicional a la puntuació."
