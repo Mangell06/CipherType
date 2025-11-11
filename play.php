@@ -497,42 +497,54 @@ $frasesJson = json_encode($frasesProcesadas);
             document.getElementById("endForm").submit();
         }
 
+        const accentMap = {
+            "Quote": "\u0301",      // ´ acento agudo
+            "BracketLeft": "\u0300",  // ` acento grave
+            "Digit6": "\u0302",     // ^ circunflejo
+            "KeyI": "\u0308"        // ¨ diéresis
+        };
+
+
         document.addEventListener('keyup',(e) => {
-            if (funcionar) {
-                if (e.key === "Dead") {
-                    pendingAccent = e.code;
-                    return;
-                }
+            if (!funcionar) return;
+            console.log(e.code);
+            if (e.key === "Dead") {
+                pendingAccent = accentMap[e.code] || "";
+                return;
+            }
 
-                let inputChar = e.key;
+            let inputChar = e.key;
 
-                if (pendingAccent) {
-                    inputChar = (inputChar + "\u0301").normalize("NFC");
-                    pendingAccent = "";
-                }
-                if (
-                (e.key === "Shift" && !e.ctrlKey) ||
-                (e.key === "Control" && !e.shiftKey)
-                ) return;
-                let iscorrect = e.shiftKey;
-                iscorrect = checkInput(iscorrect, inputChar);
-                isCorrectLetter(iscorrect, e.key === " " ? true : false);
-                indexLetter++;
-                
-                if (indexLetter < fraseActual.texto.length && fraseActual.texto[indexLetter] !== " ") {
-                    showPhrase();  
-                }
-                
-                if (indexLetter >= fraseActual.texto.length) {
-                    funcionar = false;
-                    setTimeout(() => {
-                        prepareNextPhrase();
-                    }, 500);
-                }
+            if (pendingAccent) {
+                inputChar = (inputChar + pendingAccent).normalize("NFC");
+                pendingAccent = "";
+            }
+            console.log(inputChar);
+            if (
+            (e.key === "Shift" && !e.ctrlKey) ||
+            (e.key === "Control" && !e.shiftKey)
+            ) return;
+            let iscorrect = e.shiftKey;
+            iscorrect = checkInput(iscorrect, inputChar);
+            isCorrectLetter(iscorrect, e.key === " " ? true : false);
+            indexLetter++;
+            
+            if (indexLetter < fraseActual.texto.length && fraseActual.texto[indexLetter] !== " ") {
+                showPhrase();  
+            }
+            
+            if (indexLetter >= fraseActual.texto.length) {
+                funcionar = false;
+                setTimeout(() => {
+                    prepareNextPhrase();
+                }, 500);
             }
         });
 
         document.addEventListener("keydown", (event)=>{
+            if (event.key !== 'F12') {
+                event.preventDefault();
+            }
          if ((event.key).toLocaleLowerCase() === "c" && event.ctrlKey){
             closeSession.classList.add("highlightButtonText");
             setTimeout(() => {
