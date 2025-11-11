@@ -142,12 +142,11 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
         echo '<div id="contentContainer" style="display:'. (isset($_POST['selectdifficulty']) ? 'block' : 'none') .';">';
             echo '<form method="post">';
                 echo '<select name="selectdifficulty" id="selectdifficulty" onchange="this.form.submit()">';
-                    echo '<option value="" selected hidden>' . $_SESSION['lang_data']['TEXT_SELECT_DIFICULTY'] . '</option>';
-                    echo '<option value="sencillo">' . $_SESSION['lang_data']['DIFFICULTY_SIMPLE'] . '</option>';
-                    echo '<option value="normal">' . $_SESSION['lang_data']['DIFFICULTY_NORMAL'] . '</option>';
-                    echo '<option value="experto">' . $_SESSION['lang_data']['DIFFICULTY_EXPERT'] . '</option>';
+                    echo '<option value="" hidden'. ((isset($_POST['selectdifficulty']) && $_POST['selectdifficulty'] === "") ? ' selected' : '') .'>' . $_SESSION['lang_data']['TEXT_SELECT_DIFICULTY'] . '</option>';
+                    echo '<option value="sencillo"'. ((isset($_POST['selectdifficulty']) && $_POST['selectdifficulty'] === "sencillo") ? ' selected' : '') .'>' . $_SESSION['lang_data']['DIFFICULTY_SIMPLE'] . '</option>';
+                    echo '<option value="normal"'. ((isset($_POST['selectdifficulty']) && $_POST['selectdifficulty'] === "normal") ? ' selected' : '') .'>' . $_SESSION['lang_data']['DIFFICULTY_NORMAL'] . '</option>';
+                    echo '<option value="experto"'. ((isset($_POST['selectdifficulty']) && $_POST['selectdifficulty'] === "experto") ? ' selected' : '') .'>' . $_SESSION['lang_data']['DIFFICULTY_EXPERT'] . '</option>';
                 echo '</select>';
-            echo '</form>';
 
             $selectdifficulty = $_POST['selectdifficulty'] ?? 'sencillo';
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
@@ -180,7 +179,27 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                     echo "<table>";
                     echo "<tr><th>Imagen</th><th>Frases <br/> dificultad: $selectdifficultyShow</th></tr>";
 
+                    $winnerIndex = null;
                     foreach ($selectedSentences as $count => $frase) {
+                        $frase = trim($frase);
+                        if ($frase == "") continue;
+                        if (isset($_SESSION['last_sentence_added']) && $_SESSION['last_sentence_added'] === $frase) {
+                            $winnerIndex = $count;
+                        }
+                    }
+
+                    $pageSize = 25;
+                    $page = isset($_POST['page']) ? ((int)$_POST['page']-1) : 0;
+                    $totalPages = ceil(count($selectedSentences) / $pageSize);
+
+                    if (!isset($_POST['page']) && $winnerIndex != null) {
+                        $page = floor($winnerIndex / $pageSize);
+                    }
+
+                    foreach ($selectedSentences as $count => $frase) {
+                        if ($count < $page*$pageSize || $count > ($page+1)*$pageSize-1) {
+                            continue;
+                        }
                         $frase = trim($frase);
                         if ($frase == "") continue;
                         $fraseSplit = explode("|", $frase);
@@ -196,18 +215,23 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                         echo "<tr class='$rowClass'><td><img src='/admin/image/$imageName'></td><td>".$fraseSplit[0];
 
                         echo "<form action='/admin/delete_sentences.php' method='post'>";
-                        echo "<input name='selectdifficulty' type='hidden' value='".$selectdifficulty."'>";
+                        // echo "<input name='selectdifficulty' type='hidden' value='".$selectdifficulty."'>"; TODO
                         echo "<input name='fraseIndex' type='hidden' value='".$count."'>";
                         echo "<button type='submit' class='deletebutton'>&#128465;</button>";
                         echo "</form></td></tr>";
                     }
 
                     echo "</table>";
+                    echo "<div class='allPages'>";
+                    for ($i = 0; $i <$totalPages; $i++) {
+                        echo "<input type='submit' name='page' class='totalPagesNumber".($page == $i ? " active" : '')."' value='".($i+1)."'>";
+                    }
+                    echo "</div>";
                     unset($_SESSION['last_sentence_added']);
-
                 }
 
             }
+        echo '</form>';
         echo '</div>';
     echo '</div>';
     echo '</div>';

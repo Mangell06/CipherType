@@ -14,7 +14,7 @@
         header('Location: /errors/error403.php');
         exit();
     }
-    if (isset($_POST['permadeath'])) {
+    if (isset($_POST['permadeath']) && $_POST['permadeath'] === "permadeath") {
         $_SESSION['name'].=' ('.$_POST['permadeath'].')';
     }
     $name = $_SESSION['name'];
