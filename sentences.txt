@@ -7,6 +7,6 @@ sencillo:Clock shows exact time of the crime*Mud footprints lead to the window*U
 normal:Handkerchief with initials indicates someone’s presence*Lit lamp reveals details previously ignored*Tobacco smell does not match the tenants*Broken letter hides important key words*Suspect’s movement leaves recognizable pattern
 experto:Shadow cast by lamp reveals perfectly visible suspicious silhouette*Combination of clocks, footprints, and writings allows deducing event order*Small ink stains form hidden message within diary pages*Absence of certain objects is as relevant as presence of others*Only those who analyze logically can reconstruct the full truth of the case
 [CATALÁN]
-sencillo:Rellotge marca l’hora exacta del crim*Empremtes de fang van a la finestra*Visitant inesperat va sortir sense ser vist*WQRWETRWE
+sencillo:Rellotge marca l’hora exacta del crim*Empremtes de fang van a la finestra*Visitant inesperat va sortir sense ser vist*WQRWETRWE*aaaa
 normal:Mocador amb inicials indica la presència d’algú*Llàntia encesa revela detalls abans ignorats*Aroma de tabac no coincideix amb els inquilins*Carta trencada amaga paraules clau importants*Moviment del sospitós deixa patró reconeixible
 experto:Ombra projectada per la llàntia revela silueta sospitosa perfectament visible*Combinació de rellotges, empremtes i escrits permet deduir l’ordre d’esdeveniments*Petites taques d’alleta formen missatge ocult entre pàgines del diari*Absència de certs objectes és tan rellevant com la presència d’altres*Només qui analitza lògicament pot reconstruir la veritat completa del cas
