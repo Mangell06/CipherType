@@ -10,7 +10,15 @@ if (isset($_POST['lenguageselect'])) {
 if (!isset($_SESSION['lang_data'])) {
     $_SESSION['lang_data'] = [];
     $idiomaSeleccionado = $_SESSION['selected_lang'];
-
+    if (isset($_SESSION['username'])) {
+        $mensaje = $_SESSION['username']. " se a cambiado al idioma " . $idiomaSeleccionado;
+    } else {
+        $mensaje = "Un usuario se a cambiado al idioma " . $idiomaSeleccionado;
+    }
+    $fecha = date("Y-m-d H:i:s");
+    $archivo = basename(__FILE__);
+    $linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
+    file_put_contents("logs.txt", $linea, FILE_APPEND);
     $archivo = fopen('../idiomas.txt', 'r');
     $dentroIdioma = false;
     while (($linea = fgets($archivo)) !== false) {
@@ -53,9 +61,6 @@ if (!isset($_SESSION['lang_data'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <?php
-if (!isset($_SESSION['selected_lang'])) {
-    $_SESSION['selected_lang'] = 'CASTELLANO';
-}
 if (isset($_POST['lenguageselect'])) {
     $idiomaSeleccionado = $_POST['lenguageselect'];
     $_SESSION['selected_lang'] = $idiomaSeleccionado;

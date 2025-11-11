@@ -1,6 +1,11 @@
 <?php
     session_start();
     if (isset($_SESSION['name']) && isset($_SESSION['points']) && isset($_SESSION["temp"])) {
+        $mensaje = $_SESSION['name']. " a guardado su puntuacion en el ranking (" . $_SESSION['points'] . " puntos)";
+        $fecha = date("Y-m-d H:i:s");
+        $archivo = basename(__FILE__);
+        $linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
+        file_put_contents("admin/logs.txt", $linea, FILE_APPEND);
         $file = fopen('ranking.txt','a');
         $line = "#{$_SESSION['name']}:{$_SESSION['points']}:{$_SESSION['temp']}\n";
         fwrite($file, $line);
@@ -10,7 +15,6 @@ if (!isset($_SESSION['lang_data'])) {
     $_SESSION['selected_lang'] = 'CASTELLANO';
     $_SESSION['lang_data'] = [];
     $idiomaSeleccionado = $_SESSION['selected_lang'];
-
     $archivo = fopen('idiomas.txt', 'r');
     $dentroIdioma = false;
     while (($linea = fgets($archivo)) !== false) {

@@ -4,10 +4,25 @@ session_start();
 if (isset($_POST['inname'])) {
     $_SESSION['name'] = $_POST['inname'];
 }
-if (!isset($_POST['indifficulty'])) {
+if (!isset($_POST['indifficulty']) || !isset($_SESSION['name'])) {
+    if (isset($_SESSION['name'])) {
+    $mensaje = $_SESSION['name']. " a intentado acceder sin dificultat seleccionada al juego";
+    } else {
+        $mensaje = "Un usuario a intentado acceder sin dificultat seleccionada y sin name al juego";
+    }
+    $fecha = date("Y-m-d H:i:s");
+    $archivo = basename(__FILE__);
+    $linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
+    file_put_contents("admin/logs.txt", $linea, FILE_APPEND);
     header('Location: index.php');
     exit;
 }
+if (isset($_SESSION['name'])) {
+    $mensaje = $_SESSION['name']. " a accedido a jugar en la dificultat " . $_POST['indifficulty'];
+}
+$fecha = date("Y-m-d H:i:s");
+$linea = "[$fecha] $mensaje" . PHP_EOL;
+file_put_contents("admin/logs.txt", $linea, FILE_APPEND);
 if (!isset($_SESSION['selected_lang'])) {
     $_SESSION['selected_lang'] = 'CASTELLANO';
 }
@@ -175,6 +190,10 @@ $frasesJson = json_encode($frasesProcesadas);
             ?>
             <div class="text">
             </div>
+            <div id="progressContainer" class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
+                <div id="progressText" class="progress-text">Frase 1 de <?php echo $numFrases; ?></div>
+            </div>
         </div>
         <?php
             echo '<img class="typingMachine" src="media/typingmachine.png" alt="'. $_SESSION['lang_data']['ALT_MACHINE'].'">';
@@ -213,6 +232,10 @@ $frasesJson = json_encode($frasesProcesadas);
         const destroySession = () => {
             window.location = "/destroy_session.php";
         }
+
+        const progressContainer = document.getElementById("progressContainer");
+        const progressBar = document.getElementById("progressBar");
+        const progressText = document.getElementById("progressText");
 
         let temp = -4
         setInterval(()=>{
@@ -261,6 +284,12 @@ $frasesJson = json_encode($frasesProcesadas);
             return `${formatoHoras}:${formatoMinutos}:${formatoSegundos}`;
         }
 
+        function updateProgressBar() {
+            const progress = ((fraseActualIndex) / totalFrases) * 100;
+            progressBar.style.width = progress + '%';
+            progressText.textContent = `Frase ${fraseActualIndex + 1} de ${totalFrases}`;
+        }
+
         const correctSound = new Audio('media/correctchoice.mp3');
         const wrongSound = new Audio('media/wrongchoice1.mp3');
 
@@ -292,7 +321,6 @@ $frasesJson = json_encode($frasesProcesadas);
         const ids = ["lupa", "vela", "libro", "sombrero"];
         const nombres = <?php echo json_encode($_SESSION['lang_data']['ELEMENTS_EASTEREGG']); ?>;
 
-        // EASTER EGGS (igual que en pre)
         ids.forEach((id, index) => {
             const element = document.getElementById(id);
             element.addEventListener("click", () => {
@@ -326,6 +354,7 @@ $frasesJson = json_encode($frasesProcesadas);
             p.style.display = "block";
             pInformation.style.display = "none";
             fraseCounter.style.display = "none";
+            progressContainer.style.display = "none"; 
             div.innerText = "";
             imagePhrase.classList.add("hidden");
             
@@ -356,10 +385,14 @@ $frasesJson = json_encode($frasesProcesadas);
                 indexLetter = 0;
                 funcionar = false;
                 
+                updateProgressBar();
+                
                 setTimeout(() => {
-                    startTimer(); 
+                    startTimer();
                 }, 1000);
             } else {
+                progressBar.style.width = '100%';
+                progressText.textContent = `Frase ${totalFrases} de ${totalFrases}`;
                 endGame();
             }
         }
@@ -372,7 +405,7 @@ $frasesJson = json_encode($frasesProcesadas);
         const render = () => {
             div.innerText = "";
             
-            // Mostrar imagen si existe (como en pre)
+            // Mostrar imagen si existe
             if (fraseActual.imagen && fraseActual.imagen !== "") {
                 imagePhrase.src = '/admin/image/' + fraseActual.imagen;
                 imagePhrase.classList.remove("hidden");
@@ -391,6 +424,8 @@ $frasesJson = json_encode($frasesProcesadas);
             
             pInformation.style.display = "block";
             fraseCounter.style.display = "block";
+            progressContainer.style.display = "block"; 
+            updateProgressBar(); 
         }
 
         const afterInterval = () => {
@@ -462,42 +497,54 @@ $frasesJson = json_encode($frasesProcesadas);
             document.getElementById("endForm").submit();
         }
 
+        const accentMap = {
+            "Quote": "\u0301",      // ´ acento agudo
+            "BracketLeft": "\u0300",  // ` acento grave
+            "Digit6": "\u0302",     // ^ circunflejo
+            "KeyI": "\u0308"        // ¨ diéresis
+        };
+
+
         document.addEventListener('keyup',(e) => {
-            if (funcionar) {
-                if (e.key === "Dead") {
-                    pendingAccent = e.code;
-                    return;
-                }
+            if (!funcionar) return;
+            console.log(e.code);
+            if (e.key === "Dead") {
+                pendingAccent = accentMap[e.code] || "";
+                return;
+            }
 
-                let inputChar = e.key;
+            let inputChar = e.key;
 
-                if (pendingAccent) {
-                    inputChar = (inputChar + "\u0301").normalize("NFC");
-                    pendingAccent = "";
-                }
-                if (
-                (e.key === "Shift" && !e.ctrlKey) ||
-                (e.key === "Control" && !e.shiftKey)
-                ) return;
-                let iscorrect = e.shiftKey;
-                iscorrect = checkInput(iscorrect, inputChar);
-                isCorrectLetter(iscorrect, e.key === " " ? true : false);
-                indexLetter++;
-                
-                if (indexLetter < fraseActual.texto.length && fraseActual.texto[indexLetter] !== " ") {
-                    showPhrase();  
-                }
-                
-                if (indexLetter >= fraseActual.texto.length) {
-                    funcionar = false;
-                    setTimeout(() => {
-                        prepareNextPhrase();
-                    }, 500);
-                }
+            if (pendingAccent) {
+                inputChar = (inputChar + pendingAccent).normalize("NFC");
+                pendingAccent = "";
+            }
+            console.log(inputChar);
+            if (
+            (e.key === "Shift" && !e.ctrlKey) ||
+            (e.key === "Control" && !e.shiftKey)
+            ) return;
+            let iscorrect = e.shiftKey;
+            iscorrect = checkInput(iscorrect, inputChar);
+            isCorrectLetter(iscorrect, e.key === " " ? true : false);
+            indexLetter++;
+            
+            if (indexLetter < fraseActual.texto.length && fraseActual.texto[indexLetter] !== " ") {
+                showPhrase();  
+            }
+            
+            if (indexLetter >= fraseActual.texto.length) {
+                funcionar = false;
+                setTimeout(() => {
+                    prepareNextPhrase();
+                }, 500);
             }
         });
 
         document.addEventListener("keydown", (event)=>{
+            if (event.key !== 'F12') {
+                event.preventDefault();
+            }
          if ((event.key).toLocaleLowerCase() === "c" && event.ctrlKey){
             closeSession.classList.add("highlightButtonText");
             setTimeout(() => {
