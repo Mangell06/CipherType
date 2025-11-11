@@ -3,6 +3,9 @@
     if (isset($_SESSION['points'])) {
         unset($_SESSION['points']);
     }
+    if (isset($_SESSION['name'])){
+        $_SESSION['name'] = preg_replace('/\s*\(permadeath\)$/i', '', $_SESSION['name']);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="es">

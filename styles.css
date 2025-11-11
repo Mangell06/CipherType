@@ -346,6 +346,20 @@ body.play img#sherlock{
   padding-right: 10px;
 }
 
+.contHealth{
+  color: #63514C;
+  background-color: white;
+  font-size: 30px;
+  border-radius: 10px;
+  text-align: center;
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+}
+
 @keyframes blink {
   50% {
     border-color: transparent;
