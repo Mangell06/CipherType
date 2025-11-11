@@ -175,6 +175,10 @@ $frasesJson = json_encode($frasesProcesadas);
             ?>
             <div class="text">
             </div>
+            <div id="progressContainer" class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
+                <div id="progressText" class="progress-text">Frase 1 de <?php echo $numFrases; ?></div>
+            </div>
         </div>
         <?php
             echo '<img class="typingMachine" src="media/typingmachine.png" alt="'. $_SESSION['lang_data']['ALT_MACHINE'].'">';
@@ -213,6 +217,10 @@ $frasesJson = json_encode($frasesProcesadas);
         const destroySession = () => {
             window.location = "/destroy_session.php";
         }
+
+        const progressContainer = document.getElementById("progressContainer");
+        const progressBar = document.getElementById("progressBar");
+        const progressText = document.getElementById("progressText");
 
         let temp = -4
         setInterval(()=>{
@@ -261,6 +269,12 @@ $frasesJson = json_encode($frasesProcesadas);
             return `${formatoHoras}:${formatoMinutos}:${formatoSegundos}`;
         }
 
+        function updateProgressBar() {
+            const progress = ((fraseActualIndex) / totalFrases) * 100;
+            progressBar.style.width = progress + '%';
+            progressText.textContent = `Frase ${fraseActualIndex + 1} de ${totalFrases}`;
+        }
+
         const correctSound = new Audio('media/correctchoice.mp3');
         const wrongSound = new Audio('media/wrongchoice1.mp3');
 
@@ -292,7 +306,6 @@ $frasesJson = json_encode($frasesProcesadas);
         const ids = ["lupa", "vela", "libro", "sombrero"];
         const nombres = <?php echo json_encode($_SESSION['lang_data']['ELEMENTS_EASTEREGG']); ?>;
 
-        // EASTER EGGS (igual que en pre)
         ids.forEach((id, index) => {
             const element = document.getElementById(id);
             element.addEventListener("click", () => {
@@ -326,6 +339,7 @@ $frasesJson = json_encode($frasesProcesadas);
             p.style.display = "block";
             pInformation.style.display = "none";
             fraseCounter.style.display = "none";
+            progressContainer.style.display = "none"; 
             div.innerText = "";
             imagePhrase.classList.add("hidden");
             
@@ -356,10 +370,14 @@ $frasesJson = json_encode($frasesProcesadas);
                 indexLetter = 0;
                 funcionar = false;
                 
+                updateProgressBar();
+                
                 setTimeout(() => {
-                    startTimer(); 
+                    startTimer();
                 }, 1000);
             } else {
+                progressBar.style.width = '100%';
+                progressText.textContent = `Frase ${totalFrases} de ${totalFrases}`;
                 endGame();
             }
         }
@@ -372,7 +390,7 @@ $frasesJson = json_encode($frasesProcesadas);
         const render = () => {
             div.innerText = "";
             
-            // Mostrar imagen si existe (como en pre)
+            // Mostrar imagen si existe
             if (fraseActual.imagen && fraseActual.imagen !== "") {
                 imagePhrase.src = '/admin/image/' + fraseActual.imagen;
                 imagePhrase.classList.remove("hidden");
@@ -391,6 +409,8 @@ $frasesJson = json_encode($frasesProcesadas);
             
             pInformation.style.display = "block";
             fraseCounter.style.display = "block";
+            progressContainer.style.display = "block"; 
+            updateProgressBar(); 
         }
 
         const afterInterval = () => {

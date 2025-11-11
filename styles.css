@@ -1218,3 +1218,32 @@ body.uploadImage{
   position: absolute;
   left: 16px;
 }
+
+.progress-container {
+    width: 80%;
+    margin: 15px auto 0 auto;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 5px;
+    position: relative;
+}
+
+.progress-bar {
+    height: 8px;
+    background: linear-gradient(90deg, #3f72cf, #78a2f0);
+    border-radius: 5px;
+    width: 0%;
+    transition: width 0.5s ease-in-out;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    border: 2px solid #3f72cf;
+    box-sizing: border-box;
+}
+
+.progress-text {
+    font-family: "Oswald", sans-serif;
+    text-align: center;
+    margin-top: 8px;
+    font-size: 14px;
+    color: black;
+    font-weight: bold;
+}
