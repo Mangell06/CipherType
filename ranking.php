@@ -100,9 +100,27 @@ if (!isset($_SESSION['lang_data'])) {
 
         usort($ranking, fn($nombre, $puntos) => $puntos[1] <=> $nombre[1]); // ordenar array por puntos de mayor a menor
 
+        $winnerIndex = null;
+        foreach ($ranking as $count => [$name,$points,$temp]) {
+            if (isset($_SESSION['name']) && isset($_SESSION['points']) && $_SESSION['name'] === $name && $_SESSION['points'] == $points) {
+                $winnerIndex = $count;
+            }
+        }
+
+        $pageSize = 25;
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 0;
+        $totalPages = ceil(count($ranking) / $pageSize);
+
+        if (!isset($_GET['page']) && $winnerIndex != null) {
+            $page = floor($winnerIndex / $pageSize);
+        }
+
         echo "<table>";
         echo "<tr><th>". $_SESSION['lang_data']['TEXT_NAME'] ."</th><th>". $_SESSION['lang_data']['TEXT_POINTS'] ."</th><th>". $_SESSION['lang_data']['TEXT_TEMP'] ."</th></tr>";
         foreach ($ranking as $count => [$name,$points,$temp]) {
+            if ($count < $page*$pageSize || $count > ($page+1)*$pageSize-1) {
+                continue;
+            }
             if (isset($_SESSION['name']) && isset($_SESSION['points']) && $_SESSION['name'] === $name && $_SESSION['points'] == $points) {
                 echo "<tr class='winner'><td>".$name."</td><td>".$points."</td><td>".formatearTiempo($temp)."</td></tr>";
             } else if ($count % 2 === 0 && $count !== 1) {
@@ -112,6 +130,11 @@ if (!isset($_SESSION['lang_data'])) {
             }
         }
         echo "</table>";
+        echo "<div class='allPages'>";
+        for ($i = 0; $i <$totalPages; $i++) {
+            echo "<a class='totalPagesNumber".($page == $i ? " active" : '')."' href='/ranking.php?page=".$i."'>".($i+1)."</a>";
+        }
+        echo "</div>";
     
     unset($_SESSION['points']);
     ?>
