@@ -1,8 +1,52 @@
 <?php
 session_start();
+
+// DEBUG: Ver qué hay en la sesión
+error_log("=== PLAY.PH DEBUG ===");
+error_log("selected_lang: " . ($_SESSION['selected_lang'] ?? 'NO SET'));
+error_log("lang_data exists: " . (isset($_SESSION['lang_data']) ? 'YES' : 'NO'));
+
+// SI LANG_DATA NO EXISTE, CARGARLO
+if (!isset($_SESSION['lang_data']) && isset($_SESSION['selected_lang'])) {
+    error_log("CARGANDO LANG_DATA DESDE PLAY.PH...");
+    $idiomaSeleccionado = $_SESSION['selected_lang'];
+    $_SESSION['lang_data'] = [];
+    
+    $archivo = fopen('idiomas.txt', 'r');
+    $dentroIdioma = false;
+    while (($linea = fgets($archivo)) !== false) {
+        $linea = trim($linea);
+        if ($linea === '') continue;
+        
+        if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+            $idiomaActual = substr($linea, 1, -1);
+            $dentroIdioma = ($idiomaActual === $idiomaSeleccionado);
+            continue;
+        }
+        
+        if ($dentroIdioma && strpos($linea, '=') !== false) {
+            list($clave, $valor) = explode('=', $linea, 2);
+            $clave = trim($clave);
+            if (str_contains($valor, '|')) {
+                $valor = trim($valor, "\"|\t ");
+                $_SESSION['lang_data'][$clave] = array_map(
+                    fn($v) => trim($v, '"'),
+                    explode('|', $valor)
+                );
+            } else { 
+                $valor = trim($valor, "\"\t ");
+                $_SESSION['lang_data'][$clave] = $valor;
+            }
+        }
+    }
+    fclose($archivo);
+    error_log("LANG_DATA CARGADO. Claves: " . implode(', ', array_keys($_SESSION['lang_data'])));
+}
+
 if (isset($_POST['inname'])) {
     $_SESSION['name'] = $_POST['inname'];
 }
+
 if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
     header('Location: index.php');
     exit;
@@ -11,6 +55,12 @@ if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
 $difficulty = $_POST["indifficulty"];
 $sentencesLines = [];
 $dentroIdioma = false;
+
+// VERIFICAR QUE selected_lang EXISTE
+if (!isset($_SESSION['selected_lang'])) {
+    header('Location: index.php');
+    exit;
+}
 
 $sentencesFile = fopen("sentences.txt", "r");
 while (!feof($sentencesFile)) {
@@ -28,6 +78,7 @@ while (!feof($sentencesFile)) {
 }
 fclose($sentencesFile);
 
+// SISTEMA DE MÚLTIPLES FRASES (de tu código)
 $numFrases = 3;
 if ($difficulty === "normal") {
     $numFrases = 4;
@@ -68,6 +119,7 @@ if ($difficulty === "sencillo") {
     $frases = getRandomPhrases(substr($sentencesLines[2], 8), $numFrases);
 }
 
+// Procesar frases con imágenes (igual que en pre pero para múltiples)
 $frasesProcesadas = [];
 foreach ($frases as $frase) {
     $fraseSplit = explode("|", $frase);
@@ -104,10 +156,11 @@ $frasesJson = json_encode($frasesProcesadas);
             echo "</div>";
         }
     ?>
+    <!-- CONTADOR DE FRASES NUEVO -->
     <div id="fraseCounter">
         Frase <span id="currentFrase">1</span> de <span id="totalFrases"><?php echo $numFrases; ?></span>
     </div>
-    <img class="mesa" src="media/mesa.jpg" alt="Imagen de una mesa">
+    
     <div id='bonusSpecialWrapper' class="bonusWrapper hideBonus">
         <div class="mainBonus">
             <div class="containerBonus">
@@ -120,6 +173,7 @@ $frasesJson = json_encode($frasesProcesadas);
         echo '<img class="mesa" src="media/mesa.jpg" alt="'. $_SESSION['lang_data']['ALT_MESA'].'">';
     ?>
     <div class="machine">
+        <!-- IMAGEN DINÁMICA (como en pre pero actualizable) -->
         <img id="imagePhrase" class="imagePhrase hidden" src="" alt="">
         <div class="textos">
             <p id="timer"></p>
@@ -224,6 +278,8 @@ $frasesJson = json_encode($frasesProcesadas);
         let points = 0;
         let win = false;
         let eventCont = 4;
+
+        // SISTEMA DE MÚLTIPLES FRASES
         let frases = <?php echo $frasesJson; ?>;
         let fraseActualIndex = 0;
         let fraseActual = frases[fraseActualIndex];
@@ -245,6 +301,7 @@ $frasesJson = json_encode($frasesProcesadas);
         const ids = ["lupa", "vela", "libro", "sombrero"];
         const nombres = <?php echo json_encode($_SESSION['lang_data']['ELEMENTS_EASTEREGG']); ?>;
 
+        // EASTER EGGS (igual que en pre)
         ids.forEach((id, index) => {
             const element = document.getElementById(id);
             element.addEventListener("click", () => {
@@ -274,6 +331,7 @@ $frasesJson = json_encode($frasesProcesadas);
             });
         });
 
+        // TEMPORIZADOR QUE SE REPITE (de tu código)
         function startTimer() {
             p.style.display = "block";
             pInformation.style.display = "none";
@@ -292,13 +350,14 @@ $frasesJson = json_encode($frasesProcesadas);
                 }
                 cont--;
                 if (cont === 0) {
-                    p.innerText = "YA!";
+                    p.innerText = <?php echo json_encode($_SESSION['lang_data']['TEXT_START'] . '!'); ?>;
                     return;
                 }
                 p.innerText = cont;
             }, 750);
         }
 
+        // PREPARAR SIGUIENTE FRASE
         function prepareNextPhrase() {
             fraseActualIndex++;
             
@@ -309,7 +368,7 @@ $frasesJson = json_encode($frasesProcesadas);
                 funcionar = false;
                 
                 setTimeout(() => {
-                    startTimer();
+                    startTimer(); // Reinicia temporizador para nueva frase
                 }, 1000);
             } else {
                 endGame();
@@ -324,7 +383,7 @@ $frasesJson = json_encode($frasesProcesadas);
         const render = () => {
             div.innerText = "";
             
-            // Mostrar imagen si existe
+            // Mostrar imagen si existe (como en pre)
             if (fraseActual.imagen && fraseActual.imagen !== "") {
                 imagePhrase.src = '/admin/image/' + fraseActual.imagen;
                 imagePhrase.classList.remove("hidden");
@@ -350,6 +409,7 @@ $frasesJson = json_encode($frasesProcesadas);
             render();
         }
 
+        // SISTEMA DE TECLADO (igual que en pre)
         function checkInput(isMayus, inletter) {
             const letter = document.getElementById("letter"+indexLetter);
             if (/’|‘/.test(letter.textContent)) {
@@ -379,7 +439,7 @@ $frasesJson = json_encode($frasesProcesadas);
                 if (letter.textContent != " ") {
                     letter.className = "error";
                     wrongSound.play();
-                    points -= 100
+                    points -= 100;
                     letrasErroneas += 1;
                 } else {
                     correctSound.play();
@@ -435,9 +495,12 @@ $frasesJson = json_encode($frasesProcesadas);
                 iscorrect = checkInput(iscorrect, inputChar);
                 isCorrectLetter(iscorrect, e.key === " " ? true : false);
                 indexLetter++;
+                
                 if (indexLetter < fraseActual.texto.length && fraseActual.texto[indexLetter] !== " ") {
                     showPhrase();  
                 }
+                
+                // CAMBIO: Pasar a siguiente frase en lugar de terminar juego
                 if (indexLetter >= fraseActual.texto.length) {
                     funcionar = false;
                     setTimeout(() => {
@@ -455,6 +518,7 @@ $frasesJson = json_encode($frasesProcesadas);
             }, "1000");
         }});
 
+        // INICIAR PRIMER TEMPORIZADOR
         startTimer();
     </script>
 </body>
