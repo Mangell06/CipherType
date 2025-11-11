@@ -36,12 +36,15 @@
                 if (isset($parts[1]) && file_exists("image/" . $parts[1])) {
                     unlink("image/" . $parts[1]);
                 }
+                $mensaje = $_SESSION['username']. " a eliminado la frase " . $parts[0] . " en el nivel de dificultat " . $level . " del idioma " . $_SESSION['selected_lang'];
+                $fecha = date("Y-m-d H:i:s");
+                $linea = "[$fecha] $mensaje" . PHP_EOL;
+                file_put_contents("../logs.txt", $linea, FILE_APPEND);
             }
         }
         $newContent .= implode("*", $phrasesArray);
         $newContent .= "\n";
     }
-
     file_put_contents("../sentences.txt", trim($newContent));
     fclose($sentencesFile); //cerrar archivo
 ?>

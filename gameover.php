@@ -1,6 +1,14 @@
 <?php
     session_start();
     if (!isset($_SESSION['name']) || !isset($_POST['points'])) {
+        if (isset($_SESSION['name'])) {
+            $mensaje = $_SESSION['name']. " a intentado acceder a gameover.php sin jugar";
+        } else {
+            $mensaje = "Un usuario a intentado acceder a gameover.php sin jugar";
+        }
+        $fecha = date("Y-m-d H:i:s");
+        $linea = "[$fecha] $mensaje" . PHP_EOL;
+        file_put_contents("logs.txt", $linea, FILE_APPEND);
         header("HTTP/1.1 403 Forbidden");
         header('Location: /errors/error403.php');
         exit();
@@ -10,6 +18,10 @@
     $temp = $_POST['temp'];
     $_SESSION["points"] = $points;
     $_SESSION["temp"] = $temp;
+    $mensaje = $_SESSION['name']. " a llegado hasta gameover.php con " . $points . " puntos";
+    $fecha = date("Y-m-d H:i:s");
+    $linea = "[$fecha] $mensaje" . PHP_EOL;
+    file_put_contents("logs.txt", $linea, FILE_APPEND);
 ?>
 <!DOCTYPE html>
 <html lang="es">

@@ -1,5 +1,13 @@
 <?php
     session_start();
+    if (isset($_SESSION['name'])) {
+        $mensaje = $_SESSION['name']. " a sido redirigido a el ERROR 403";
+    } else {
+        $mensaje = "Un usuario a sido redirigido a el ERROR 403";
+    }
+    $fecha = date("Y-m-d H:i:s");
+    $linea = "[$fecha] $mensaje" . PHP_EOL;
+    file_put_contents("../logs.txt", $linea, FILE_APPEND);
     if (!isset($_SESSION['selected_lang'])) {
     $_SESSION['selected_lang'] = 'CASTELLANO';
 }

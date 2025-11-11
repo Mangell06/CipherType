@@ -41,7 +41,6 @@ if (isset($_FILES['uploadimage']) && !empty($_FILES['uploadimage']['name']) && i
                         $uploadfile = $uploaddir . $randomFilename;
                         $tmp_name = $_FILES["uploadimage"]["tmp_name"];
                         $fileSaveSuccess = move_uploaded_file($tmp_name, $uploadfile);
-
                         $phrasesArray[] = $phrases[$i]."|".$randomFilename;
                     } else {
                         $phrasesArray[] = $phrases[$i];
@@ -55,6 +54,10 @@ if (isset($_FILES['uploadimage']) && !empty($_FILES['uploadimage']['name']) && i
         $newContent .= $linea."\n";
     }
     file_put_contents("../sentences.txt", trim($newContent));
+    $mensaje = $_SESSION['username']. " a añadido la frase con la imagen " . $newContent . " en el idioma " . $idiomaDelUsuario;
+    $fecha = date("Y-m-d H:i:s");
+    $linea = "[$fecha] $mensaje" . PHP_EOL;
+    file_put_contents("../logs.txt", $linea, FILE_APPEND);
     fclose($sentencesFile);
     $_SESSION['imagenCreada'] = $fileSaveSuccess;
     header("Location: /admin/index.php");

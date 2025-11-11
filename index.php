@@ -45,6 +45,14 @@
     } else {
         if (isset($_POST['lenguageselect'])) {
             $idiomaSeleccionado = $_POST['lenguageselect'];
+            if (isset($_SESSION['name'])) {
+                $mensaje = $_SESSION['name']. " se a cambiado al idioma " . $idiomaSeleccionado;
+            } else {
+                $mensaje = "Un usuario se a cambiado al idioma " . $idiomaSeleccionado;
+            }
+            $fecha = date("Y-m-d H:i:s");
+            $linea = "[$fecha] $mensaje" . PHP_EOL;
+            file_put_contents("logs.txt", $linea, FILE_APPEND);
             $_SESSION['selected_lang'] = $idiomaSeleccionado;
             $_SESSION['lang_data'] = [];
              $archivo = fopen('idiomas.txt', 'r');
