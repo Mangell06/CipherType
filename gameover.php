@@ -14,9 +14,13 @@
         header('Location: /errors/error403.php');
         exit();
     }
+    if (isset($_POST['permadeath'])) {
+        $_SESSION['name'].=' ('.$_POST['permadeath'].')';
+    }
     $name = $_SESSION['name'];
     $points = $_POST['points'];
     $temp = $_POST['temp'];
+
     $_SESSION["points"] = $points;
     $_SESSION["temp"] = $temp;
     $mensaje = $_SESSION['name']. " a llegado hasta gameover.php con " . $points . " puntos";

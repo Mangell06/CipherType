@@ -6,7 +6,7 @@ if (isset($_POST['inname'])) {
 }
 if (!isset($_POST['indifficulty']) || !isset($_SESSION['name'])) {
     if (isset($_SESSION['name'])) {
-    $mensaje = $_SESSION['name']. " a intentado acceder sin dificultat seleccionada al juego";
+        $mensaje = $_SESSION['name'] . " a intentado acceder sin dificultat seleccionada al juego";
     } else {
         $mensaje = "Un usuario a intentado acceder sin dificultat seleccionada y sin name al juego";
     }
@@ -18,7 +18,7 @@ if (!isset($_POST['indifficulty']) || !isset($_SESSION['name'])) {
     exit;
 }
 if (isset($_SESSION['name'])) {
-    $mensaje = $_SESSION['name']. " a accedido a jugar en la dificultat " . $_POST['indifficulty'];
+    $mensaje = $_SESSION['name'] . " a accedido a jugar en la dificultat " . $_POST['indifficulty'];
 }
 $fecha = date("Y-m-d H:i:s");
 $linea = "[$fecha] $mensaje" . PHP_EOL;
@@ -38,7 +38,8 @@ if (!isset($_SESSION['lang_data'])) {
     $dentroIdioma = false;
     while (($linea = fgets($archivo)) !== false) {
         $linea = trim($linea);
-        if ($linea === '') continue;
+        if ($linea === '')
+            continue;
 
         if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
             $idiomaActual = substr($linea, 1, -1);
@@ -77,7 +78,8 @@ if (!isset($_SESSION['selected_lang'])) {
 $sentencesFile = fopen("sentences.txt", "r");
 while (!feof($sentencesFile)) {
     $linea = fgets($sentencesFile);
-    if ($linea === false) continue;
+    if ($linea === false)
+        continue;
     $linea = trim($linea);
     if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
         $idiomaActual = substr($linea, 1, -1);
@@ -97,10 +99,11 @@ if ($difficulty === "normal") {
     $numFrases = 5;
 }
 
-function getRandomPhrases($stringFrases, $count) {
+function getRandomPhrases($stringFrases, $count)
+{
     $textoSubstringTrim = trim($stringFrases);
     $array = explode("*", $textoSubstringTrim);
-    
+
     if (count($array) < $count) {
         $result = [];
         for ($i = 0; $i < $count; $i++) {
@@ -108,12 +111,12 @@ function getRandomPhrases($stringFrases, $count) {
         }
         return $result;
     }
-    
+
     $randomKeys = array_rand($array, $count);
     if (!is_array($randomKeys)) {
         $randomKeys = [$randomKeys];
     }
-    
+
     $result = [];
     foreach ($randomKeys as $key) {
         $result[] = $array[$key];
@@ -153,23 +156,24 @@ $frasesJson = json_encode($frasesProcesadas);
     <link
         href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
         rel="stylesheet">
-     <link rel="stylesheet" href="styles.css?no-cache=<?php echo time(); ?>">
+    <link rel="stylesheet" href="styles.css?no-cache=<?php echo time(); ?>">
     <link rel="icon" href="media/lupa.ico">
 </head>
 
 <body class="play">
     <?php
-        if (isset($_SESSION['name'])) {
-            echo "<div class='cancelSession'>";
-            echo "<p>". $_SESSION['lang_data']['TEXT_NAME'].": ".$_SESSION['name']."</p>";
-            echo "<button type='submit' id='closeSession' onclick='destroySession()'>". $_SESSION['lang_data']['TEXT_LOGOUT']."</button>";
-            echo "</div>";
-        }
+    if (isset($_SESSION['name'])) {
+        echo "<div class='cancelSession'>";
+        echo "<p>" . $_SESSION['lang_data']['TEXT_NAME'] . ": " . $_SESSION['name'] . "</p>";
+        echo "<button type='submit' id='closeSession' onclick='destroySession()'>" . $_SESSION['lang_data']['TEXT_LOGOUT'] . "</button>";
+        echo "</div>";
+    }
     ?>
+    <div id="corazonesCounter" class="contHealth"></div>
     <div id="fraseCounter">
         Frase <span id="currentFrase">1</span> de <span id="totalFrases"><?php echo $numFrases; ?></span>
     </div>
-    
+
     <div id='bonusSpecialWrapper' class="bonusWrapper hideBonus">
         <div class="mainBonus">
             <div class="containerBonus">
@@ -179,14 +183,14 @@ $frasesJson = json_encode($frasesProcesadas);
         </div>
     </div>
     <?php
-        echo '<img class="mesa" src="media/mesa.jpg" alt="'. $_SESSION['lang_data']['ALT_MESA'].'">';
+    echo '<img class="mesa" src="media/mesa.jpg" alt="' . $_SESSION['lang_data']['ALT_MESA'] . '">';
     ?>
     <div class="machine">
         <img id="imagePhrase" class="imagePhrase hidden" src="" alt="">
         <div class="textos">
             <p id="timer"></p>
             <?php
-            echo '<p id="textStartInformation" class="hidden">'. $_SESSION['lang_data']['SUBTITLE_INGAME'].'</p>';
+            echo '<p id="textStartInformation" class="hidden">' . $_SESSION['lang_data']['SUBTITLE_INGAME'] . '</p>';
             ?>
             <div class="text">
             </div>
@@ -196,28 +200,29 @@ $frasesJson = json_encode($frasesProcesadas);
             </div>
         </div>
         <?php
-            echo '<img class="typingMachine" src="media/typingmachine.png" alt="'. $_SESSION['lang_data']['ALT_MACHINE'].'">';
+        echo '<img class="typingMachine" src="media/typingmachine.png" alt="' . $_SESSION['lang_data']['ALT_MACHINE'] . '">';
         ?>
     </div>
     <?php
-    echo '<img id="lupa" src="media/lupa_easteregg.png" alt="'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][0].' Easter Egg">';
-    echo '<img id="vela" src="media/velaEasterEgg.png" alt="'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][1].' Easter Egg">';
-    echo '<img id="libro" src="media/libroEasterEgg.png" alt="'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][2].' Easter Egg">';
-    echo '<img id="sombrero" src="media/sombreroSherlock.png" alt="'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][3].' Easter Egg">';
+    echo '<img id="lupa" src="media/lupa_easteregg.png" alt="' . $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][0] . ' Easter Egg">';
+    echo '<img id="vela" src="media/velaEasterEgg.png" alt="' . $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][1] . ' Easter Egg">';
+    echo '<img id="libro" src="media/libroEasterEgg.png" alt="' . $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][2] . ' Easter Egg">';
+    echo '<img id="sombrero" src="media/sombreroSherlock.png" alt="' . $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][3] . ' Easter Egg">';
     echo '<img id="sherlock" class="invisible" src="media/sherlockHolmes.png" alt="sherlock">';
     ?>
     <div class="invisible listaEntera">
-    <?php
-         echo '<p>'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][0].'</p>';
-         echo '<p>'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][1].'</p>';
-         echo '<p>'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][2].'</p>';
-         echo '<p>'. $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][3].'</p>';
-    ?>
+        <?php
+        echo '<p>' . $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][0] . '</p>';
+        echo '<p>' . $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][1] . '</p>';
+        echo '<p>' . $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][2] . '</p>';
+        echo '<p>' . $_SESSION['lang_data']['ELEMENTS_EASTEREGG'][3] . '</p>';
+        ?>
     </div>
     <div id="temp"></div>
     <form id="endForm" action="gameover.php" method="POST" style="display:none;">
         <input type="hidden" name="points" id="pointsField">
         <input type="hidden" name="temp" id="tempField">
+        <input type="hidden" name="permadeath" id="permadeathField">
     </form>
     <script>
         let pendingAccent = "";
@@ -229,6 +234,7 @@ $frasesJson = json_encode($frasesProcesadas);
         const closeSession = document.getElementById("closeSession");
         const imagePhrase = document.getElementById("imagePhrase");
         const tempDiv = document.getElementById("temp")
+        
         const destroySession = () => {
             window.location = "/destroy_session.php";
         }
@@ -238,16 +244,16 @@ $frasesJson = json_encode($frasesProcesadas);
         const progressText = document.getElementById("progressText");
 
         let temp = -4
-        setInterval(()=>{
+        setInterval(() => {
             temp += 1;
-            if (temp < 0){tempDiv.innerText = "00:00:00";}
-            else{tempDiv.innerText = formatearTiempo(temp);}
-        },1000)
-        
+            if (temp < 0) { tempDiv.innerText = "00:00:00"; }
+            else { tempDiv.innerText = formatearTiempo(temp); }
+        }, 1000)
+
         let countPulsation = 3
         const progress = document.getElementById("file");
         let inverseCountPulsation = 1;
-        setInterval(()=>{
+        setInterval(() => {
             if (letrasAcertadas > 5) {
                 countPulsation -= 1;
                 progress.value = 100 - 33 * inverseCountPulsation;
@@ -263,14 +269,14 @@ $frasesJson = json_encode($frasesProcesadas);
                 letrasAcertadas = 0;
                 letrasErroneas = 0;
                 if (letrasAcertadas >= 5) {
-                    multiplicatorP.textContent = "X"+multiplicador;
+                    multiplicatorP.textContent = "X" + multiplicador;
                     containerBonus.classList.remove("hideBonus");
                 } else {
-                    multiplicatorP.textContent = "X"+multiplicador;
+                    multiplicatorP.textContent = "X" + multiplicador;
                     containerBonus.classList.add("hideBonus");
                 }
             }
-        },1000);
+        }, 1000);
 
         function formatearTiempo(segundos) {
             const horas = Math.floor(segundos / 3600);
@@ -299,6 +305,7 @@ $frasesJson = json_encode($frasesProcesadas);
         let points = 0;
         let win = false;
         let eventCont = 4;
+        let health = 5;
 
         let frases = <?php echo $frasesJson; ?>;
         let fraseActualIndex = 0;
@@ -314,6 +321,8 @@ $frasesJson = json_encode($frasesProcesadas);
         const fraseCounter = document.getElementById("fraseCounter");
         const currentFraseSpan = document.getElementById("currentFrase");
         const totalFrasesSpan = document.getElementById("totalFrases");
+        const corazonesCounter = document.getElementById("corazonesCounter");
+        const permadeath = "<?php echo isset($_POST['permadeath']) ? $_POST['permadeath'] : '' ?>";
 
         totalFrasesSpan.textContent = totalFrases;
         currentFraseSpan.textContent = fraseActualIndex + 1;
@@ -354,13 +363,13 @@ $frasesJson = json_encode($frasesProcesadas);
             p.style.display = "block";
             pInformation.style.display = "none";
             fraseCounter.style.display = "none";
-            progressContainer.style.display = "none"; 
+            progressContainer.style.display = "none";
             div.innerText = "";
             imagePhrase.classList.add("hidden");
-            
+
             let cont = 3;
             p.innerText = cont;
-            
+
             const interval = setInterval(() => {
                 if (cont <= 0) {
                     clearInterval(interval);
@@ -378,33 +387,34 @@ $frasesJson = json_encode($frasesProcesadas);
 
         function prepareNextPhrase() {
             fraseActualIndex++;
-            
+
             if (fraseActualIndex < totalFrases) {
                 fraseActual = frases[fraseActualIndex];
                 currentFraseSpan.textContent = fraseActualIndex + 1;
                 indexLetter = 0;
                 funcionar = false;
-                
+
                 updateProgressBar();
-                
+
                 setTimeout(() => {
                     startTimer();
                 }, 1000);
             } else {
                 progressBar.style.width = '100%';
                 progressText.textContent = `Frase ${totalFrases} de ${totalFrases}`;
-                endGame();
+                endGame(permadeath=="on");
+
             }
         }
 
-        const showPhrase = () => { 
-            const span = document.getElementById("letter"+indexLetter); 
-            span.className = "highlight"; 
+        const showPhrase = () => {
+            const span = document.getElementById("letter" + indexLetter);
+            span.className = "highlight";
         };
 
         const render = () => {
             div.innerText = "";
-            
+
             // Mostrar imagen si existe
             if (fraseActual.imagen && fraseActual.imagen !== "") {
                 imagePhrase.src = '/admin/image/' + fraseActual.imagen;
@@ -412,7 +422,7 @@ $frasesJson = json_encode($frasesProcesadas);
             } else {
                 imagePhrase.classList.add("hidden");
             }
-            
+
             for (let i = 0; i < fraseActual.texto.length; i++) {
                 const span = document.createElement("span");
                 span.id = "letter" + i;
@@ -421,11 +431,11 @@ $frasesJson = json_encode($frasesProcesadas);
             }
             showPhrase();
             funcionar = true;
-            
+
             pInformation.style.display = "block";
             fraseCounter.style.display = "block";
-            progressContainer.style.display = "block"; 
-            updateProgressBar(); 
+            progressContainer.style.display = "block";
+            updateProgressBar();
         }
 
         const afterInterval = () => {
@@ -434,7 +444,7 @@ $frasesJson = json_encode($frasesProcesadas);
         }
 
         function checkInput(isMayus, inletter) {
-            const letter = document.getElementById("letter"+indexLetter);
+            const letter = document.getElementById("letter" + indexLetter);
             if (/’|‘/.test(letter.textContent)) {
                 comparate = "'";
             } else if (/“|”/.test(letter.textContent)) {
@@ -444,32 +454,74 @@ $frasesJson = json_encode($frasesProcesadas);
             }
             return (isMayus && inletter.toUpperCase() === comparate) || inletter.toLowerCase() === comparate;
         }
-
+       
+        function updateHealth(health){
+            const newContent = document.createTextNode("Vidas ❤️ x "+health);
+                corazonesCounter.innerHTML = "";
+                corazonesCounter.appendChild(newContent);
+        }
+        if (permadeath == "on"){
+            updateHealth(health);
+        }
+    
         function isCorrectLetter(iscorrect, isspace) {
             const anteriorMultiplicator = multiplicador;
-            const letter = document.getElementById("letter"+indexLetter);
-            if (!isspace) {
-                letter.className = iscorrect ? "correct" : "error";
-                points += iscorrect ? 100 * multiplicador : -100;
-                if (iscorrect) {
-                    correctSound.play();
-                    letrasAcertadas += 1;   
+            const letter = document.getElementById("letter" + indexLetter);
+            if (permadeath == "on") {
+                updateHealth(health);
+                if (health <= 0){
+                    endGame(false);
+                }
+                if (!isspace) {
+                    letter.className = iscorrect ? "correct" : "error";
+                    points += iscorrect ? 100 * multiplicador : -100;
+
+                    if (iscorrect) {
+                        correctSound.play();
+                        letrasAcertadas += 1;
+                    } else {
+                        wrongSound.play();
+                        letrasErroneas += 1;
+                        health -= 1;
+                    }
                 } else {
-                    wrongSound.play();
-                    letrasErroneas += 1;
+                    if (letter.textContent != " ") {
+                        letter.className = "error";
+                        wrongSound.play();
+                        points -= 100;
+                        letrasErroneas += 1;
+                        health -= 1;
+                    } else {
+                        correctSound.play();
+                        points += 100 * multiplicador;
+                        letrasAcertadas += 1;
+                    }
                 }
             } else {
-                if (letter.textContent != " ") {
-                    letter.className = "error";
-                    wrongSound.play();
-                    points -= 100;
-                    letrasErroneas += 1;
+                if (!isspace) {
+                    letter.className = iscorrect ? "correct" : "error";
+                    points += iscorrect ? 100 * multiplicador : -100;
+                    if (iscorrect) {
+                        correctSound.play();
+                        letrasAcertadas += 1;
+                    } else {
+                        wrongSound.play();
+                        letrasErroneas += 1;
+                    }
                 } else {
-                    correctSound.play();
-                    points += 100 * multiplicador;
-                    letrasAcertadas += 1;   
+                    if (letter.textContent != " ") {
+                        letter.className = "error";
+                        wrongSound.play();
+                        points -= 100;
+                        letrasErroneas += 1;
+                    } else {
+                        correctSound.play();
+                        points += 100 * multiplicador;
+                        letrasAcertadas += 1;
+                    }
                 }
             }
+
             const containerBonus = document.getElementById('bonusSpecialWrapper');
             if (letrasErroneas === 3) {
                 letrasAcertadas = letrasAcertadas < 5 ? 0 : letrasAcertadas - 5;
@@ -478,10 +530,10 @@ $frasesJson = json_encode($frasesProcesadas);
             const multiplicatorP = document.getElementById('multiplicatorBonus');
             multiplicador = Math.floor(letrasAcertadas / 5);
             if (letrasAcertadas >= 5) {
-                multiplicatorP.textContent = "X"+multiplicador;
+                multiplicatorP.textContent = "X" + multiplicador;
                 containerBonus.classList.remove("hideBonus");
             } else {
-                multiplicatorP.textContent = "X"+multiplicador;
+                multiplicatorP.textContent = "X" + multiplicador;
                 containerBonus.classList.add("hideBonus");
             }
             if (anteriorMultiplicator !== multiplicador) {
@@ -491,9 +543,12 @@ $frasesJson = json_encode($frasesProcesadas);
             }
         }
 
-        function endGame() {
-            document.getElementById("pointsField").value = points;
-            document.getElementById("tempField").value = temp;
+        function endGame(applyBonus) {
+            document.getElementById("pointsField").value = applyBonus==true ? points*1.5: points;
+            document.getElementById("tempField").value = temp; 
+            if (permadeath == "on"){
+               document.getElementById("permadeathField").value = "permadeath";
+            }
             document.getElementById("endForm").submit();
         }
 
@@ -505,7 +560,7 @@ $frasesJson = json_encode($frasesProcesadas);
         };
 
 
-        document.addEventListener('keyup',(e) => {
+        document.addEventListener('keyup', (e) => {
             if (!funcionar) return;
             console.log(e.code);
             if (e.key === "Dead") {
@@ -521,18 +576,18 @@ $frasesJson = json_encode($frasesProcesadas);
             }
             console.log(inputChar);
             if (
-            (e.key === "Shift" && !e.ctrlKey) ||
-            (e.key === "Control" && !e.shiftKey)
+                (e.key === "Shift" && !e.ctrlKey) ||
+                (e.key === "Control" && !e.shiftKey)
             ) return;
             let iscorrect = e.shiftKey;
             iscorrect = checkInput(iscorrect, inputChar);
             isCorrectLetter(iscorrect, e.key === " " ? true : false);
             indexLetter++;
-            
+
             if (indexLetter < fraseActual.texto.length && fraseActual.texto[indexLetter] !== " ") {
-                showPhrase();  
+                showPhrase();
             }
-            
+
             if (indexLetter >= fraseActual.texto.length) {
                 funcionar = false;
                 setTimeout(() => {
@@ -541,18 +596,20 @@ $frasesJson = json_encode($frasesProcesadas);
             }
         });
 
-        document.addEventListener("keydown", (event)=>{
+        document.addEventListener("keydown", (event) => {
             if (event.key !== 'F12') {
                 event.preventDefault();
             }
-         if ((event.key).toLocaleLowerCase() === "c" && event.ctrlKey){
-            closeSession.classList.add("highlightButtonText");
-            setTimeout(() => {
-                closeSession.click();
-            }, "1000");
-        }});
+            if ((event.key).toLocaleLowerCase() === "c" && event.ctrlKey) {
+                closeSession.classList.add("highlightButtonText");
+                setTimeout(() => {
+                    closeSession.click();
+                }, "1000");
+            }
+        });
 
         startTimer();
     </script>
 </body>
+
 </html>
