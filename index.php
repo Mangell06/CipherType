@@ -101,7 +101,8 @@
         echo "<option value='normal'>" . $_SESSION['lang_data']['DIFFICULTY_NORMAL'] . "</option>";
         echo "<option value='experto'>" . $_SESSION['lang_data']['DIFFICULTY_EXPERT'] . "</option>";
         echo "</select>";
-        echo "<button disabled type='submit' id='buttonInitialitze'>" . $_SESSION['lang_data']['TEXT_INITIALITZE'] . "</button>";
+        echo "";
+        echo "<button type='submit' id='buttonInitialitze' disabled>" . $_SESSION['lang_data']['TEXT_INITIALITZE'] . "</button>";
         echo "<div id='checkboxWithExplicationButton'>";
         echo "<p>permadeath</p>";
         echo "<input type='checkbox' name='permadeath' id='checkbox'>";
@@ -125,6 +126,7 @@
     }
     ?>
     <script>
+    document.getElementById('buttonInitialitze').disabled = false;
     const closeSession = document.getElementById("closeSession");
         const destroySession = () => {
             window.location = "/destroy_session.php";
@@ -185,7 +187,6 @@
             }
         }
     });
-<script>
     const valueName = "<?php 
     if (isset($_SESSION['name'])){
         echo $_SESSION['name'];
