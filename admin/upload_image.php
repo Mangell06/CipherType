@@ -85,6 +85,7 @@ if (isset($_FILES['uploadimage']) && !empty($_FILES['uploadimage']['name']) && i
     <?php
 
     echo "<div id=''>";
+    echo "<p>".$_SESSION['lang_data']['TEXT_SELECT_LANGUAGE']."</p>";
     echo '<form method="get">';
     echo '<select name="lang" onchange="this.form.submit()">';
     $archivo = fopen('../idiomas.txt', 'r');
@@ -106,6 +107,8 @@ if (isset($_FILES['uploadimage']) && !empty($_FILES['uploadimage']['name']) && i
     }
     echo '</select>';
     echo '</form>';
+
+    
     echo "<form method='post' enctype='multipart/form-data'>";
 
     $sentencesLines = [];
@@ -125,13 +128,16 @@ if (isset($_FILES['uploadimage']) && !empty($_FILES['uploadimage']['name']) && i
             $sentencesLines[] = $linea;
         }
     }
+    
     $difficulties = [];
-
+    echo "<p class=titleUploadImage>".$_SESSION['lang_data']['TEXT_SELECT_PHRASE']."</p>";
     foreach ($sentencesLines as $sentenceValue) {
+        
         $difficultyLevel = explode(":", $sentenceValue);
         $difficulty = $difficultyLevel[0];
         $phrases = $difficultyLevel[1];
         $separatePhrases = explode("*", $difficultyLevel[1]);
+        
         $selectName = "frase" . $difficulty;
         echo "<select name='" . $selectName . "' id='" . $selectName . "'>";
         for ($i = 0; $i < count($separatePhrases); $i++) {
@@ -145,7 +151,7 @@ if (isset($_FILES['uploadimage']) && !empty($_FILES['uploadimage']['name']) && i
         $difficulties[] = $difficulty;
     }
 
-    echo "<label for='selectdifficulty'>Selecciona el nivel de dificultad</label>";
+    echo "<label for='selectdifficulty'>".$_SESSION['lang_data']['TEXT_SELECT_DIFICULTY']."</label>";
     echo "<select name='selectdifficulty' id='selectdifficulty'>";
         echo "<option value='sencillo'>" . $_SESSION['lang_data']['DIFFICULTY_SIMPLE'] . "</option>";
         echo "<option value='normal'>" . $_SESSION['lang_data']['DIFFICULTY_NORMAL'] . "</option>";
@@ -158,9 +164,9 @@ if (isset($_FILES['uploadimage']) && !empty($_FILES['uploadimage']['name']) && i
     
     echo "<input type='file' name='uploadimage'>";
     if (isset($_POST["selectdifficulty"]) && (!isset($_FILES['uploadimage']) || empty($_FILES['uploadimage']['name']))){
-        echo 'Tienes que insertar una imagen';
+        echo '<p class="error">'.$_SESSION['lang_data']['UPLOAD_IMAGE_ERROR'].'</p>';
     }
-    echo "<button type='submit'>".$_SESSION['lang_data']['UPLOAD_IMAGE_TAB']."</button>";
+    echo "<button type='submit' id='uploadImageButton'>".$_SESSION['lang_data']['UPLOAD_IMAGE_TAB']."</button>";
     echo "</form>";
     ?>
     <script>
@@ -180,6 +186,13 @@ if (isset($_FILES['uploadimage']) && !empty($_FILES['uploadimage']['name']) && i
         document.getElementById("selectdifficulty").addEventListener("change",(event) => {
             showSelect(event.target.value);
         })
+
+        const uploadImageButton = document.getElementById('uploadImageButton');
+        document.addEventListener("keydown", (event) => {
+            if (event.key.toLowerCase() === "i") {
+                uploadImageButton.classList.add("highlightButtonText");
+                setTimeout(() => uploadImageButton.click(), 1000);
+            }})
     </script>
 </body>
 

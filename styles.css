@@ -1022,6 +1022,10 @@ body.uploadImage{
   width: 100%;
 }
 
+.uploadImage > div > form > p.titleUploadImage {
+    text-align: left !important;
+}
+
 .buttonpanel{
   display: flex;
   gap: 20px;
