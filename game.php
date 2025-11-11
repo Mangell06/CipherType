@@ -8,8 +8,9 @@ if (isset($_SESSION['name'])) {
     $mensaje = "Un usuario a accedido a game.php";
 }
 $fecha = date("Y-m-d H:i:s");
-$linea = "[$fecha] $mensaje" . PHP_EOL;
-file_put_contents("logs.txt", $linea, FILE_APPEND);
+$archivo = basename(__FILE__);
+$linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
+file_put_contents("admin/logs.txt", $linea, FILE_APPEND);
 if (isset($_POST['lenguageselect'])) {
     $_SESSION['selected_lang'] = $_POST['lenguageselect'];
     unset($_SESSION['lang_data']); // fuerza recarga

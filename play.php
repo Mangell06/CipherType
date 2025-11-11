@@ -11,8 +11,9 @@ if (!isset($_POST['indifficulty']) || !isset($_SESSION['name'])) {
         $mensaje = "Un usuario a intentado acceder sin dificultat seleccionada y sin name al juego";
     }
     $fecha = date("Y-m-d H:i:s");
-    $linea = "[$fecha] $mensaje" . PHP_EOL;
-    file_put_contents("logs.txt", $linea, FILE_APPEND);
+    $archivo = basename(__FILE__);
+    $linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
+    file_put_contents("admin/logs.txt", $linea, FILE_APPEND);
     header('Location: index.php');
     exit;
 }
@@ -21,7 +22,7 @@ if (isset($_SESSION['name'])) {
 }
 $fecha = date("Y-m-d H:i:s");
 $linea = "[$fecha] $mensaje" . PHP_EOL;
-file_put_contents("logs.txt", $linea, FILE_APPEND);
+file_put_contents("admin/logs.txt", $linea, FILE_APPEND);
 if (!isset($_SESSION['selected_lang'])) {
     $_SESSION['selected_lang'] = 'CASTELLANO';
 }

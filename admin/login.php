@@ -22,13 +22,14 @@
         $mensaje = $_SESSION['username']. " a intentando iniciado sesion";
         $fecha = date("Y-m-d H:i:s");
         $linea = "[$fecha] $mensaje" . PHP_EOL;
-        file_put_contents("../logs.txt", $linea, FILE_APPEND);
+        file_put_contents("logs.txt", $linea, FILE_APPEND);
     } else {
         $_SESSION['error'] = false;
         $mensaje = $_SESSION['username']. " a iniciado sesion";
         $fecha = date("Y-m-d H:i:s");
-        $linea = "[$fecha] $mensaje" . PHP_EOL;
-        file_put_contents("../logs.txt", $linea, FILE_APPEND);
+        $archivo = basename(__FILE__);
+        $linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
+        file_put_contents("logs.txt", $linea, FILE_APPEND);
     }
     header('Location: index.php');
     exit;

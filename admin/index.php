@@ -16,8 +16,9 @@ if (!isset($_SESSION['lang_data'])) {
         $mensaje = "Un usuario se a cambiado al idioma " . $idiomaSeleccionado;
     }
     $fecha = date("Y-m-d H:i:s");
-    $linea = "[$fecha] $mensaje" . PHP_EOL;
-    file_put_contents("../logs.txt", $linea, FILE_APPEND);
+    $archivo = basename(__FILE__);
+    $linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
+    file_put_contents("logs.txt", $linea, FILE_APPEND);
     $archivo = fopen('../idiomas.txt', 'r');
     $dentroIdioma = false;
     while (($linea = fgets($archivo)) !== false) {

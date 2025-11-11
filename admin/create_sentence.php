@@ -46,8 +46,9 @@ if (isset($_POST['newPhrase'])) {
     $newPhrase = $_POST["newPhrase"];
     $mensaje = $_SESSION['username']. " a creado la frase " . $newPhrase . " en el nivel de dificultat " . $level . " del idioma " . $_POST['selectlanguage'];
     $fecha = date("Y-m-d H:i:s");
-    $linea = "[$fecha] $mensaje" . PHP_EOL;
-    file_put_contents("../logs.txt", $linea, FILE_APPEND);
+    $archivo = basename(__FILE__);
+    $linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
+    file_put_contents("logs.txt", $linea, FILE_APPEND);
     $newContent = "";
     $levelFound = false;
     $fileSaveSuccess = false;

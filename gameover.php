@@ -7,8 +7,9 @@
             $mensaje = "Un usuario a intentado acceder a gameover.php sin jugar";
         }
         $fecha = date("Y-m-d H:i:s");
-        $linea = "[$fecha] $mensaje" . PHP_EOL;
-        file_put_contents("logs.txt", $linea, FILE_APPEND);
+        $archivo = basename(__FILE__);
+        $linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
+        file_put_contents("admin/logs.txt", $linea, FILE_APPEND);
         header("HTTP/1.1 403 Forbidden");
         header('Location: /errors/error403.php');
         exit();
@@ -21,7 +22,7 @@
     $mensaje = $_SESSION['name']. " a llegado hasta gameover.php con " . $points . " puntos";
     $fecha = date("Y-m-d H:i:s");
     $linea = "[$fecha] $mensaje" . PHP_EOL;
-    file_put_contents("logs.txt", $linea, FILE_APPEND);
+    file_put_contents("admin/logs.txt", $linea, FILE_APPEND);
 ?>
 <!DOCTYPE html>
 <html lang="es">

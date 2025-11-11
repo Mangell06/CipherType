@@ -51,8 +51,9 @@
                 $mensaje = "Un usuario se a cambiado al idioma " . $idiomaSeleccionado;
             }
             $fecha = date("Y-m-d H:i:s");
-            $linea = "[$fecha] $mensaje" . PHP_EOL;
-            file_put_contents("logs.txt", $linea, FILE_APPEND);
+            $archivo = basename(__FILE__);
+            $linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
+            file_put_contents("admin/logs.txt", $linea, FILE_APPEND);
             $_SESSION['selected_lang'] = $idiomaSeleccionado;
             $_SESSION['lang_data'] = [];
              $archivo = fopen('idiomas.txt', 'r');

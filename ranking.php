@@ -3,8 +3,9 @@
     if (isset($_SESSION['name']) && isset($_SESSION['points']) && isset($_SESSION["temp"])) {
         $mensaje = $_SESSION['name']. " a guardado su puntuacion en el ranking (" . $_SESSION['points'] . " puntos)";
         $fecha = date("Y-m-d H:i:s");
-        $linea = "[$fecha] $mensaje" . PHP_EOL;
-        file_put_contents("logs.txt", $linea, FILE_APPEND);
+        $archivo = basename(__FILE__);
+        $linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
+        file_put_contents("admin/logs.txt", $linea, FILE_APPEND);
         $file = fopen('ranking.txt','a');
         $line = "#{$_SESSION['name']}:{$_SESSION['points']}:{$_SESSION['temp']}\n";
         fwrite($file, $line);
