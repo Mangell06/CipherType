@@ -1,17 +1,63 @@
 <?php
 session_start();
+
 if (isset($_POST['inname'])) {
     $_SESSION['name'] = $_POST['inname'];
 }
-if (!isset($_SESSION['lang_data']) || !isset($_POST['indifficulty'])) {
+if (!isset($_POST['indifficulty'])) {
     header('Location: index.php');
     exit;
+}
+if (!isset($_SESSION['selected_lang'])) {
+    $_SESSION['selected_lang'] = 'CASTELLANO';
+}
+if (isset($_POST['lenguageselect'])) {
+    $_SESSION['selected_lang'] = $_POST['lenguageselect'];
+    unset($_SESSION['lang_data']); // fuerza recarga
+}
+if (!isset($_SESSION['lang_data'])) {
+    $_SESSION['lang_data'] = [];
+    $idiomaSeleccionado = $_SESSION['selected_lang'];
+
+    $archivo = fopen('idiomas.txt', 'r');
+    $dentroIdioma = false;
+    while (($linea = fgets($archivo)) !== false) {
+        $linea = trim($linea);
+        if ($linea === '') continue;
+
+        if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+            $idiomaActual = substr($linea, 1, -1);
+            $dentroIdioma = ($idiomaActual === $idiomaSeleccionado);
+            continue;
+        }
+
+        if ($dentroIdioma && strpos($linea, '=') !== false) {
+            list($clave, $valor) = explode('=', $linea, 2);
+            $clave = trim($clave);
+            if (str_contains($valor, '|')) {
+                $valor = trim($valor, "\"|\t ");
+                $_SESSION['lang_data'][$clave] = array_map(
+                    fn($v) => trim($v, '"'),
+                    explode('|', $valor)
+                );
+            } else {
+                $valor = trim($valor, "\"\t ");
+                $_SESSION['lang_data'][$clave] = $valor;
+            }
+        }
+    }
+    fclose($archivo);
 }
 
 $randomPhrase = "";
 $difficulty = $_POST["indifficulty"];
 $sentencesLines = [];
 $dentroIdioma = false;
+
+if (!isset($_SESSION['selected_lang'])) {
+    header('Location: index.php');
+    exit;
+}
 
 $sentencesFile = fopen("sentences.txt", "r");
 while (!feof($sentencesFile)) {
@@ -29,33 +75,56 @@ while (!feof($sentencesFile)) {
 }
 fclose($sentencesFile);
 
+$numFrases = 3;
+if ($difficulty === "normal") {
+    $numFrases = 4;
+} else if ($difficulty === "experto") {
+    $numFrases = 5;
+}
 
-$textoSencilloSubstringTrim = trim(substr($sentencesLines[0], 9));
-$separateSentences = explode("*", $textoSencilloSubstringTrim);
-
-if (!function_exists('getRandomPhrase')) {
-    function getRandomPhrase($stringFrases){
-        $textoSubstringTrim = trim($stringFrases);
-        $array = explode("*", $textoSubstringTrim);
-        $randomPhraseKey = array_rand($array, 1);
-        return $array[$randomPhraseKey];
+function getRandomPhrases($stringFrases, $count) {
+    $textoSubstringTrim = trim($stringFrases);
+    $array = explode("*", $textoSubstringTrim);
+    
+    if (count($array) < $count) {
+        $result = [];
+        for ($i = 0; $i < $count; $i++) {
+            $result[] = $array[$i % count($array)];
+        }
+        return $result;
     }
+    
+    $randomKeys = array_rand($array, $count);
+    if (!is_array($randomKeys)) {
+        $randomKeys = [$randomKeys];
+    }
+    
+    $result = [];
+    foreach ($randomKeys as $key) {
+        $result[] = $array[$key];
+    }
+    return $result;
 }
 
-
-
-$phraseWithImage;
-if (isset($difficulty) && $difficulty === "sencillo") {
-    $phraseWithImage = getRandomPhrase(substr($sentencesLines[0], 9));
-} else if (isset($difficulty) && $difficulty === "normal") {
-    $phraseWithImage = getRandomPhrase(substr($sentencesLines[1], 7));
-} else if (isset($difficulty) && $difficulty === "experto") {
-    $phraseWithImage = getRandomPhrase(substr($sentencesLines[2], 8));
+$frases = [];
+if ($difficulty === "sencillo") {
+    $frases = getRandomPhrases(substr($sentencesLines[0], 9), $numFrases);
+} else if ($difficulty === "normal") {
+    $frases = getRandomPhrases(substr($sentencesLines[1], 7), $numFrases);
+} else if ($difficulty === "experto") {
+    $frases = getRandomPhrases(substr($sentencesLines[2], 8), $numFrases);
 }
 
-$phraseWithImageSplit = explode("|", $phraseWithImage);
-$imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
+$frasesProcesadas = [];
+foreach ($frases as $frase) {
+    $fraseSplit = explode("|", $frase);
+    $frasesProcesadas[] = [
+        'texto' => $fraseSplit[0],
+        'imagen' => isset($fraseSplit[1]) ? $fraseSplit[1] : ""
+    ];
+}
 
+$frasesJson = json_encode($frasesProcesadas);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -82,27 +151,28 @@ $imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
             echo "</div>";
         }
     ?>
-        <div id='bonusSpecialWrapper' class="bonusWrapper hideBonus">
+    <div id="fraseCounter">
+        Frase <span id="currentFrase">1</span> de <span id="totalFrases"><?php echo $numFrases; ?></span>
+    </div>
+    
+    <div id='bonusSpecialWrapper' class="bonusWrapper hideBonus">
         <div class="mainBonus">
-        <div class="containerBonus">
-        <p id="multiplicatorBonus">X3</p>
-        <progress id="file" max="100" value="100">3S</progress>
+            <div class="containerBonus">
+                <p id="multiplicatorBonus">X3</p>
+                <progress id="file" max="100" value="100">3S</progress>
+            </div>
         </div>
-        </div>
-        </div>
+    </div>
     <?php
         echo '<img class="mesa" src="media/mesa.jpg" alt="'. $_SESSION['lang_data']['ALT_MESA'].'">';
     ?>
     <div class="machine">
-        <?php
-        echo $imageName == "" ? "" : "<img id='image' class='imagePhrase hidden' src='/admin/image/$imageName'>";
-        ?>
+        <img id="imagePhrase" class="imagePhrase hidden" src="" alt="">
         <div class="textos">
             <p id="timer"></p>
             <?php
             echo '<p id="textStartInformation" class="hidden">'. $_SESSION['lang_data']['SUBTITLE_INGAME'].'</p>';
             ?>
-            
             <div class="text">
             </div>
         </div>
@@ -138,7 +208,7 @@ $imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
         let letrasAcertadas = 0;
         let letrasErroneas = 0;
         const closeSession = document.getElementById("closeSession");
-        const image = document.getElementById("image");
+        const imagePhrase = document.getElementById("imagePhrase");
         const tempDiv = document.getElementById("temp")
         const destroySession = () => {
             window.location = "/destroy_session.php";
@@ -159,11 +229,10 @@ $imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
                 countPulsation -= 1;
                 progress.value = 100 - 33 * inverseCountPulsation;
                 inverseCountPulsation += 1;
-            } else {
+            }
+            if (countPulsation <= 0) {
                 inverseCountPulsation = 1;
                 countPulsation = 3;
-            }
-            if (countPulsation < 0) {
                 const containerBonus = document.getElementById('bonusSpecialWrapper');
                 const multiplicatorP = document.getElementById('multiplicatorBonus');
                 multiplicador = 0;
@@ -199,16 +268,31 @@ $imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
         wrongSound.load();
 
         let points = 0;
+        let win = false;
+        let eventCont = 4;
+
+        let frases = <?php echo $frasesJson; ?>;
+        let fraseActualIndex = 0;
+        let fraseActual = frases[fraseActualIndex];
+        let totalFrases = frases.length;
+
         const p = document.getElementById("timer");
         const pInformation = document.getElementById("textStartInformation");
         const div = document.querySelector("div.text");
         const listaDiv = document.querySelector("div.invisible");
         const listaP = listaDiv.querySelectorAll("p");
         const imgSherlock = document.getElementById("sherlock");
+        const fraseCounter = document.getElementById("fraseCounter");
+        const currentFraseSpan = document.getElementById("currentFrase");
+        const totalFrasesSpan = document.getElementById("totalFrases");
+
+        totalFrasesSpan.textContent = totalFrases;
+        currentFraseSpan.textContent = fraseActualIndex + 1;
+
         const ids = ["lupa", "vela", "libro", "sombrero"];
         const nombres = <?php echo json_encode($_SESSION['lang_data']['ELEMENTS_EASTEREGG']); ?>;
-        win = false;
-        let eventCont = 4;
+
+        // EASTER EGGS (igual que en pre)
         ids.forEach((id, index) => {
             const element = document.getElementById(id);
             element.addEventListener("click", () => {
@@ -217,7 +301,6 @@ $imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
                 eventCont--;
                 if (eventCont <= 3) {
                     listaDiv.classList.remove("invisible");
-
                 }
                 if (eventCont <= 0) {
                     imgSherlock.classList.remove("invisible");
@@ -239,46 +322,80 @@ $imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
             });
         });
 
-        let cont = 4;
-        const interval = setInterval(() => {
-            if (cont <= 0) {
-                clearInterval(interval);
-                afterInterval();
-                return;
-            }
-            cont--;
-            if (cont === 0) {
-                p.innerText = <?php echo json_encode($_SESSION['lang_data']['TEXT_START'] . '!'); ?>;
-                return;
-            }
+        function startTimer() {
+            p.style.display = "block";
+            pInformation.style.display = "none";
+            fraseCounter.style.display = "none";
+            div.innerText = "";
+            imagePhrase.classList.add("hidden");
+            
+            let cont = 3;
             p.innerText = cont;
-        }, 750)
-
-        const afterInterval = () => {
-            p.style.display = "none";
-            pInformation.classList.remove("hidden");
-            image?.classList.remove("hidden");
-            render();
+            
+            const interval = setInterval(() => {
+                if (cont <= 0) {
+                    clearInterval(interval);
+                    afterInterval();
+                    return;
+                }
+                cont--;
+                if (cont === 0) {
+                    p.innerText = <?php echo json_encode($_SESSION['lang_data']['TEXT_START'] . '!'); ?>;
+                    return;
+                }
+                p.innerText = cont;
+            }, 750);
         }
 
-        <?php
-        echo 'const frase = "';
-        echo $phraseWithImageSplit[0].'";';
-        // echo 'const imageName = "'.(isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "").'";';
-        ?>
+        function prepareNextPhrase() {
+            fraseActualIndex++;
+            
+            if (fraseActualIndex < totalFrases) {
+                fraseActual = frases[fraseActualIndex];
+                currentFraseSpan.textContent = fraseActualIndex + 1;
+                indexLetter = 0;
+                funcionar = false;
+                
+                setTimeout(() => {
+                    startTimer(); 
+                }, 1000);
+            } else {
+                endGame();
+            }
+        }
 
-         const showPhrase = () => { const span = document.getElementById("letter"+indexLetter); span.className = "highlight"; };
+        const showPhrase = () => { 
+            const span = document.getElementById("letter"+indexLetter); 
+            span.className = "highlight"; 
+        };
 
-         const render = () => {
+        const render = () => {
             div.innerText = "";
-            for (let i = 0; i < frase.length; i++) {
+            
+            // Mostrar imagen si existe (como en pre)
+            if (fraseActual.imagen && fraseActual.imagen !== "") {
+                imagePhrase.src = '/admin/image/' + fraseActual.imagen;
+                imagePhrase.classList.remove("hidden");
+            } else {
+                imagePhrase.classList.add("hidden");
+            }
+            
+            for (let i = 0; i < fraseActual.texto.length; i++) {
                 const span = document.createElement("span");
                 span.id = "letter" + i;
-                span.textContent = frase[i];
+                span.textContent = fraseActual.texto[i];
                 div.appendChild(span);
             }
             showPhrase();
             funcionar = true;
+            
+            pInformation.style.display = "block";
+            fraseCounter.style.display = "block";
+        }
+
+        const afterInterval = () => {
+            p.style.display = "none";
+            render();
         }
 
         function checkInput(isMayus, inletter) {
@@ -301,7 +418,7 @@ $imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
                 points += iscorrect ? 100 * multiplicador : -100;
                 if (iscorrect) {
                     correctSound.play();
-                    letrasAcertadas += 1;
+                    letrasAcertadas += 1;   
                 } else {
                     wrongSound.play();
                     letrasErroneas += 1;
@@ -310,8 +427,12 @@ $imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
                 if (letter.textContent != " ") {
                     letter.className = "error";
                     wrongSound.play();
+                    points -= 100;
+                    letrasErroneas += 1;
                 } else {
                     correctSound.play();
+                    points += 100 * multiplicador;
+                    letrasAcertadas += 1;   
                 }
             }
             const containerBonus = document.getElementById('bonusSpecialWrapper');
@@ -362,11 +483,16 @@ $imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
                 iscorrect = checkInput(iscorrect, inputChar);
                 isCorrectLetter(iscorrect, e.key === " " ? true : false);
                 indexLetter++;
-                if (indexLetter < frase.length && frase[indexLetter] !== " ") {
+                
+                if (indexLetter < fraseActual.texto.length && fraseActual.texto[indexLetter] !== " ") {
                     showPhrase();  
                 }
-                if (indexLetter >= frase.length) {
-                    endGame();
+                
+                if (indexLetter >= fraseActual.texto.length) {
+                    funcionar = false;
+                    setTimeout(() => {
+                        prepareNextPhrase();
+                    }, 500);
                 }
             }
         });
@@ -379,6 +505,7 @@ $imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
             }, "1000");
         }});
 
+        startTimer();
     </script>
 </body>
 </html>

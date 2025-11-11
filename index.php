@@ -75,6 +75,23 @@
             fclose($archivo);
         }
         echo "<div class='maincontainer'>";
+        echo "<form method='post'>";
+        echo "<select name='lenguageselect' class='rightpositionlenguage' id='lenguageselect' onchange='this.form.submit()'>";
+        echo "<option value='' selected disabled hidden>".$_SESSION['selected_lang']."</option>";
+        $archivo = fopen('idiomas.txt', 'r');
+        if ($archivo) {
+            while (($linea = fgets($archivo)) !== false) {
+                $linea = trim($linea);
+                if ($linea === '') continue;
+                if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+                    $idioma = substr($linea, 1, -1); // quita los corchetes
+                    echo "<option value='".$idioma."'>".$idioma."</option>";
+                }
+            }
+            fclose($archivo);
+        }
+        echo "</select>";
+        echo "</form>";
         echo "<form action='./play.php' method='post' class='datacontainer'>";
         echo "<h1>CipherType</h1>";
         echo "<div class='incontainer'>";
@@ -84,7 +101,8 @@
         echo "<option value='normal'>" . $_SESSION['lang_data']['DIFFICULTY_NORMAL'] . "</option>";
         echo "<option value='experto'>" . $_SESSION['lang_data']['DIFFICULTY_EXPERT'] . "</option>";
         echo "</select>";
-        echo "<button disabled type='submit' id='buttonInitialitze'>" . $_SESSION['lang_data']['TEXT_INITIALITZE'] . "</button>";
+        echo "";
+        echo "<button type='submit' id='buttonInitialitze' disabled>" . $_SESSION['lang_data']['TEXT_INITIALITZE'] . "</button>";
         echo "<div id='checkboxWithExplicationButton'>";
         echo "<p>permadeath</p>";
         echo "<input type='checkbox' name='permadeath' id='checkbox'>";
@@ -108,6 +126,7 @@
     }
     ?>
     <script>
+    document.getElementById('buttonInitialitze').disabled = false;
     const closeSession = document.getElementById("closeSession");
         const destroySession = () => {
             window.location = "/destroy_session.php";
@@ -168,11 +187,6 @@
             }
         }
     });
-</script>
-
-             
-        
-
     const valueName = "<?php 
     if (isset($_SESSION['name'])){
         echo $_SESSION['name'];
@@ -182,7 +196,6 @@
     if (valueName !== ''){
         input.value = valueName;
     }
-    
 </script>
 </body>
 </html>

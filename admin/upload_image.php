@@ -1,6 +1,10 @@
 <?php
 session_start();
-if (!isset($_GET['lang']) && isset($_SESSION['selected_lang'])) {
+
+if (!isset($_SESSION['selected_lang'])) {
+    $_SESSION['selected_lang'] = 'CASTELLANO';
+}
+if (!isset($_GET['lang'])) {
     header("Location: /admin/upload_image.php?lang=".$_SESSION['selected_lang']);
     exit;
 }

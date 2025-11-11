@@ -1217,3 +1217,8 @@ body.uploadImage{
 #explicationButton:hover p {
   display: block;
 }
+
+.rightpositionlenguage {
+  position: absolute;
+  left: 16px;
+}
