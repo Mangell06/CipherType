@@ -35,7 +35,6 @@ while (!feof($sentencesFile)) {
 }
 fclose($sentencesFile);
 
-// SISTEMA DE MÚLTIPLES FRASES (de tu código)
 $numFrases = 3;
 if ($difficulty === "normal") {
     $numFrases = 4;
@@ -76,7 +75,6 @@ if ($difficulty === "sencillo") {
     $frases = getRandomPhrases(substr($sentencesLines[2], 8), $numFrases);
 }
 
-// Procesar frases con imágenes (igual que en pre pero para múltiples)
 $frasesProcesadas = [];
 foreach ($frases as $frase) {
     $fraseSplit = explode("|", $frase);
@@ -113,7 +111,6 @@ $frasesJson = json_encode($frasesProcesadas);
             echo "</div>";
         }
     ?>
-    <!-- CONTADOR DE FRASES NUEVO -->
     <div id="fraseCounter">
         Frase <span id="currentFrase">1</span> de <span id="totalFrases"><?php echo $numFrases; ?></span>
     </div>
@@ -130,7 +127,6 @@ $frasesJson = json_encode($frasesProcesadas);
         echo '<img class="mesa" src="media/mesa.jpg" alt="'. $_SESSION['lang_data']['ALT_MESA'].'">';
     ?>
     <div class="machine">
-        <!-- IMAGEN DINÁMICA (como en pre pero actualizable) -->
         <img id="imagePhrase" class="imagePhrase hidden" src="" alt="">
         <div class="textos">
             <p id="timer"></p>
@@ -235,7 +231,6 @@ $frasesJson = json_encode($frasesProcesadas);
         let win = false;
         let eventCont = 4;
 
-        // SISTEMA DE MÚLTIPLES FRASES
         let frases = <?php echo $frasesJson; ?>;
         let fraseActualIndex = 0;
         let fraseActual = frases[fraseActualIndex];
@@ -287,7 +282,6 @@ $frasesJson = json_encode($frasesProcesadas);
             });
         });
 
-        // TEMPORIZADOR QUE SE REPITE (de tu código)
         function startTimer() {
             p.style.display = "block";
             pInformation.style.display = "none";
@@ -313,7 +307,6 @@ $frasesJson = json_encode($frasesProcesadas);
             }, 750);
         }
 
-        // PREPARAR SIGUIENTE FRASE
         function prepareNextPhrase() {
             fraseActualIndex++;
             
@@ -324,7 +317,7 @@ $frasesJson = json_encode($frasesProcesadas);
                 funcionar = false;
                 
                 setTimeout(() => {
-                    startTimer(); // Reinicia temporizador para nueva frase
+                    startTimer(); 
                 }, 1000);
             } else {
                 endGame();
@@ -365,7 +358,6 @@ $frasesJson = json_encode($frasesProcesadas);
             render();
         }
 
-        // SISTEMA DE TECLADO (igual que en pre)
         function checkInput(isMayus, inletter) {
             const letter = document.getElementById("letter"+indexLetter);
             if (/’|‘/.test(letter.textContent)) {
@@ -456,7 +448,6 @@ $frasesJson = json_encode($frasesProcesadas);
                     showPhrase();  
                 }
                 
-                // CAMBIO: Pasar a siguiente frase en lugar de terminar juego
                 if (indexLetter >= fraseActual.texto.length) {
                     funcionar = false;
                     setTimeout(() => {
@@ -474,7 +465,6 @@ $frasesJson = json_encode($frasesProcesadas);
             }, "1000");
         }});
 
-        // INICIAR PRIMER TEMPORIZADOR
         startTimer();
     </script>
 </body>
