@@ -1,48 +1,6 @@
 <?php
 session_start();
 
-// DEBUG: Ver qué hay en la sesión
-error_log("=== PLAY.PH DEBUG ===");
-error_log("selected_lang: " . ($_SESSION['selected_lang'] ?? 'NO SET'));
-error_log("lang_data exists: " . (isset($_SESSION['lang_data']) ? 'YES' : 'NO'));
-
-// SI LANG_DATA NO EXISTE, CARGARLO
-if (!isset($_SESSION['lang_data']) && isset($_SESSION['selected_lang'])) {
-    error_log("CARGANDO LANG_DATA DESDE PLAY.PH...");
-    $idiomaSeleccionado = $_SESSION['selected_lang'];
-    $_SESSION['lang_data'] = [];
-    
-    $archivo = fopen('idiomas.txt', 'r');
-    $dentroIdioma = false;
-    while (($linea = fgets($archivo)) !== false) {
-        $linea = trim($linea);
-        if ($linea === '') continue;
-        
-        if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
-            $idiomaActual = substr($linea, 1, -1);
-            $dentroIdioma = ($idiomaActual === $idiomaSeleccionado);
-            continue;
-        }
-        
-        if ($dentroIdioma && strpos($linea, '=') !== false) {
-            list($clave, $valor) = explode('=', $linea, 2);
-            $clave = trim($clave);
-            if (str_contains($valor, '|')) {
-                $valor = trim($valor, "\"|\t ");
-                $_SESSION['lang_data'][$clave] = array_map(
-                    fn($v) => trim($v, '"'),
-                    explode('|', $valor)
-                );
-            } else { 
-                $valor = trim($valor, "\"\t ");
-                $_SESSION['lang_data'][$clave] = $valor;
-            }
-        }
-    }
-    fclose($archivo);
-    error_log("LANG_DATA CARGADO. Claves: " . implode(', ', array_keys($_SESSION['lang_data'])));
-}
-
 if (isset($_POST['inname'])) {
     $_SESSION['name'] = $_POST['inname'];
 }
@@ -56,7 +14,6 @@ $difficulty = $_POST["indifficulty"];
 $sentencesLines = [];
 $dentroIdioma = false;
 
-// VERIFICAR QUE selected_lang EXISTE
 if (!isset($_SESSION['selected_lang'])) {
     header('Location: index.php');
     exit;
