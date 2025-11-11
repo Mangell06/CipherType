@@ -75,6 +75,23 @@
             fclose($archivo);
         }
         echo "<div class='maincontainer'>";
+        echo "<form method='post'>";
+        echo "<select name='lenguageselect' class='rightpositionlenguage' id='lenguageselect' onchange='this.form.submit()'>";
+        echo "<option value='' selected disabled hidden>".$_SESSION['selected_lang']."</option>";
+        $archivo = fopen('idiomas.txt', 'r');
+        if ($archivo) {
+            while (($linea = fgets($archivo)) !== false) {
+                $linea = trim($linea);
+                if ($linea === '') continue;
+                if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+                    $idioma = substr($linea, 1, -1); // quita los corchetes
+                    echo "<option value='".$idioma."'>".$idioma."</option>";
+                }
+            }
+            fclose($archivo);
+        }
+        echo "</select>";
+        echo "</form>";
         echo "<form action='./play.php' method='post' class='datacontainer'>";
         echo "<h1>CipherType</h1>";
         echo "<div class='incontainer'>";
@@ -168,11 +185,7 @@
             }
         }
     });
-</script>
-
-             
-        
-
+<script>
     const valueName = "<?php 
     if (isset($_SESSION['name'])){
         echo $_SESSION['name'];
@@ -182,7 +195,6 @@
     if (valueName !== ''){
         input.value = valueName;
     }
-    
 </script>
 </body>
 </html>
