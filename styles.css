@@ -1185,3 +1185,31 @@ body.uploadImage{
   transform: scale(0.5);
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
+
+#checkboxWithExplicationButton{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+#explicationButton {
+  position: relative;
+  background-color: #E6AC00;
+  padding: 5px;
+  border-radius: 5px;
+  width: 50px;
+}
+
+#explicationButton p {
+  display: none;
+  position: absolute;
+  top: 10px;
+  left: 30px;
+  width: 221px;
+  height: 295px;
+  background-color: #ffffffab;
+  padding: 10px;
+}
+
+#explicationButton:hover p {
+  display: block;
+}

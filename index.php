@@ -85,6 +85,11 @@
         echo "<option value='experto'>" . $_SESSION['lang_data']['DIFFICULTY_EXPERT'] . "</option>";
         echo "</select>";
         echo "<button disabled type='submit' id='buttonInitialitze'>" . $_SESSION['lang_data']['TEXT_INITIALITZE'] . "</button>";
+        echo "<div id='checkboxWithExplicationButton'>";
+        echo "<p>permadeath</p>";
+        echo "<input type='checkbox' name='permadeath' id='checkbox'>";
+        echo "<div id='explicationButton'>?<p>".$_SESSION['lang_data']["TEXT_EXPLICATION_PERMADEATH"]."</p></div>";
+        echo "</div>";
         echo "<p id='messageerror' class='error'></p>";
         echo "<noscript>";
         echo "<p class='error'>" . $_SESSION['lang_data']['TEXT_ERROR_JAVASCRIPT'] . "</p>";
@@ -120,21 +125,53 @@
         }
     });
 
-    document.addEventListener("keydown", (event)=>{
-        if (event.target.nodeName === "INPUT"){
-            return;
+    const selectedLang = "<?php echo isset($_SESSION['selected_lang']) ? $_SESSION['selected_lang'] : ''; ?>";
+
+    document.addEventListener("keydown", (event) => {
+        if (event.target.nodeName === "INPUT") return;
+
+        if (selectedLang === "CASTELLANO") {
+            if (event.key.toLowerCase() === "i") {
+                buttonInitialitzeGame.classList.add("highlightButtonText");
+                setTimeout(() => {
+                    buttonInitialitzeGame.click();
+                }, 1000);
+            } else if (event.key.toLowerCase() === "c") {
+                closeSession.classList.add("highlightButtonText");
+                setTimeout(() => {
+                    closeSession.click();
+                }, 1000);
+            }
+        } else if (selectedLang === "CATALÁN"){
+            if (event.key.toLowerCase() === "i") {
+                buttonInitialitzeGame.classList.add("highlightButtonText");
+                setTimeout(() => {
+                    buttonInitialitzeGame.click();
+                }, 1000);
+            } else if (event.key.toLowerCase() === "c") {
+                closeSession.classList.add("highlightButtonText");
+                setTimeout(() => {
+                    closeSession.click();
+                }, 1000);
+            }
+        } else if (selectedLang === "ENGLISH"){
+            if (event.key.toLowerCase() === "i") {
+                buttonInitialitzeGame.classList.add("highlightButtonText");
+                setTimeout(() => {
+                    buttonInitialitzeGame.click();
+                }, 1000);
+            } else if (event.key.toLowerCase() === "c") {
+                closeSession.classList.add("highlightButtonText");
+                setTimeout(() => {
+                    closeSession.click();
+                }, 1000);
+            }
         }
-        if ((event.key).toLocaleLowerCase() === "i"){
-            buttonInitialitzeGame.classList.add("highlightButtonText");
-            setTimeout(() => {
-                buttonInitialitzeGame.click();
-            }, "1000");
-        } else if ((event.key).toLocaleLowerCase() === "c"){
-            closeSession.classList.add("highlightButtonText");
-            setTimeout(() => {
-                closeSession.click();
-            }, "1000");
-    }})
+    });
+</script>
+
+             
+        
 
     const valueName = "<?php 
     if (isset($_SESSION['name'])){
