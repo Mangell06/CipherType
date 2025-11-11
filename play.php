@@ -173,11 +173,10 @@ $imageName = isset($phraseWithImageSplit[1]) ? $phraseWithImageSplit[1] : "";
                 countPulsation -= 1;
                 progress.value = 100 - 33 * inverseCountPulsation;
                 inverseCountPulsation += 1;
-            } else {
+            }
+            if (countPulsation <= 0) {
                 inverseCountPulsation = 1;
                 countPulsation = 3;
-            }
-            if (countPulsation < 0) {
                 const containerBonus = document.getElementById('bonusSpecialWrapper');
                 const multiplicatorP = document.getElementById('multiplicatorBonus');
                 multiplicador = 0;
