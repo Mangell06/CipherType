@@ -116,7 +116,7 @@
         echo "";
         echo "<button type='submit' id='buttonInitialitze' disabled>" . $_SESSION['lang_data']['TEXT_INITIALITZE'] . "</button>";
         echo "<div id='checkboxWithExplicationButton'>";
-        echo "<p>permadeath</p>";
+        echo "<p id='textPermaDeath'>permadeath</p>";
         echo "<input type='checkbox' name='permadeath' id='checkbox'>";
         echo "<div id='explicationButton'>?<p>".$_SESSION['lang_data']["TEXT_EXPLICATION_PERMADEATH"]."</p></div>";
         echo "</div>";

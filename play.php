@@ -21,7 +21,8 @@ if (isset($_SESSION['name'])) {
     $mensaje = $_SESSION['name'] . " a accedido a jugar en la dificultat " . $_POST['indifficulty'];
 }
 $fecha = date("Y-m-d H:i:s");
-$linea = "[$fecha] $mensaje" . PHP_EOL;
+$archivo = basename(__FILE__);
+$linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
 file_put_contents("admin/logs.txt", $linea, FILE_APPEND);
 if (!isset($_SESSION['selected_lang'])) {
     $_SESSION['selected_lang'] = 'CASTELLANO';
@@ -563,7 +564,6 @@ $frasesJson = json_encode($frasesProcesadas);
 
         document.addEventListener('keyup', (e) => {
             if (!funcionar) return;
-            console.log(e.code);
             if (e.key === "Dead") {
                 pendingAccent = accentMap[e.code] || "";
                 return;
