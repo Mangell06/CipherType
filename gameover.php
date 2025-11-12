@@ -25,7 +25,8 @@
     $_SESSION["temp"] = $temp;
     $mensaje = $_SESSION['name']. " a llegado hasta gameover.php con " . $points . " puntos";
     $fecha = date("Y-m-d H:i:s");
-    $linea = "[$fecha] $mensaje" . PHP_EOL;
+    $archivo = basename(__FILE__);
+    $linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
     file_put_contents("admin/logs.txt", $linea, FILE_APPEND);
 ?>
 <!DOCTYPE html>
