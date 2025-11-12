@@ -131,10 +131,20 @@ if (!isset($_SESSION['lang_data'])) {
         }
         echo "</table>";
         echo "<div class='allPages'>";
-        for ($i = 0; $i <$totalPages; $i++) {
-            echo "<a class='totalPagesNumber".($page == $i ? " active" : '')."' href='/ranking.php?page=".$i."'>".($i+1)."</a>";
-        }
+            if ($page > 0) {
+                echo "<a class='totalPagesNumber' href='/ranking.php?page=" . ($page - 1) . "'>←</a>";
+            }
+
+            for ($i = 0; $i < $totalPages; $i++) {
+                $activeClass = ($page == $i) ? " active" : "";
+                echo "<a class='totalPagesNumber$activeClass' href='/ranking.php?page=$i'>" . ($i + 1) . "</a>";
+            }
+
+            if ($page < $totalPages - 1) {
+                echo "<a class='totalPagesNumber' href='/ranking.php?page=" . ($page + 1) . "'>→</a>";
+            }
         echo "</div>";
+
     
     unset($_SESSION['points']);
     ?>

@@ -191,7 +191,7 @@ $frasesJson = json_encode($frasesProcesadas);
         <div class="textos">
             <p id="timer"></p>
             <?php
-            echo '<p id="textStartInformation" class="hidden">' . $_SESSION['lang_data']['SUBTITLE_INGAME'] . '</p>';
+            echo '<p id="textStartInformation">' . $_SESSION['lang_data']['SUBTITLE_INGAME'] .":" .'</p>';
             ?>
             <div class="text">
             </div>
