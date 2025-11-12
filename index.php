@@ -179,7 +179,7 @@
                 setTimeout(() => {
                     buttonInitialitzeGame.click();
                 }, 1000);
-            } else if (event.key.toLowerCase() === "c") {
+            } else if (event.key.toLowerCase() === "t") {
                 closeSession.classList.add("highlightButtonText");
                 setTimeout(() => {
                     closeSession.click();
@@ -191,7 +191,7 @@
                 setTimeout(() => {
                     buttonInitialitzeGame.click();
                 }, 1000);
-            } else if (event.key.toLowerCase() === "c") {
+            } else if (event.key.toLowerCase() === "l") {
                 closeSession.classList.add("highlightButtonText");
                 setTimeout(() => {
                     closeSession.click();

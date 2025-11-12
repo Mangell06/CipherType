@@ -153,21 +153,51 @@ if (!isset($_SESSION['lang_data'])) {
             e.preventDefault();
             window.location = "/index.php";
         })
-            
-        document.addEventListener("keydown", (event)=>{
-            if ((event.key).toLocaleLowerCase() === "v"){
-                button.classList.add("highlightButtonText");
-                setTimeout(() => {
-                    button.click();
-                }, "1000");
-            } else if ((event.key).toLocaleLowerCase() === "c"){
-                closeSession.classList.add("highlightButtonText");
-                setTimeout(() => {
-                    closeSession.click();
-                }, "1000");
-            } 
-            
-        })
+
+        const selectedLang = "<?php echo isset($_SESSION['selected_lang']) ? $_SESSION['selected_lang'] : ''; ?>";
+        document.addEventListener("keydown", (event) => {
+            if (event.target.nodeName === "INPUT") return;
+
+            if (selectedLang === "CASTELLANO") {
+                if (event.key.toLowerCase() === "v") {
+                    button.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        button.click();
+                    }, 1000);
+                } else if (event.key.toLowerCase() === "c") {
+                    closeSession.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        closeSession.click();
+                    }, 1000);
+                }
+
+            } else if (selectedLang === "CATALÁN") {
+                if (event.key.toLowerCase() === "t" && event.shiftKey) {
+                    button.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        button.click();
+                    }, 1000);
+                }else if (event.key.toLowerCase() === "t") {
+                    closeSession.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        closeSession.click();
+                    }, 1000);
+                }
+
+            } else if (selectedLang === "ENGLISH") {
+                if (event.key.toLowerCase() === "r") {
+                    button.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        button.click();
+                    }, 1000);
+                } else if (event.key.toLowerCase() === "l") {
+                    closeSession.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        closeSession.click();
+                    }, 1000);
+                }
+            }
+        });
     </script>
 </body>
 </html>

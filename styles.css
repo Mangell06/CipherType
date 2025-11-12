@@ -360,6 +360,13 @@ body.play img#sherlock{
 
 }
 
+.contHealth img{
+  width:20px; 
+  height:20px; 
+  vertical-align:middle; 
+  margin:0 4px;
+}
+
 @keyframes blink {
   50% {
     border-color: transparent;
@@ -1233,6 +1240,10 @@ body.uploadImage{
   gap: 10px;
   align-items: center;
 }
+#checkboxWithExplicationButton > p {
+  color: #ffd862;
+}
+
 #explicationButton {
   position: relative;
   background-color: #E6AC00;
