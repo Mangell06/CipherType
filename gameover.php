@@ -43,7 +43,7 @@
         if (isset($_SESSION['name'])) {
             echo "<div class='cancelSession sh-reveal'>";
             echo "<p class='sh-highlight'>" . $_SESSION['lang_data']['TEXT_NAME'] . ": ".$_SESSION['name']."</p>";
-            echo "<button type='submit' id='closeSession' onclick='destroySession()' class='sh-lens sh-focus'>Cerrar sesión</button>";
+            echo "<button type='submit' id='closeSession' onclick='destroySession()' class='sh-lens sh-focus'>".$_SESSION['lang_data']['TEXT_LOGOUT']."</button>";
             echo "</div>";
         }
 
@@ -97,24 +97,65 @@
             window.location = "/index.php";
         })
 
-        document.addEventListener("keydown", (event)=>{
-        if ((event.key).toLocaleLowerCase() === "s"){
-            buttonRanking.classList.add("highlightButtonText");
-            setTimeout(() => {
-                buttonRanking.click();
-            }, "1000");
-        } else if ((event.key).toLocaleLowerCase() === "n"){
-            buttonIndex.classList.add("highlightButtonText");
-            setTimeout(() => {
-                buttonIndex.click();
-            }, "1000");
-        } else if ((event.key).toLocaleLowerCase() === "c"){
-            closeSession.classList.add("highlightButtonText");
-            setTimeout(() => {
-                closeSession.click();
-            }, "1000");
-    }})
+        const selectedLang = "<?php echo isset($_SESSION['selected_lang']) ? $_SESSION['selected_lang'] : ''; ?>";
+        document.addEventListener("keydown", (event) => {
+            if (event.target.nodeName === "INPUT") return;
 
+            if (selectedLang === "CASTELLANO") {
+                if (event.key.toLowerCase() === "s") {
+                    buttonRanking.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        buttonRanking.click();
+                    }, 1000);
+                } else if (event.key.toLowerCase() === "n") {
+                    buttonIndex.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        buttonIndex.click();
+                    }, 1000);
+                } else if (event.key.toLowerCase() === "c") {
+                    closeSession.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        closeSession.click();
+                    }, 1000);
+                }
+
+            } else if (selectedLang === "CATALÁN") {
+                if (event.key.toLowerCase() === "s") {
+                    buttonRanking.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        buttonRanking.click();
+                    }, 1000);
+                } else if (event.key.toLowerCase() === "n") {
+                    buttonIndex.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        buttonIndex.click();
+                    }, 1000);
+                } else if (event.key.toLowerCase() === "t") {
+                    closeSession.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        closeSession.click();
+                    }, 1000);
+                }
+
+            } else if (selectedLang === "ENGLISH") {
+                if (event.key.toLowerCase() === "y") {
+                    buttonRanking.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        buttonRanking.click();
+                    }, 1000);
+                } else if (event.key.toLowerCase() === "n") {
+                    buttonIndex.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        buttonIndex.click();
+                    }, 1000);
+                } else if (event.key.toLowerCase() === "l") {
+                    closeSession.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        closeSession.click();
+                    }, 1000);
+                }
+            }
+        });
     </script>
 </body>
 </html>

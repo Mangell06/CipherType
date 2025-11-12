@@ -150,7 +150,7 @@ $frasesJson = json_encode($frasesProcesadas);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play</title>
+    <?php echo "<title>".$_SESSION['lang_data']['PLAY_TAB']."</title>";?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -196,7 +196,7 @@ $frasesJson = json_encode($frasesProcesadas);
             </div>
             <div id="progressContainer" class="progress-container">
                 <div id="progressBar" class="progress-bar"></div>
-                <div id="progressText" class="progress-text">Frase 1 de <?php echo $numFrases; ?></div>
+                <div id="progressText" class="progress-text"><?php echo $_SESSION['lang_data']['COUNT_PHRASES'] . $numFrases; ?></div>
             </div>
         </div>
         <?php
@@ -293,7 +293,7 @@ $frasesJson = json_encode($frasesProcesadas);
         function updateProgressBar() {
             const progress = ((fraseActualIndex) / totalFrases) * 100;
             progressBar.style.width = progress + '%';
-            progressText.textContent = `Frase ${fraseActualIndex + 1} de ${totalFrases}`;
+            progressText.textContent = `<?php echo $_SESSION['lang_data']['COUNT_PHRASES'] ?> ${fraseActualIndex + 1} <?php echo $_SESSION['lang_data']['COUNT_PHRASES_CONECTED'] ?> ${totalFrases}`;
         }
 
         const correctSound = new Audio('media/correctchoice.mp3');
@@ -456,7 +456,8 @@ $frasesJson = json_encode($frasesProcesadas);
         }
        
         function updateHealth(health){
-            const newContent = document.createTextNode("Vidas ❤️ x "+health);
+            const newContent = document.createElement("span");
+                newContent.innerHTML = `<?php echo $_SESSION['lang_data']['HEALTH']; ?> <img src="media/healthImage.png" alt="corazón"> x ${health}`;
                 corazonesCounter.innerHTML = "";
                 corazonesCounter.appendChild(newContent);
         }
@@ -597,17 +598,36 @@ $frasesJson = json_encode($frasesProcesadas);
         });
 
         document.addEventListener("keydown", (event) => {
+            const selectedLang = "<?php echo isset($_SESSION['selected_lang']) ? $_SESSION['selected_lang'] : ''; ?>";
             if (event.key !== 'F12') {
                 event.preventDefault();
             }
-            if ((event.key).toLocaleLowerCase() === "c" && event.ctrlKey) {
-                closeSession.classList.add("highlightButtonText");
-                setTimeout(() => {
-                    closeSession.click();
-                }, "1000");
+
+            if (selectedLang === "CASTELLANO") {
+                if (event.key.toLowerCase() === "c" && event.shiftKey) {
+                    closeSession.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        closeSession.click();
+                    }, 1000);
+                }
+
+            } else if (selectedLang === "CATALÁN") {
+                if (event.key.toLowerCase() === "t" && event.shiftKey) {
+                    closeSession.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        closeSession.click();
+                    }, 1000);
+                }
+
+            } else if (selectedLang === "ENGLISH") {
+                if (event.key.toLowerCase() === "l" && event.shiftKey) {
+                    closeSession.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        closeSession.click();
+                    }, 1000);
+                }
             }
         });
-
         startTimer();
     </script>
 </body>
