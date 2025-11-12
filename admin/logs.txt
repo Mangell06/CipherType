@@ -11,4 +11,7 @@
 [2025-11-11 17:34:32] [ranking.php] Miguel Ángel a guardado su puntuacion en el ranking (140000 puntos)
 [2025-11-11 17:34:34] [destroy_session.php] Miguel Ángel a cerrado sesion en el juego
 [2025-11-11 17:34:42] [gameover.php] Un usuario a intentado acceder a gameover.php sin jugar
-[2025-11-11 17:34:42] [error403.php] Un usuario a sido redirigido a el ERROR 403
+[2025-11-11 17:34:42] [error403.php] Un usuario a sido redirigido a el ERROR 403[2025-11-12 05:20:20] [index.php] Un usuario se a cambiado al idioma ENGLISH
+[2025-11-12 05:20:29] [play.php] Miguel a accedido a jugar en la dificultat normal
+[2025-11-12 05:20:49] [gameover.php] Miguel (permadeath) a llegado hasta gameover.php con 10700 puntos
+[2025-11-12 05:20:56] [ranking.php] Miguel (permadeath) a guardado su puntuacion en el ranking (10700 puntos)
