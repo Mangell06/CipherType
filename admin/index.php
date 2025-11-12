@@ -142,7 +142,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
         echo '<div id="contentContainer" style="display:'. (isset($_POST['selectdifficulty']) ? 'block' : 'none') .';">';
             echo '<form method="post">';
                 echo '<select name="selectdifficulty" id="selectdifficulty" onchange="this.form.submit()">';
-                    echo '<option value="" hidden'. ((isset($_POST['selectdifficulty']) && $_POST['selectdifficulty'] === "") ? ' selected' : '') .'>' . $_SESSION['lang_data']['TEXT_SELECT_DIFICULTY'] . '</option>';
+                    // echo '<option value="" hidden'. ((isset($_POST['selectdifficulty']) && $_POST['selectdifficulty'] === "") ? ' selected' : '') .'>' . $_SESSION['lang_data']['TEXT_SELECT_DIFICULTY'] . '</option>';
                     echo '<option value="sencillo"'. ((isset($_POST['selectdifficulty']) && $_POST['selectdifficulty'] === "sencillo") ? ' selected' : '') .'>' . $_SESSION['lang_data']['DIFFICULTY_SIMPLE'] . '</option>';
                     echo '<option value="normal"'. ((isset($_POST['selectdifficulty']) && $_POST['selectdifficulty'] === "normal") ? ' selected' : '') .'>' . $_SESSION['lang_data']['DIFFICULTY_NORMAL'] . '</option>';
                     echo '<option value="experto"'. ((isset($_POST['selectdifficulty']) && $_POST['selectdifficulty'] === "experto") ? ' selected' : '') .'>' . $_SESSION['lang_data']['DIFFICULTY_EXPERT'] . '</option>';
@@ -213,12 +213,8 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                         }
 
                         echo "<tr class='$rowClass'><td><img src='/admin/image/$imageName'></td><td>".$fraseSplit[0];
-
-                        echo "<form action='/admin/delete_sentences.php' method='post'>";
-                        // echo "<input name='selectdifficulty' type='hidden' value='".$selectdifficulty."'>"; TODO
-                        echo "<input name='fraseIndex' type='hidden' value='".$count."'>";
-                        echo "<button type='submit' class='deletebutton'>&#128465;</button>";
-                        echo "</form></td></tr>";
+                        echo "<button type='button' class='deletebutton' onclick='deleteButtonClick(\"$selectdifficulty\", $count)'>&#128465;</button>";
+                        echo "</td></tr>";
                     }
 
                     echo "</table>";
@@ -235,6 +231,10 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
         echo '</div>';
     echo '</div>';
     echo '</div>';
+    echo "<form id='deleteSentecesForm' action='/admin/delete_sentences.php' method='post'>";
+    echo "<input name='selectdifficulty' type='hidden'>";
+    echo "<input name='fraseIndex' type='hidden'>";
+    echo "</form>";
 } else {
     echo '<body class="admin">';
     echo '<div class="admincontainermain">';
@@ -335,7 +335,11 @@ document.addEventListener("keyup", (event) => {
     keysPressed.delete(event.key.toLowerCase());
 });
 
-
+const deleteButtonClick = (dificultad, fraseIndex) => {
+    document.querySelector("#deleteSentecesForm input[name='selectdifficulty']").value = dificultad;
+    document.querySelector("#deleteSentecesForm input[name='fraseIndex']").value = fraseIndex;
+    document.getElementById("deleteSentecesForm").submit();
+}
 
 </script>
 </body>
