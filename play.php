@@ -563,7 +563,6 @@ $frasesJson = json_encode($frasesProcesadas);
 
         document.addEventListener('keyup', (e) => {
             if (!funcionar) return;
-            console.log(e.code);
             if (e.key === "Dead") {
                 pendingAccent = accentMap[e.code] || "";
                 return;
