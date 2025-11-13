@@ -129,7 +129,7 @@
 }
 
 .correct {
-  color: green;
+  color: #3b3;
 }
 
 .js-required { display: none; }
@@ -142,7 +142,7 @@ noscript .no-js { display: none; }
 }
 
 .highlightButtonTextAdmin::first-letter{
-  color: #ffffff !important; 
+  color: #eedc3b !important; 
   text-decoration: underline !important;
   font-weight: bold !important;
 }
@@ -152,7 +152,7 @@ noscript .no-js { display: none; }
   text-decoration: underline !important;
   font-weight: bold !important;
 }
-/*----------------------------------- css play ----------------------------------- */
+/*----------------------------------- css play.php ----------------------------------- */
 html {
   box-sizing: border-box;
   font-size: 16px;
@@ -221,7 +221,7 @@ div.machine {
     overflow: hidden;
 }
 
-div.machine img {
+div.machine .typingMachine {
     position: relative;
     z-index: 7;
     bottom: -650px;
@@ -232,11 +232,21 @@ div.machine img {
     height: 1536px;
 }
 
+div.machine .imagePhrase {
+  position: absolute;
+  bottom: 516px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  height: 60px;
+  z-index: 9999;
+}
+
 div.machine .textos {
     position: absolute;
     bottom: 435px;
     left: 50%;
     transform: translate(-50%, 0);
+    bottom: 23%;
     z-index: 10;
 }
 
@@ -321,6 +331,42 @@ body.play img#sherlock{
   overflow: hidden;
   animation: blink 0.7s infinite;
 }
+
+#temp{
+  color: #63514C;
+  background-color: white;
+  font-size: 30px;
+  border-radius: 10px;
+  text-align: center;
+  position: absolute;
+  top: 60px;
+  right: 400px;
+  padding-left: 10px;
+  padding-right: 10px;
+  z-index: 999999;
+}
+
+.contHealth{
+  color: #63514C;
+  background-color: white;
+  font-size: 30px;
+  border-radius: 10px;
+  text-align: center;
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+}
+
+.contHealth img{
+  width:20px; 
+  height:20px; 
+  vertical-align:middle; 
+  margin:0 4px;
+}
+
 @keyframes blink {
   50% {
     border-color: transparent;
@@ -446,6 +492,29 @@ body.error p {
 .gameErrorJS h1 {
   color: white;
 }
+/* ranking paginador */
+.totalPagesNumber{
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #4b3524;
+  min-width: 20px;
+  text-align: center;
+  color: white;
+  text-decoration: none;
+  border: 0;
+}
+
+.allPages{
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.active{
+  background-color: rgb(34, 26, 19);
+}
 
 /*----------------------------------- css gameover ----------------------------------- */
 body.gameover{
@@ -459,7 +528,6 @@ body.gameover{
 }
 
 .gameoverDiv th {
-    color: #f0e7d8;
     color: #f0e7d8;
     background-color: #975A23;
     padding: 20px;
@@ -479,27 +547,20 @@ body.gameover{
     border: 1px solid white;
     border-collapse: collapse;
 }
-.gameoverDiv th, tr {
-    border-collapse: collapse;
-    border: 1px solid white;
-    
-}
+
 .gameoverDiv td {
-  background-color: #4b3524;
-    color: #f0e7d8;
   background-color: #4b3524;
     color: #f0e7d8;
     font-size: 25px;
 }
 
-.gameoverDiv .winner {
+.gameoverDiv .winner td {
     background-color: #c58a47;
-    background-color: #c58a47;
-  font-style: italic;
+    font-style: italic;
+    color: #663C17;
 }
 
 .gameoverDiv .second {
-    background-color: #2b1e16;
     background-color: #2b1e16;
 
 }
@@ -620,7 +681,6 @@ button#closeSession:hover, button#buttonInitialitze:hover{
   opacity: 0;
   transform: translateY(10px);
   animation: sh-revealAnim 3s ease-out forwards;
-  animation: sh-revealAnim 3s ease-out forwards;
 }
 
 @keyframes sh-revealAnim {
@@ -631,7 +691,6 @@ button#closeSession:hover, button#buttonInitialitze:hover{
 .sh-lens:hover {
   transform: scale(1.05);
   box-shadow: 0 0 8px #E6AC00;
-  transition: transform 0.5s ease, box-shadow 0.5s ease;
   transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
@@ -647,7 +706,6 @@ button#closeSession:hover, button#buttonInitialitze:hover{
 
 /* Brillo breve al enfocar botón */
 .sh-focus {
-  transition: box-shadow 0.6s ease;
   transition: box-shadow 0.6s ease;
 }
 .sh-focus:focus {
@@ -665,7 +723,6 @@ button#closeSession:hover, button#buttonInitialitze:hover{
 
 .sh-mystery-title {
   animation: sh-mysteryGlow 5s ease-in-out infinite;
-  animation: sh-mysteryGlow 5s ease-in-out infinite;
   letter-spacing: 1px;
 }
 
@@ -676,6 +733,7 @@ button#closeSession:hover, button#buttonInitialitze:hover{
     height: 100vh;
     display: flex;
     justify-content: center;
+    background-color: #000000D6;
 }
 
 .admincontainermain {
@@ -692,9 +750,6 @@ button#closeSession:hover, button#buttonInitialitze:hover{
 
 /* Logout */
 #logoutcontainer {
-    position: absolute;
-    top: 10px;
-    right: 30px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -717,18 +772,21 @@ button#closeSession:hover, button#buttonInitialitze:hover{
     transition: all 0.3s ease;
 }
 
-#buttonLogout:hover {
-    background-color: #E6AC00;
-    color: black;
-}
-
 /* Panel de herramientas */
-.toolscontainer {
+.toolscontaineradmin {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    background-color: #000000D6;
+}
+
+.welcome{
+  position: absolute;
+  right: 105px;
+  top: 40px;
+  color: white;
 }
 
 /* Botones principales */
@@ -744,20 +802,20 @@ button#closeSession:hover, button#buttonInitialitze:hover{
     transition: all 0.3s ease;
 }
 
-#addbutton:hover, #toggleView:hover {
-    background-color: #E6AC00;
-    color: black;
+#addbutton:hover, #toggleView:hover, #buttonLogout:hover, .uploadImage > div button:hover, .createSentence button:hover {
+    background-color: #3E322F;
+    color: white;
     transform: scale(1.05);
 }
 
 /* Selector de dificultad */
-#selectdifficulty {
+#selectdifficulty, #selectlanguage{
     padding: 10px 15px;
     font-size: 16px;
     border-radius: 10px;
-    border: 2px solid #E6AC00;
+    border: 2px solid #63524b;
     background-color: rgba(255, 255, 255, 0.12);
-    color: #E6AC00;
+    color: #63524b;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -765,12 +823,12 @@ button#closeSession:hover, button#buttonInitialitze:hover{
     margin: 16px 0px;
 }
 
-#selectdifficulty:hover {
-    background-color: #E6AC00;
-    color: black;
+#selectdifficulty:hover, #selectlanguage:hover{
+    background-color: #63524b;
+    color: white;
 }
 
-#selectdifficulty option {
+#selectdifficulty option, #selectlanguage option {
     color: black;
     background-color: white;
 }
@@ -779,6 +837,7 @@ button#closeSession:hover, button#buttonInitialitze:hover{
 .toolscontainer, table {
     transition: opacity 0.4s ease, transform 0.4s ease;
 }
+
 
 .hidden {
     opacity: 0;
@@ -841,8 +900,8 @@ table td.secondly {
 
 /* Formulario de login */
 #logincontainer {
-    background-color: rgba(255, 255, 255, 0.15);
-    border: 1px solid #E6AC00;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #3B312F;
     padding: 30px 40px;
     border-radius: 15px;
     display: flex;
@@ -854,29 +913,34 @@ table td.secondly {
 
 #logincontainer label {
     font-weight: bold;
-    color: #E6AC00;
+    color: #63514C;
 }
 
 #logincontainer input {
     padding: 10px;
     border-radius: 10px;
-    border: 2px solid #E6AC00;
+    border: 2px solid #63514C;
     background-color: rgba(255, 255, 255, 0.1);
     font-size: 16px;
     outline: none;
-    color: #E6AC00;
+    color: #63514C;
 }
 
 #logincontainer input::placeholder {
-    color: #E6AC00;
+    color: #63514C;
+}
+
+.panel{
+  background-color: #000000D6;
 }
 
 /* Botón de login */
-#buttonLogin {
+#buttonLogin, #addbutton, #addImagebutton, #toggleView, #buttonLogout, .uploadImage > div button, .createSentence button{
     padding: 12px;
     font-size: 16px;
-    background-color: #E6AC00;
+    background-color: #63524b;
     border: none;
+    color: white;
     border-radius: 10px;
     font-weight: bold;
     cursor: pointer;
@@ -884,8 +948,20 @@ table td.secondly {
 }
 
 #buttonLogin:hover {
-    background-color: #b67b22;
+    background-color: #3E322F;
     color: white;
+}
+
+body.panel .winner td {
+    background-color: #c58a47;
+    font-style: italic;
+    color: #663C17;
+}
+
+body.panel .secondly td {
+    background-color: #c5ae47;
+    font-style: italic;
+    color: #663C17;
 }
 /* Crear frase admin */
 .createSentences{
@@ -894,18 +970,19 @@ table td.secondly {
 }
 .createSentence {
   margin: 64px;
-  background-color: #ffffff75;
+  background-color: #fff;
   width: 100%;
-  max-width: 600px; 
+  max-width: 600px;
   flex-direction: column;
   padding: 20px;
   border-radius: 20px;
-  border: 3px solid #f39c12; 
+  border: 3px solid #63524b;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #63524b;
 }
 
 .createSentence h1 {
-  color: #E6AC00;
+  color: #63524b;
   font-size: 2em;
   text-align: center;
   margin-bottom: 20px;
@@ -922,25 +999,76 @@ table td.secondly {
   padding: 10px 15px;
   font-size: 16px;
   border-radius: 10px;
-  border: 2px solid #E6AC00;
+  border: 2px solid #63524b;
   background-color: rgba(255, 255, 255, 0.1);
-  color: #E6AC00;
+  color: #63524b;
 }
 
-.createSentence button {
-  padding: 12px 20px;
-  font-size: 16px;
-  background-color: #E6AC00;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+/* upload image */
+body.uploadImage{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000D6;
 }
 
-.createSentence button:hover {
-  background-color: #b67b22;
+.uploadImage div {
+  width: 60%;
+  justify-content: center;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid #3B312F;
+  padding: 30px 40px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 300px;
+  text-align: left;
+}
+
+.uploadImage > div button {
+  display: block;
+  margin-top: 20px;
+  width: 60%;
+}
+
+.uploadImage > div > form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.uploadImage > div > form > select {
+  width: 100%;
+  margin-bottom: 30px;
+  background-color: #63524b;
   color: white;
+  border: 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.uploadImage > div > form > select:hover{
+  background-color: #3E322F;
+}
+.uploadImage label[for="selectdifficulty"] {
+  order: -1;
+  width: 100%;
+}
+.uploadImage > div > form > select#selectdifficulty{
+  width: 100%;
+  order: -1;
+  margin-bottom: 30px;
+} 
+
+.uploadImage > div > form > input {
+  width: 100%;
+}
+
+.uploadImage > div > form > p.titleUploadImage {
+    text-align: left !important;
 }
 
 .buttonpanel{
@@ -953,4 +1081,270 @@ table td.secondly {
 .todo p{
   text-align: center;
   padding: 10px;
+}
+
+.languageMain {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 60px 0;
+    font-family: 'EB Garamond', serif; /* elegante, tipo victorian */
+    background-color: #2b2b2b; /* fondo oscuro misterioso */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+}
+
+.languageMain form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+#lenguageselect {
+    padding: 12px 18px;
+    font-size: 18px;
+    border-radius: 8px;
+    border: 2px solid #8b5e3c; /* borde madera / cuero */
+    background-color: #f4ecd8; /* color tipo papel antiguo */
+    color: #3b2f2f;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#lenguageselect:hover {
+    background-color: #e6dbc4;
+    border-color: #5c4329;
+    transform: scale(1.05);
+}
+
+#lenguageselect:focus {
+  outline: none;
+  border-color: #a67c52;
+  box-shadow: 0 0 10px rgba(166, 124, 82, 0.7);
+}
+
+.languageMain select option {
+  background-color: #f4ecd8;
+  color: #3b2f2f;
+}
+
+.languageMain select option:hover {
+  background-color: #e6dbc4;
+}
+
+.bonusWrapper {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  z-index: 999999;
+  display: flex;
+  width: 12%;  /* un poco más grande para legibilidad */
+  height: 18%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-25%, -50%);
+  pointer-events: none;
+  font-family: 'Times New Roman', serif; /* estilo clásico */
+}
+
+.mainBonus {
+  position: relative;
+  background-color: rgba(40, 30, 20, 0.95); /* fondo oscuro estilo cuero */
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+  border: 2px solid #a67c52; /* borde dorado/marrón */
+}
+
+.containerBonus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+#multiplicatorBonus {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #FFD700; /* dorado clásico para resaltar */
+  text-align: center;
+  opacity: 0;
+  animation: appearBonus 1s ease forwards; /* animación al hacerse visible */
+}
+
+/* animación al aparecer */
+@keyframes appearBonus {
+  0% {
+    transform: scale(0.5) rotate(-15deg);
+    opacity: 0;
+    text-shadow: none;
+  }
+  50% {
+    transform: scale(1.2) rotate(5deg);
+    opacity: 1;
+    text-shadow: 0 0 10px #FFD700, 0 0 20px #FFA500;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+    text-shadow: 0 0 8px #FFD700;
+  }
+}
+
+#file {
+  width: 100%;
+  height: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+  appearance: none;
+  background-color: #5c4326;
+}
+
+#file::-webkit-progress-bar {
+  background-color: #5c4326;
+  border-radius: 5px;
+}
+
+#file::-webkit-progress-value {
+  background-color: #a67c52;
+  border-radius: 5px;
+}
+
+.bonusWrapper.hideBonus {
+  opacity: 0;
+  transform: translate(-25%, -50%) scale(0.5);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+}
+
+.mainBonus.hideBonus {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#checkboxWithExplicationButton{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+#checkboxWithExplicationButton > p {
+  color: #ffd862;
+}
+
+#explicationButton {
+  position: relative;
+  background-color: #E6AC00;
+  padding: 5px;
+  border-radius: 5px;
+  width: 50px;
+}
+
+#explicationButton p {
+  display: none;
+  position: absolute;
+  top: 10px;
+  left: 30px;
+  width: 221px;
+  height: 295px;
+  background-color: #ffffffab;
+  padding: 10px;
+}
+
+#explicationButton:hover p {
+  display: block;
+}
+
+.rightpositionlenguage {
+  position: absolute;
+  left: 16px;
+}
+
+.progress-container {
+    width: 80%;
+    margin: 15px auto 0 auto;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 5px;
+    position: relative;
+    border: 2px solid #593719;
+    box-shadow: 0 2px 8px #59371971;
+}
+
+.progress-bar {
+    height: 8px;
+    background: linear-gradient(90deg, #a47551, #c49a6c, #e3c9a8);
+    border-radius: 5px;
+    width: 0%;
+    transition: width 0.5s ease-in-out;
+    box-shadow: 
+        0 0 10px #a47551,
+        inset 0 1px 0 #c49a6c;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto de brillo sutil en la barra */
+.progress-bar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.2) 50%, 
+        transparent 100%);
+    animation: shine 2s infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.progress-text {
+    font-family: "Oswald", sans-serif;
+    text-align: center;
+    margin-top: 8px;
+    font-size: 14px;
+    color:#a47551;
+    font-weight: bold;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+#textPermaDeath {
+  color: #E6AC00;
+}
+
+/* buttons index tabla paginador */
+.buttonLeftIndex{
+  color: transparent;
+  background-image: url('/media/chevronIzquierdo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+}
+
+.buttonRightIndex{
+  color: transparent;
+  background-image: url('/media/chevronDerecho.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
 }

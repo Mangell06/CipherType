@@ -1,13 +1,33 @@
 <?php
     session_start();
-    $name = $_SESSION['name'];
-    $points = $_POST['points'];
-    if (!isset($name) || !isset($points)) {
+    if (!isset($_SESSION['name']) || !isset($_POST['points'])) {
+        if (isset($_SESSION['name'])) {
+            $mensaje = $_SESSION['name']. " a intentado acceder a gameover.php sin jugar";
+        } else {
+            $mensaje = "Un usuario a intentado acceder a gameover.php sin jugar";
+        }
+        $fecha = date("Y-m-d H:i:s");
+        $archivo = basename(__FILE__);
+        $linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
+        file_put_contents("admin/logs.txt", $linea, FILE_APPEND);
         header("HTTP/1.1 403 Forbidden");
         header('Location: /errors/error403.php');
         exit();
     }
+    if (isset($_POST['permadeath']) && $_POST['permadeath'] === "permadeath") {
+        $_SESSION['name'].=' ('.$_POST['permadeath'].')';
+    }
+    $name = $_SESSION['name'];
+    $points = $_POST['points'];
+    $temp = $_POST['temp'];
+
     $_SESSION["points"] = $points;
+    $_SESSION["temp"] = $temp;
+    $mensaje = $_SESSION['name']. " a llegado hasta gameover.php con " . $points . " puntos";
+    $fecha = date("Y-m-d H:i:s");
+    $archivo = basename(__FILE__);
+    $linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
+    file_put_contents("admin/logs.txt", $linea, FILE_APPEND);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -23,27 +43,43 @@
     <?php
         if (isset($_SESSION['name'])) {
             echo "<div class='cancelSession sh-reveal'>";
-            echo "<p class='sh-highlight'>Nombre: ".$_SESSION['name']."</p>";
-            echo "<button type='submit' id='closeSession' onclick='destroySession()' class='sh-lens sh-focus'>Cerrar sesión</button>";
+            echo "<p class='sh-highlight'>" . $_SESSION['lang_data']['TEXT_NAME'] . ": ".$_SESSION['name']."</p>";
+            echo "<button type='submit' id='closeSession' onclick='destroySession()' class='sh-lens sh-focus'>".$_SESSION['lang_data']['TEXT_LOGOUT']."</button>";
             echo "</div>";
         }
+
+        function formatearTiempo($segundos) {
+        if ($segundos === null) return null;
+        $horas = floor($segundos / 3600);
+        $minutos = floor(($segundos % 3600) / 60);
+        $segundosRestantes = $segundos % 60;
+
+        return sprintf("%02d:%02d:%02d", $horas, $minutos, $segundosRestantes);
+    }
     ?>
     <div class="gameoverDiv sh-reveal">
-        <h1 class="sh-highlight">¿Quieres registrar tu récord?</h1>
+        
+    <?php
+       echo '<h1 class="sh-highlight">'. $_SESSION['lang_data']['TITLE_GAME_OVER'] .'</h1>';
+    ?>
 
          <?php
             echo "<table class='sh-reveal'>";
-            echo "<tr><th>Nombre</th><th>Puntos</th></tr>";
-            echo "<tr><td>".$name."</td><td>".$points."</td></tr>";
+            echo "<tr><th>". $_SESSION['lang_data']['TEXT_NAME'] ."</th><th>". $_SESSION['lang_data']['TEXT_POINTS'] ."</th><th>". $_SESSION['lang_data']['TEXT_TEMP'] ."</th></tr>";
+            echo "<tr><td>".$name."</td><td>".$points."</td><td>".formatearTiempo($temp)."</td></tr>";
             echo "</table>";
          ?>
 
         <div class="buttons">
             
             <form action="./ranking.php" method="post" class="buttons" style="display:inline;">
-                <button type="submit" id="returnRanking" value="Sí, lo quiero registrar" class="sh-lens sh-focus">Sí, lo quiero registrar</button>
+            <?php
+                echo '<button type="submit" id="returnRanking" value="Sí, lo quiero registrar" class="sh-lens sh-focus">'. $_SESSION['lang_data']['TEXT_REGISTER'] .'</button>'
+            ?>
             </form>
-            <button type="submit" id="returnIndex" value="No lo quiero registrar" class="sh-lens sh-focus">No lo quiero registrar</button>
+            <?php
+                echo '<button type="submit" id="returnIndex" value="No lo quiero registrar" class="sh-lens sh-focus">'. $_SESSION['lang_data']['TEXT_NOT_REGISTER'] .'</button>'
+            ?>
         </div>
     </div>
     <script>
@@ -62,24 +98,65 @@
             window.location = "/index.php";
         })
 
-        document.addEventListener("keydown", (event)=>{
-        if ((event.key).toLocaleLowerCase() === "s"){
-            buttonRanking.classList.add("highlightButtonText");
-            setTimeout(() => {
-                buttonRanking.click();
-            }, "1000");
-        } else if ((event.key).toLocaleLowerCase() === "n"){
-            buttonIndex.classList.add("highlightButtonText");
-            setTimeout(() => {
-                buttonIndex.click();
-            }, "1000");
-        } else if ((event.key).toLocaleLowerCase() === "c"){
-            closeSession.classList.add("highlightButtonText");
-            setTimeout(() => {
-                closeSession.click();
-            }, "1000");
-    }})
+        const selectedLang = "<?php echo isset($_SESSION['selected_lang']) ? $_SESSION['selected_lang'] : ''; ?>";
+        document.addEventListener("keydown", (event) => {
+            if (event.target.nodeName === "INPUT") return;
 
+            if (selectedLang === "CASTELLANO") {
+                if (event.key.toLowerCase() === "s") {
+                    buttonRanking.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        buttonRanking.click();
+                    }, 1000);
+                } else if (event.key.toLowerCase() === "n") {
+                    buttonIndex.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        buttonIndex.click();
+                    }, 1000);
+                } else if (event.key.toLowerCase() === "c") {
+                    closeSession.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        closeSession.click();
+                    }, 1000);
+                }
+
+            } else if (selectedLang === "CATALÁN") {
+                if (event.key.toLowerCase() === "s") {
+                    buttonRanking.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        buttonRanking.click();
+                    }, 1000);
+                } else if (event.key.toLowerCase() === "n") {
+                    buttonIndex.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        buttonIndex.click();
+                    }, 1000);
+                } else if (event.key.toLowerCase() === "t") {
+                    closeSession.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        closeSession.click();
+                    }, 1000);
+                }
+
+            } else if (selectedLang === "ENGLISH") {
+                if (event.key.toLowerCase() === "y") {
+                    buttonRanking.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        buttonRanking.click();
+                    }, 1000);
+                } else if (event.key.toLowerCase() === "n") {
+                    buttonIndex.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        buttonIndex.click();
+                    }, 1000);
+                } else if (event.key.toLowerCase() === "l") {
+                    closeSession.classList.add("highlightButtonText");
+                    setTimeout(() => {
+                        closeSession.click();
+                    }, 1000);
+                }
+            }
+        });
     </script>
 </body>
 </html>

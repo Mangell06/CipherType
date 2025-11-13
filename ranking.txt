@@ -19,10 +19,12 @@
 #Miguel:3400
 #Miguel:4500
 #Maikol:2800
-<<<<<<< HEAD
-#ghg:-3500
-=======
-#ergerg:3000
-#ergergergerger:-2800
->>>>>>> 304c548 (cambios de diseño)
-#egergerg:2900
+#gfh:2200:4
+#asd:-3400:4
+#prueba tempo:4000:6
+#prueba tempo:4000:6
+#prueba tempo:4000:6
+#prueba tempo:4000:6
+#xavi:-1300:3
+#Miguel:35500:39
+#Miguel (permadeath):10700:15

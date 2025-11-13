@@ -1,6 +1,57 @@
+<?php
+    session_start();
+    if (isset($_SESSION['name'])) {
+        $mensaje = $_SESSION['name']. " a sido redirigido a el ERROR 403";
+    } else {
+        $mensaje = "Un usuario a sido redirigido a el ERROR 403";
+    }
+    $fecha = date("Y-m-d H:i:s");
+    $archivo = basename(__FILE__);
+    $linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
+    file_put_contents("../admin/logs.txt", $linea, FILE_APPEND);
+    if (!isset($_SESSION['selected_lang'])) {
+    $_SESSION['selected_lang'] = 'CASTELLANO';
+}
+if (isset($_POST['lenguageselect'])) {
+    $_SESSION['selected_lang'] = $_POST['lenguageselect'];
+    unset($_SESSION['lang_data']); // fuerza recarga
+}
+if (!isset($_SESSION['lang_data'])) {
+    $_SESSION['lang_data'] = [];
+    $idiomaSeleccionado = $_SESSION['selected_lang'];
+
+    $archivo = fopen('../idiomas.txt', 'r');
+    $dentroIdioma = false;
+    while (($linea = fgets($archivo)) !== false) {
+        $linea = trim($linea);
+        if ($linea === '') continue;
+
+        if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+            $idiomaActual = substr($linea, 1, -1);
+            $dentroIdioma = ($idiomaActual === $idiomaSeleccionado);
+            continue;
+        }
+
+        if ($dentroIdioma && strpos($linea, '=') !== false) {
+            list($clave, $valor) = explode('=', $linea, 2);
+            $clave = trim($clave);
+            if (str_contains($valor, '|')) {
+                $valor = trim($valor, "\"|\t ");
+                $_SESSION['lang_data'][$clave] = array_map(
+                    fn($v) => trim($v, '"'),
+                    explode('|', $valor)
+                );
+            } else {
+                $valor = trim($valor, "\"\t ");
+                $_SESSION['lang_data'][$clave] = $valor;
+            }
+        }
+    }
+    fclose($archivo);
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,14 +65,18 @@
 
 <body class="error">
     <div class="postit">
-        <img class="topPin" src="/media/pin.png" alt="Imagen de una chincheta">
-        <img src="/media/postit.png" alt="Imagen de una post-it">
-        <p>Watson, ¿cómo esperas descubrir al culpable si ni siquiera has revisado las pistas? Acceso denegado.</p>
+    <?php
+        echo '<img class="topPin" src="/media/pin.png" alt="'. $_SESSION['lang_data']['TEXT_PUSHPIN'] .'">';
+        echo '<img src="/media/postit.png" alt="'. $_SESSION['lang_data']['TEXT_POSTIT'] .'">';
+        echo "<p>". $_SESSION['lang_data']['TEXT_ERROR_403'] ."</p>"
+    ?>
     </div>
     <div class="smallPostits">
         <div>
-            <img class="pins" src="/media/pin.png" alt="Imagen de una chincheta">
-            <input type="button" id="goIndex" value="Página inicial" onclick="changePage()">
+            <?php
+            echo '<img class="pins" src="/media/pin.png" alt='. $_SESSION['lang_data']['TEXT_PUSHPIN'] .'>';
+            echo '<input type="button" id="goIndex" value='. $_SESSION['lang_data']['TEXT_BUTTON_RETURN'] .' onclick="changePage()">';
+            ?>
         </div>
     </div>
     <script>

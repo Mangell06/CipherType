@@ -1,10 +1,26 @@
 <?php
+    session_start();
     $sentencesFile = fopen("../sentences.txt","r+"); //abrir archivo
     $phraseIndex = $_POST["fraseIndex"]; // coger por post la frase
     $level = $_POST["selectdifficulty"]; //coger por post el nivel
     $newContent = "";
     while(!feof($sentencesFile)) {
-        $separetorLevelSentences = explode(":", fgets($sentencesFile),2);
+        $linea = fgets($sentencesFile);
+        if ($linea === false || trim($linea) === '') continue;
+        $linea = trim($linea);
+
+        if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+            $idiomaActual = substr($linea, 1, -1);
+            $dentroIdioma = ($idiomaActual === $_SESSION['selected_lang']);
+            $newContent .= $linea . "\n";
+            continue;
+        }
+
+        if (!$dentroIdioma) {
+            $newContent .= $linea . "\n";
+            continue;
+        }
+        $separetorLevelSentences = explode(":", $linea,2);
         $levelFile = $separetorLevelSentences[0];
         $levelPhrases = trim($separetorLevelSentences[1]);
 
@@ -15,12 +31,21 @@
         for ($i = 0; $i < count($phrases); $i++){
             if ($i != $phraseIndex || $level != $levelFile){
                 $phrasesArray[] = $phrases[$i];
+            } else{
+                $parts = explode("|", $phrases[$i]);
+                if (isset($parts[1]) && file_exists("image/" . $parts[1])) {
+                    unlink("image/" . $parts[1]);
+                }
+                $mensaje = $_SESSION['username']. " a eliminado la frase " . $parts[0] . " en el nivel de dificultat " . $level . " del idioma " . $_SESSION['selected_lang'];
+                $fecha = date("Y-m-d H:i:s");
+                $archivo = basename(__FILE__);
+                $linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
+                file_put_contents("logs.txt", $linea, FILE_APPEND);
             }
         }
         $newContent .= implode("*", $phrasesArray);
         $newContent .= "\n";
     }
-
     file_put_contents("../sentences.txt", trim($newContent));
     fclose($sentencesFile); //cerrar archivo
 ?>

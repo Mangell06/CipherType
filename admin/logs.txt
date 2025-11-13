@@ -1,0 +1,13 @@
+[2025-11-11 17:21:45] [login.php] miguelangel a iniciado sesion
+[2025-11-11 17:31:33] [upload_image.php] miguelangel añadió la imagen '691372f5a44d0.png' a la frase 'Mocador amb inicials indica la presència d’algú' en el idioma CATALÁN
+[2025-11-11 17:32:05] [create_sentence.php] miguelangel a creado la frase Bon dia en el nivel de dificultat sencillo del idioma CATALÁN
+[2025-11-11 17:32:11] [delete_sentences.php] miguelangel a eliminado la frase aaaa en el nivel de dificultat sencillo del idioma CATALÁN
+[2025-11-11 17:32:14] [delete_sentences.php] miguelangel a eliminado la frase Bon dia en el nivel de dificultat sencillo del idioma CATALÁN
+[2025-11-11 17:32:22] [index.php] miguelangel se a cambiado al idioma CASTELLANO
+[2025-11-11 17:32:24] [index.php] miguelangel se a cambiado al idioma ENGLISH
+[2025-11-11 17:32:25] [logout.php] miguelangel a cerrado sesion
+[2025-11-11 17:32:41] Miguel Ángel a accedido a jugar en la dificultat experto
+[2025-11-11 17:34:25] Miguel Ángel a llegado hasta gameover.php con 140000 puntos
+[2025-11-11 17:34:32] [ranking.php] Miguel Ángel a guardado su puntuacion en el ranking (140000 puntos)
+[2025-11-11 17:34:34] [destroy_session.php] Miguel Ángel a cerrado sesion en el juego
+[2025-11-11 17:34:42] [gameover.php] Un usuario a intentado acceder a gameover.php sin jugar

@@ -1,16 +1,75 @@
 <?php
 session_start();
+if (!isset($_SESSION['selected_lang'])) {
+    $_SESSION['selected_lang'] = 'CASTELLANO';
+}
+if (isset($_POST['lenguageselect'])) {
+    $_SESSION['selected_lang'] = $_POST['lenguageselect'];
+    unset($_SESSION['lang_data']); // fuerza recarga
+}
+if (!isset($_SESSION['lang_data'])) {
+    $_SESSION['lang_data'] = [];
+    $idiomaSeleccionado = $_SESSION['selected_lang'];
+
+    $archivo = fopen('../idiomas.txt', 'r');
+    $dentroIdioma = false;
+    while (($linea = fgets($archivo)) !== false) {
+        $linea = trim($linea);
+        if ($linea === '') continue;
+
+        if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+            $idiomaActual = substr($linea, 1, -1);
+            $dentroIdioma = ($idiomaActual === $idiomaSeleccionado);
+            continue;
+        }
+
+        if ($dentroIdioma && strpos($linea, '=') !== false) {
+            list($clave, $valor) = explode('=', $linea, 2);
+            $clave = trim($clave);
+            if (str_contains($valor, '|')) {
+                $valor = trim($valor, "\"|\t ");
+                $_SESSION['lang_data'][$clave] = array_map(
+                    fn($v) => trim($v, '"'),
+                    explode('|', $valor)
+                );
+            } else {
+                $valor = trim($valor, "\"\t ");
+                $_SESSION['lang_data'][$clave] = $valor;
+            }
+        }
+    }
+    fclose($archivo);
+}
 if (isset($_POST['newPhrase'])) {
     $sentencesFile = fopen("../sentences.txt", "r+");
     $level = $_POST["selectdifficulty"];
     $newPhrase = $_POST["newPhrase"];
-
+    $mensaje = $_SESSION['username']. " a creado la frase " . $newPhrase . " en el nivel de dificultat " . $level . " del idioma " . $_POST['selectlanguage'];
+    $fecha = date("Y-m-d H:i:s");
+    $archivo = basename(__FILE__);
+    $linea = "[$fecha] [$archivo] $mensaje" . PHP_EOL;
+    file_put_contents("logs.txt", $linea, FILE_APPEND);
     $newContent = "";
     $levelFound = false;
-
-
+    $fileSaveSuccess = false;
+    $randomFilename="";
     while (!feof($sentencesFile)) {
-        $separatorLevelSentences = explode(":", fgets($sentencesFile), 2);
+        $linea = fgets($sentencesFile);
+        if ($linea === false || trim($linea) === '') continue;
+        $linea = trim($linea);
+
+        if (strpos($linea, '[') === 0 && substr($linea, -1) === ']') {
+            $idiomaActual = substr($linea, 1, -1);
+            $dentroIdioma = ($idiomaActual === $_POST['selectlanguage']);
+            $newContent .= $linea . "\n";
+            continue;
+        }
+
+        if (!$dentroIdioma) {
+            $newContent .= $linea . "\n";
+            continue;
+        }
+        $separatorLevelSentences = explode(":", $linea, 2);
         $levelFile = $separatorLevelSentences[0];
         $levelPhrases = trim($separatorLevelSentences[1]);
 
@@ -19,6 +78,15 @@ if (isset($_POST['newPhrase'])) {
                 $levelPhrases = $newPhrase;
             } else {
                 $levelPhrases .= "*" . $newPhrase;
+            }
+            if (isset($_FILES["image"]) && $_FILES["image"]["tmp_name"] != "" && is_uploaded_file($_FILES["image"]["tmp_name"])) {
+                $filenameExtension = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
+                $randomFilename = uniqid().".".$filenameExtension;
+                $levelPhrases .= "|".$randomFilename;
+                $uploaddir = "image/";
+                $uploadfile = $uploaddir . $randomFilename;
+                $tmp_name = $_FILES["image"]["tmp_name"];
+                $fileSaveSuccess = move_uploaded_file($tmp_name, $uploadfile);
             }
         }
 
@@ -29,8 +97,10 @@ if (isset($_POST['newPhrase'])) {
     file_put_contents("../sentences.txt", trim($newContent));
     fclose($sentencesFile);
     $_SESSION['fraseCreada'] = true;
+    $_SESSION['imagenCreada'] = $fileSaveSuccess;
+    $_SESSION['last_sentence_added'] = $newPhrase . ($randomFilename ? "|" . $randomFilename : "");
+    $_SESSION['last_sentence_added_difficulty'] = $level;
     header("Location: /admin/index.php");
-   
     exit;
 
 }
@@ -45,23 +115,51 @@ if (isset($_POST['newPhrase'])) {
     <link rel="stylesheet" href="../styles.css?no-cache=<?php echo time(); ?>">
     <link rel="icon" href="../media/lupa.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <?php
+        echo "<title>".$_SESSION['lang_data']['TITLE_ADD_PHRASE']."</title>";
+    ?>
 </head>
 <body class="createSentences">
-   <div class="toolscontainer">
+   <div class="toolscontaineradmin">
     <div class="createSentence">
-        <h1>AGREGAR FRASE</h1>
-        <form action="create_sentence.php" method="post">
-            <label for="selectdifficulty">Selecciona el nivel de dificultad</label>
+        <?php
+            echo "<h1>".$_SESSION['lang_data']['TITLE_ADD_PHRASE']."</h1>";
+        ?>
+        <form action="create_sentence.php" method="post" enctype="multipart/form-data">
+        <?php
+            echo '<label for="selectdifficulty">' . $_SESSION['lang_data']['TEXT_SELECT_DIFICULTY'] . '</label>';
+        ?>
             <select name="selectdifficulty" id="selectdifficulty">
-                <option value="sencillo">Sencillo</option>
-                <option value="normal">Normal</option>
-                <option value="experto">Experto</option>
+            <?php
+                echo '<option value="sencillo">' . $_SESSION['lang_data']['DIFFICULTY_SIMPLE'] . '</option>';
+                echo '<option value="normal">' . $_SESSION['lang_data']['DIFFICULTY_NORMAL'] . '</option>';
+                echo '<option value="experto">' . $_SESSION['lang_data']['DIFFICULTY_EXPERT'] . '</option>';
+            ?>
             </select>
-
-            <label for="newPhrase">Nueva frase</label>
+            <?php
+                echo "<label for='selectlanguage'>".$_SESSION['lang_data']['TEXT_SELECT_LANGUAGE']."</label>";
+            ?>
+            
+            <select name="selectlanguage" id="selectlanguage">
+                <?php
+                    echo "<option value='CATALÁN'>".$_SESSION['lang_data']['LANGUAGE_CATALAN']."</option>";
+                    echo "<option value='CASTELLANO'>".$_SESSION['lang_data']['LANGUAGE_SPANISH']."</option>";
+                    echo "<option value='ENGLISH'>".$_SESSION['lang_data']['LANGUAGE_ENGLISH']."</option>"
+                ?>
+                
+            </select>
+            <?php
+                echo '<label for="newPhrase">' . $_SESSION['lang_data']['TEXT_NEW_PHRASE'] . '</label>';
+            ?>
             <input type="text" name="newPhrase" id="newPhrase">
 
-            <button type="submit" id="add">Añadir Frase</button>
+            <?php
+                echo "<label for='newImage'>".$_SESSION['lang_data']['UPLOAD_IMAGE_TAB']."</label>";
+            ?>
+            <input type="file" name="image" accept="image/*">
+            <?php
+                echo '<button type="submit" id="add">' . $_SESSION['lang_data']['TEXT_ADD_PHRASES'] . '</button>';
+            ?>
         </form>
     </div>
 </div>
@@ -71,7 +169,7 @@ if (isset($_POST['newPhrase'])) {
     const errorMsg = document.createElement("p");
     errorMsg.className = "error";
     errorMsg.style.display = "none"; 
-    errorMsg.textContent = "La frase debe contener letras.";
+    errorMsg.textContent = "<?php $_SESSION['lang_data']['TEXT_ADD_PHRASES']?>";
     newPhrase.insertAdjacentElement("afterend", errorMsg);
 
     document.addEventListener("keydown", (event)=>{
