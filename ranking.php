@@ -132,7 +132,7 @@ if (!isset($_SESSION['lang_data'])) {
         echo "</table>";
         echo "<div class='allPages'>";
             if ($page > 0) {
-                echo "<a class='totalPagesNumber' href='/ranking.php?page=" . ($page - 1) . "'>←</a>";
+                echo "<a class='totalPagesNumber buttonLeftIndex' href='/ranking.php?page=" . ($page - 1) . "'>←</a>";
             }
 
             for ($i = 0; $i < $totalPages; $i++) {
@@ -141,7 +141,7 @@ if (!isset($_SESSION['lang_data'])) {
             }
 
             if ($page < $totalPages - 1) {
-                echo "<a class='totalPagesNumber' href='/ranking.php?page=" . ($page + 1) . "'>→</a>";
+                echo "<a class='totalPagesNumber buttonRightIndex' href='/ranking.php?page=" . ($page + 1) . "'>→</a>";
             }
         echo "</div>";
 

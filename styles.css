@@ -234,11 +234,10 @@ div.machine .typingMachine {
 
 div.machine .imagePhrase {
   position: absolute;
-  bottom: 304px;
+  bottom: 516px;
   left: 50%;
   transform: translate(-50%, 0);
-  height: 120px;
-  width: 120px;
+  height: 60px;
   z-index: 9999;
 }
 
@@ -344,6 +343,7 @@ body.play img#sherlock{
   right: 400px;
   padding-left: 10px;
   padding-right: 10px;
+  z-index: 999999;
 }
 
 .contHealth{
@@ -1209,7 +1209,7 @@ body.uploadImage{
   border-radius: 5px;
   overflow: hidden;
   appearance: none;
-  background-color: #5c4326; /* marrón oscuro */
+  background-color: #5c4326;
 }
 
 #file::-webkit-progress-bar {
@@ -1218,7 +1218,7 @@ body.uploadImage{
 }
 
 #file::-webkit-progress-value {
-  background-color: #a67c52; /* dorado claro */
+  background-color: #a67c52;
   border-radius: 5px;
 }
 
@@ -1226,7 +1226,7 @@ body.uploadImage{
   opacity: 0;
   transform: translate(-25%, -50%) scale(0.5);
   transition: opacity 0.5s ease, transform 0.5s ease;
-  pointer-events: none; /* evitar interacción mientras está oculto */
+  pointer-events: none;
 }
 
 .mainBonus.hideBonus {
@@ -1279,19 +1279,19 @@ body.uploadImage{
     border-radius: 10px;
     padding: 5px;
     position: relative;
-    border: 2px solid #1e3a5f; /* Azul oscuro elegante */
-    box-shadow: 0 2px 8px rgba(30, 58, 95, 0.4);
+    border: 2px solid #593719;
+    box-shadow: 0 2px 8px #59371971;
 }
 
 .progress-bar {
     height: 8px;
-    background: linear-gradient(90deg, #1e3a5f, #3f72cf, #78a2f0); /* Degradado azul */
+    background: linear-gradient(90deg, #a47551, #c49a6c, #e3c9a8);
     border-radius: 5px;
     width: 0%;
     transition: width 0.5s ease-in-out;
     box-shadow: 
-        0 0 10px rgba(63, 114, 207, 0.7),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        0 0 10px #a47551,
+        inset 0 1px 0 #c49a6c;
     position: relative;
     overflow: hidden;
 }
@@ -1317,15 +1317,34 @@ body.uploadImage{
 }
 
 .progress-text {
-    font-family: "Oswald", sans-serif; /* Manteniendo la fuente original */
+    font-family: "Oswald", sans-serif;
     text-align: center;
     margin-top: 8px;
     font-size: 14px;
-    color: #1e3a5f; /* Azul oscuro que combina */
+    color:#a47551;
     font-weight: bold;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
 }
 
 #textPermaDeath {
   color: #E6AC00;
+}
+
+/* buttons index tabla paginador */
+.buttonLeftIndex{
+  color: transparent;
+  background-image: url('/media/chevronIzquierdo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+}
+
+.buttonRightIndex{
+  color: transparent;
+  background-image: url('/media/chevronDerecho.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
 }

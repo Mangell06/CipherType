@@ -140,15 +140,17 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
         echo '</div>';
         echo '<br/>';
         echo '<div id="contentContainer" style="display:'. (isset($_POST['selectdifficulty']) ? 'block' : 'none') .';">';
+
+            $selectdifficulty = $_POST['selectdifficulty'] ?? $_SESSION['last_sentence_added_difficulty'] ?? 'sencillo';
+
             echo '<form method="post">';
                 echo '<select name="selectdifficulty" id="selectdifficulty" onchange="this.form.submit()">';
                     // echo '<option value="" hidden'. ((isset($_POST['selectdifficulty']) && $_POST['selectdifficulty'] === "") ? ' selected' : '') .'>' . $_SESSION['lang_data']['TEXT_SELECT_DIFICULTY'] . '</option>';
-                    echo '<option value="sencillo"'. ((isset($_POST['selectdifficulty']) && $_POST['selectdifficulty'] === "sencillo") ? ' selected' : '') .'>' . $_SESSION['lang_data']['DIFFICULTY_SIMPLE'] . '</option>';
-                    echo '<option value="normal"'. ((isset($_POST['selectdifficulty']) && $_POST['selectdifficulty'] === "normal") ? ' selected' : '') .'>' . $_SESSION['lang_data']['DIFFICULTY_NORMAL'] . '</option>';
-                    echo '<option value="experto"'. ((isset($_POST['selectdifficulty']) && $_POST['selectdifficulty'] === "experto") ? ' selected' : '') .'>' . $_SESSION['lang_data']['DIFFICULTY_EXPERT'] . '</option>';
+                    echo '<option value="sencillo"'. (($selectdifficulty === "sencillo") ? ' selected' : '') .'>' . $_SESSION['lang_data']['DIFFICULTY_SIMPLE'] . '</option>';
+                    echo '<option value="normal"'. (($selectdifficulty === "normal") ? ' selected' : '') .'>' . $_SESSION['lang_data']['DIFFICULTY_NORMAL'] . '</option>';
+                    echo '<option value="experto"'. (($selectdifficulty === "experto") ? ' selected' : '') .'>' . $_SESSION['lang_data']['DIFFICULTY_EXPERT'] . '</option>';
                 echo '</select>';
 
-            $selectdifficulty = $_POST['selectdifficulty'] ?? 'sencillo';
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 $sentences = fopen('../sentences.txt', 'r');
                 if ($sentences) {
@@ -175,9 +177,16 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                     }
 
                     fclose($sentences);
-                    $selectdifficultyShow = ucfirst($selectdifficulty);
+                    $selectdifficultyShow;// = ucfirst($selectdifficulty);
+                    if ($selectdifficulty === "experto"){
+                        $selectdifficultyShow = $_SESSION["lang_data"]["DIFFICULTY_EXPERT"];
+                    } else if ($selectdifficulty === "normal"){
+                        $selectdifficultyShow = $_SESSION["lang_data"]["DIFFICULTY_NORMAL"];
+                    } else if ($selectdifficulty === "sencillo"){
+                        $selectdifficultyShow = $_SESSION["lang_data"]["DIFFICULTY_SIMPLE"];
+                    }
                     echo "<table>";
-                    echo "<tr><th>Imagen</th><th>Frases <br/> dificultad: $selectdifficultyShow</th></tr>";
+                    echo "<tr><th>".$_SESSION['lang_data']['IMAGE_TABLE']."</th><th>".$_SESSION['lang_data']['COUNT_PHRASES']." <br/>".$_SESSION['lang_data']['PHRASE_TABLE'].": $selectdifficultyShow</th></tr>";
 
                     $winnerIndex = null;
                     foreach ($selectedSentences as $count => $frase) {
@@ -204,6 +213,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                         if ($frase == "") continue;
                         $fraseSplit = explode("|", $frase);
                         $imageName = $fraseSplit[1] ?? "";
+                        
                         if (isset($_SESSION['last_sentence_added']) && $_SESSION['last_sentence_added'] === $frase) {
                             $rowClass = "winner";
                         } else if ($count % 2 === 0) { 
@@ -211,19 +221,30 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                         } else {
                             $rowClass = "";
                         }
-
-                        echo "<tr class='$rowClass'><td><img src='/admin/image/$imageName'></td><td>".$fraseSplit[0];
+                        if ($imageName != "") {
+                            echo "<tr class='$rowClass'><td><img src='/admin/image/$imageName'></td><td>".$fraseSplit[0];
+                        } else{
+                            echo "<tr class='$rowClass'><td>".$_SESSION['lang_data']['IMAGE_TABLE_DONT_EXIST']."</td><td>".$fraseSplit[0];// todo
+                        }
+                        
                         echo "<button type='button' class='deletebutton' onclick='deleteButtonClick(\"$selectdifficulty\", $count)'>&#128465;</button>";
                         echo "</td></tr>";
                     }
 
                     echo "</table>";
                     echo "<div class='allPages'>";
+                    if ($page > 0) {
+                        echo "<input type='submit' name='page' class='totalPagesNumber buttonLeftIndex' value='" . (($page+1) - 1) . "'>";
+                    }
                     for ($i = 0; $i <$totalPages; $i++) {
                         echo "<input type='submit' name='page' class='totalPagesNumber".($page == $i ? " active" : '')."' value='".($i+1)."'>";
                     }
+                    if ($page < $totalPages - 1) {
+                        echo "<input type='submit' name='page' class='totalPagesNumber buttonRightIndex' value='" . (($page+1) + 1) . "'>";
+                    }
                     echo "</div>";
                     unset($_SESSION['last_sentence_added']);
+                    unset($_SESSION['last_sentence_added_difficulty']);
                 }
 
             }

@@ -99,6 +99,7 @@ if (isset($_POST['newPhrase'])) {
     $_SESSION['fraseCreada'] = true;
     $_SESSION['imagenCreada'] = $fileSaveSuccess;
     $_SESSION['last_sentence_added'] = $newPhrase . ($randomFilename ? "|" . $randomFilename : "");
+    $_SESSION['last_sentence_added_difficulty'] = $level;
     header("Location: /admin/index.php");
     exit;
 

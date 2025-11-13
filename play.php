@@ -470,7 +470,6 @@ $frasesJson = json_encode($frasesProcesadas);
             const anteriorMultiplicator = multiplicador;
             const letter = document.getElementById("letter" + indexLetter);
             if (permadeath == "on") {
-                updateHealth(health);
                 if (health <= 0){
                     endGame(false);
                 }
@@ -499,6 +498,7 @@ $frasesJson = json_encode($frasesProcesadas);
                         letrasAcertadas += 1;
                     }
                 }
+                updateHealth(health);
             } else {
                 if (!isspace) {
                     letter.className = iscorrect ? "correct" : "error";
