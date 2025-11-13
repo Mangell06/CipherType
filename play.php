@@ -191,7 +191,7 @@ $frasesJson = json_encode($frasesProcesadas);
         <div class="textos">
             <p id="timer"></p>
             <?php
-            echo '<p id="textStartInformation" class="hidden">' . $_SESSION['lang_data']['SUBTITLE_INGAME'] . '</p>';
+            echo '<p id="textStartInformation">' . $_SESSION['lang_data']['SUBTITLE_INGAME'] .":" .'</p>';
             ?>
             <div class="text">
             </div>
@@ -470,7 +470,6 @@ $frasesJson = json_encode($frasesProcesadas);
             const anteriorMultiplicator = multiplicador;
             const letter = document.getElementById("letter" + indexLetter);
             if (permadeath == "on") {
-                updateHealth(health);
                 if (health <= 0){
                     endGame(false);
                 }
@@ -499,6 +498,7 @@ $frasesJson = json_encode($frasesProcesadas);
                         letrasAcertadas += 1;
                     }
                 }
+                updateHealth(health);
             } else {
                 if (!isspace) {
                     letter.className = iscorrect ? "correct" : "error";
